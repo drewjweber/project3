@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>A Hugo website</title>
+    <link>/</link>
+    <description>Recent content on A Hugo website</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 30 Dec 2016 21:49:57 -0700</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A Plain Markdown Post</title>
+      <link>/2016/12/30/a-plain-markdown-post/</link>
+      <pubDate>Fri, 30 Dec 2016 21:49:57 -0700</pubDate>
+      
+      <guid>/2016/12/30/a-plain-markdown-post/</guid>
+      <description>This is a post written in plain Markdown (*.md) instead of R Markdown (*.Rmd). The major differences are:
+knitr::opts_chunk$set(echo = TRUE) library(tidyverse) library(nflscrapR) library(devtools) library(dplyr) library(nflfastR) library(stargazer) library(ggplot2) library(shiny) library(na.tools) library(ggimage) library(nflreadr) library(ggrepel) library(scales) #2021 Data pbp &amp;lt;- load_pbp(2021) write.csv(pbp, &amp;quot;/Users/drew/Desktop/pbp.csv&amp;quot;) PBP_Rolling_Data &amp;lt;- read.csv(&amp;quot;/Users/drew/Desktop/pbp.csv&amp;quot;) pbp2021 &amp;lt;- PBP_Rolling_Data %&amp;gt;% filter(!is_na(epa), play_type==&amp;quot;no_play&amp;quot; | play_type==&amp;quot;pass&amp;quot; | play_type==&amp;quot;run&amp;quot;) pbp2021 &amp;lt;- pbp2021 %&amp;gt;% mutate( pass = if_else(str_detect(desc, &amp;quot;( pass)|(sacked)|(scramble)&amp;quot;), 1, 0), rush = if_else(str_detect(desc, &amp;quot;(left end)|(left tackle)|(left guard)|(up the middle)|(right guard)|(right tackle)|(right end)&amp;quot;) &amp;amp; pass == 0, 1, 0), success = ifelse(epa&amp;gt;0, 1 , 0) ) #2020 Data pbp &amp;lt;- load_pbp(2020) write.</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>/about/</link>
+      <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
+      
+      <guid>/about/</guid>
+      <description>please WORK</description>
+    </item>
+    
+    <item>
+      <title>NFL Weekly Updating Data</title>
+      <link>/1/01/01/nfl-weekly-updating-data/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/1/01/01/nfl-weekly-updating-data/</guid>
+      <description>Drew Weber
+————————————————– table, td, th { border: none; padding-left: 1em; padding-right: 1em; margin-left: auto; margin-right: auto; margin-top: 1em; margin-bottom: 1em; }   1. QB Data  2. QB Sack Data  EPA Lost From Sacks        name   av_epa_lost   total_epa_lost   team   Sacks       1   L.Jackson   -1.</description>
+    </item>
+    
+  </channel>
+</rss>

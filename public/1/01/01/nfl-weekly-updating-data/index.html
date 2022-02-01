@@ -1,0 +1,2486 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.92.1" />
+
+
+<title>NFL Weekly Updating Data - A Hugo website</title>
+<meta property="og:title" content="NFL Weekly Updating Data - A Hugo website">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/rstudio/blogdown">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">10 min read</span>
+    
+
+    <h1 class="article-title">NFL Weekly Updating Data</h1>
+
+    
+    <span class="article-date">0001-01-01</span>
+    
+
+    <div class="article-content">
+      
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>Drew Weber</p>
+<div id="section" class="section level3">
+<h3>————————————————–</h3>
+<style type="text/css">
+
+table, td, th {
+  border: none;
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+</style>
+</div>
+<div id="qb-data" class="section level2">
+<h2>1. QB Data</h2>
+<p><img src="/post/2022-02-01-work/2021_Rolling_Data_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div id="qb-sack-data" class="section level2">
+<h2>2. QB Sack Data</h2>
+<p><img src="/post/2022-02-01-work/2021_Rolling_Data_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<table style="text-align:center">
+<caption>
+<strong>EPA Lost From Sacks</strong>
+</caption>
+<tr>
+<td colspan="6" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+name
+</td>
+<td>
+av_epa_lost
+</td>
+<td>
+total_epa_lost
+</td>
+<td>
+team
+</td>
+<td>
+Sacks
+</td>
+</tr>
+<tr>
+<td colspan="6" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+1
+</td>
+<td>
+L.Jackson
+</td>
+<td>
+-1.32
+</td>
+<td>
+-50.12
+</td>
+<td>
+BAL
+</td>
+<td>
+38
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+2
+</td>
+<td>
+J.Allen
+</td>
+<td>
+-1.37
+</td>
+<td>
+-38.48
+</td>
+<td>
+BUF
+</td>
+<td>
+28
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+3
+</td>
+<td>
+T.Taylor
+</td>
+<td>
+-1.46
+</td>
+<td>
+-18.95
+</td>
+<td>
+HOU
+</td>
+<td>
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+4
+</td>
+<td>
+T.Bridgewater
+</td>
+<td>
+-1.48
+</td>
+<td>
+-45.8
+</td>
+<td>
+DEN
+</td>
+<td>
+31
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+5
+</td>
+<td>
+A.Rodgers
+</td>
+<td>
+-1.54
+</td>
+<td>
+-53.85
+</td>
+<td>
+GB
+</td>
+<td>
+35
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+6
+</td>
+<td>
+K.Murray
+</td>
+<td>
+-1.63
+</td>
+<td>
+-53.7
+</td>
+<td>
+ARI
+</td>
+<td>
+33
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+7
+</td>
+<td>
+P.Mahomes
+</td>
+<td>
+-1.65
+</td>
+<td>
+-60.89
+</td>
+<td>
+KC
+</td>
+<td>
+37
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+8
+</td>
+<td>
+J.Herbert
+</td>
+<td>
+-1.71
+</td>
+<td>
+-53.15
+</td>
+<td>
+LAC
+</td>
+<td>
+31
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+9
+</td>
+<td>
+D.Prescott
+</td>
+<td>
+-1.72
+</td>
+<td>
+-60.35
+</td>
+<td>
+DAL
+</td>
+<td>
+35
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+10
+</td>
+<td>
+S.Darnold
+</td>
+<td>
+-1.73
+</td>
+<td>
+-60.61
+</td>
+<td>
+CAR
+</td>
+<td>
+35
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+11
+</td>
+<td>
+J.Garoppolo
+</td>
+<td>
+-1.74
+</td>
+<td>
+-57.34
+</td>
+<td>
+SF
+</td>
+<td>
+33
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+12
+</td>
+<td>
+J.Burrow
+</td>
+<td>
+-1.76
+</td>
+<td>
+-110.76
+</td>
+<td>
+CIN
+</td>
+<td>
+63
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+13
+</td>
+<td>
+T.Heinicke
+</td>
+<td>
+-1.76
+</td>
+<td>
+-66.95
+</td>
+<td>
+WAS
+</td>
+<td>
+38
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+14
+</td>
+<td>
+D.Mills
+</td>
+<td>
+-1.78
+</td>
+<td>
+-55.08
+</td>
+<td>
+HOU
+</td>
+<td>
+31
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+15
+</td>
+<td>
+J.Hurts
+</td>
+<td>
+-1.79
+</td>
+<td>
+-50.22
+</td>
+<td>
+PHI
+</td>
+<td>
+28
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+16
+</td>
+<td>
+R.Tannehill
+</td>
+<td>
+-1.8
+</td>
+<td>
+-86.59
+</td>
+<td>
+TEN
+</td>
+<td>
+48
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+17
+</td>
+<td>
+M.Ryan
+</td>
+<td>
+-1.81
+</td>
+<td>
+-72.57
+</td>
+<td>
+ATL
+</td>
+<td>
+40
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+18
+</td>
+<td>
+Z.Wilson
+</td>
+<td>
+-1.81
+</td>
+<td>
+-79.66
+</td>
+<td>
+NYJ
+</td>
+<td>
+44
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+19
+</td>
+<td>
+G.Smith
+</td>
+<td>
+-1.82
+</td>
+<td>
+-23.71
+</td>
+<td>
+SEA
+</td>
+<td>
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+20
+</td>
+<td>
+R.Wilson
+</td>
+<td>
+-1.84
+</td>
+<td>
+-60.56
+</td>
+<td>
+SEA
+</td>
+<td>
+33
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+21
+</td>
+<td>
+T.Brady
+</td>
+<td>
+-1.87
+</td>
+<td>
+-54.19
+</td>
+<td>
+TB
+</td>
+<td>
+29
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+22
+</td>
+<td>
+B.Mayfield
+</td>
+<td>
+-1.88
+</td>
+<td>
+-80.72
+</td>
+<td>
+CLE
+</td>
+<td>
+43
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+23
+</td>
+<td>
+T.Tagovailoa
+</td>
+<td>
+-1.88
+</td>
+<td>
+-37.67
+</td>
+<td>
+MIA
+</td>
+<td>
+20
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+24
+</td>
+<td>
+M.Stafford
+</td>
+<td>
+-1.91
+</td>
+<td>
+-66.7
+</td>
+<td>
+LA
+</td>
+<td>
+35
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+25
+</td>
+<td>
+D.Carr
+</td>
+<td>
+-1.93
+</td>
+<td>
+-83.07
+</td>
+<td>
+LV
+</td>
+<td>
+43
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+26
+</td>
+<td>
+B.Roethlisberger
+</td>
+<td>
+-1.94
+</td>
+<td>
+-77.42
+</td>
+<td>
+PIT
+</td>
+<td>
+40
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+27
+</td>
+<td>
+T.Huntley
+</td>
+<td>
+-1.96
+</td>
+<td>
+-35.35
+</td>
+<td>
+BAL
+</td>
+<td>
+18
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+28
+</td>
+<td>
+M.Jones
+</td>
+<td>
+-1.99
+</td>
+<td>
+-61.73
+</td>
+<td>
+NE
+</td>
+<td>
+31
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+29
+</td>
+<td>
+T.Lawrence
+</td>
+<td>
+-2.05
+</td>
+<td>
+-65.5
+</td>
+<td>
+JAX
+</td>
+<td>
+32
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+30
+</td>
+<td>
+D.Jones
+</td>
+<td>
+-2.07
+</td>
+<td>
+-45.57
+</td>
+<td>
+NYG
+</td>
+<td>
+22
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+31
+</td>
+<td>
+K.Cousins
+</td>
+<td>
+-2.08
+</td>
+<td>
+-58.14
+</td>
+<td>
+MIN
+</td>
+<td>
+28
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+32
+</td>
+<td>
+J.Brissett
+</td>
+<td>
+-2.09
+</td>
+<td>
+-39.63
+</td>
+<td>
+MIA
+</td>
+<td>
+19
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+33
+</td>
+<td>
+J.Fields
+</td>
+<td>
+-2.1
+</td>
+<td>
+-75.77
+</td>
+<td>
+CHI
+</td>
+<td>
+36
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+34
+</td>
+<td>
+A.Dalton
+</td>
+<td>
+-2.13
+</td>
+<td>
+-38.37
+</td>
+<td>
+CHI
+</td>
+<td>
+18
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+35
+</td>
+<td>
+J.Goff
+</td>
+<td>
+-2.18
+</td>
+<td>
+-76.18
+</td>
+<td>
+DET
+</td>
+<td>
+35
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+36
+</td>
+<td>
+C.Wentz
+</td>
+<td>
+-2.4
+</td>
+<td>
+-76.91
+</td>
+<td>
+IND
+</td>
+<td>
+32
+</td>
+</tr>
+<tr>
+<td colspan="6" style="border-bottom: 1px solid black">
+</td>
+</tr>
+</table>
+</div>
+<div id="adot" class="section level2">
+<h2>3. aDot</h2>
+<pre class="r"><code>time_to_throw_vs_Sticks %&gt;%
+  ggplot(aes(x = avg_time_to_throw, y = avg_air_yards_to_sticks)) +
+  #horizontal line with mean throw time
+  geom_hline(yintercept = mean(time_to_throw_vs_Sticks$avg_air_yards_to_sticks), color = &quot;red&quot;, linetype = &quot;dashed&quot;, alpha=0.5) +
+  #vertical line with mean CPOE
+  geom_vline(xintercept =  mean(time_to_throw_vs_Sticks$avg_time_to_throw), color = &quot;red&quot;, linetype = &quot;dashed&quot;, alpha=0.5) +
+  #add points for the QBs with the right colors
+  #cex controls point size and alpha the transparency (alpha = 1 is normal)
+  geom_point(color = time_to_throw_vs_Sticks$team_color, cex=time_to_throw_vs_Sticks$attempts / 100, alpha = .6) +
+  #add names using ggrepel, which tries to make them not overlap
+  geom_text_repel(aes(label=player_short_name), size = 2.75 ) +
+  #add a smooth line fitting cpoe + epa
+  stat_smooth(geom=&#39;line&#39;, alpha=0.5, se=FALSE, method=&#39;lm&#39;)+
+  #titles and caption
+  labs(x = &quot;Average Time to Throw&quot;,
+       y = &quot;Average Intended Air Yards from 1st Down&quot;,
+       title = &quot;Graph 3: QB Agressiveness&quot;,
+       caption = &quot;Y=0 is First Down Marker&quot;) +
+  #uses the black and white ggplot theme
+  theme_bw() +
+  #center title with hjust = 0.5
+  theme(
+    plot.title = element_text(size = 14, hjust = 0.5, face = &quot;bold&quot;)
+  ) +
+  #make ticks look nice
+  #if this doesn&#39;t work, `install.packages(&#39;scales&#39;)
+  
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 5)) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = )) +
+  geom_label(aes(x = 3.05, y = -2.5, label = &quot;Hold Long, Shallow&quot;), color = &quot;red&quot;, size = 2.5) +
+  geom_label(aes(x = 2.42, y = -2.5, label = &quot;Cowards&quot;), size = 2.5) +
+  geom_label(aes(x = 2.42, y = .8, label = &quot;Quick, Deep&quot;), color = &quot;dark green&quot;, size = 2.5) +
+  geom_label(aes(x = 3.05, y = .8, label = &quot;Hero Ballers&quot;), size = 2.5) +
+  ylim(-2.75, 1.15) +
+  xlim(2.35, 3.1)</code></pre>
+<p><img src="/post/2022-02-01-work/2021_Rolling_Data_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>This graphic shows the average time to throw to the average intended air yards from the sticks. This means that Y=0 is the first down. This is meant to show how QBs are getting the ball out. The upper left is the best place to be. It means these passers are getting the ball out quickly AND farther than average. Conversely, the bottom right is a bad place to be. It means these passers hang on to the ball long AND throw it shorter than average.</p>
+</div>
+<div id="regressions" class="section level2">
+<h2>4. Regressions</h2>
+<pre class="r"><code>EPAreg1 &lt;-lm(epa~  as.factor(down) + rush_attempt+ pass_attempt, data = pbp2021)
+
+
+EPAreg2 &lt;-lm(epa~  rush_attempt, data = pbp2021, na.rm = TRUE, subset = down==1)
+
+
+EPAreg3 &lt;-lm(epa~  rush_attempt + pass_attempt, data = pbp2021, na.rm = TRUE, subset = down==4)
+
+
+EPAreg4 &lt;- lm(epa~ qb_scramble, data = pbp2021)</code></pre>
+<pre class="r"><code>stargazer(EPAreg1, EPAreg2, EPAreg3,EPAreg4,
+          type=&quot;html&quot;,
+          title = &quot;Table 3: EPA Regressions&quot;,
+          style = &quot;aer&quot;,
+          covariate.labels = c(&quot;2nd Down&quot;, &quot;3rd Down&quot;, &quot;4th Down&quot;, &quot;Rush Attempt&quot;, &quot;Pass Attempt&quot;, &quot;QB Scramble&quot;),
+          column.labels = c(&quot;Play Type and Down&quot;, &quot;First Down&quot;, &quot;Fourth Down&quot;, &quot;QB Scramble&quot;),
+          dep.var.labels = c(&quot;EPA&quot;))</code></pre>
+<table style="text-align:center">
+<caption>
+<strong>Table 3: EPA Regressions</strong>
+</caption>
+<tr>
+<td colspan="5" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="4">
+EPA
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+Play Type and Down
+</td>
+<td>
+First Down
+</td>
+<td>
+Fourth Down
+</td>
+<td>
+QB Scramble
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+<td>
+(3)
+</td>
+<td>
+(4)
+</td>
+</tr>
+<tr>
+<td colspan="5" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+2nd Down
+</td>
+<td>
+0.021
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.016)
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+3rd Down
+</td>
+<td>
+0.004
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.019)
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+4th Down
+</td>
+<td>
+0.119<sup>***</sup>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.043)
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Rush Attempt
+</td>
+<td>
+-0.003
+</td>
+<td>
+-0.113<sup>***</sup>
+</td>
+<td>
+0.136
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.030)
+</td>
+<td>
+(0.016)
+</td>
+<td>
+(0.234)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Pass Attempt
+</td>
+<td>
+0.036
+</td>
+<td>
+</td>
+<td>
+-0.506<sup>**</sup>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.029)
+</td>
+<td>
+</td>
+<td>
+(0.208)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+QB Scramble
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+0.413<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(0.042)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+-0.025
+</td>
+<td>
+0.044<sup>***</sup>
+</td>
+<td>
+0.323<sup>*</sup>
+</td>
+<td>
+-0.006
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.029)
+</td>
+<td>
+(0.011)
+</td>
+<td>
+(0.171)
+</td>
+<td>
+(0.007)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+37,974
+</td>
+<td>
+16,527
+</td>
+<td>
+1,077
+</td>
+<td>
+40,345
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.000
+</td>
+<td>
+0.003
+</td>
+<td>
+0.011
+</td>
+<td>
+0.002
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.000
+</td>
+<td>
+0.003
+</td>
+<td>
+0.010
+</td>
+<td>
+0.002
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error
+</td>
+<td>
+1.369 (df = 37968)
+</td>
+<td>
+1.021 (df = 16525)
+</td>
+<td>
+2.728 (df = 1074)
+</td>
+<td>
+1.328 (df = 40343)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+3.247<sup>***</sup> (df = 5; 37968)
+</td>
+<td>
+50.197<sup>***</sup> (df = 1; 16525)
+</td>
+<td>
+6.238<sup>***</sup> (df = 2; 1074)
+</td>
+<td>
+96.010<sup>***</sup> (df = 1; 40343)
+</td>
+</tr>
+<tr>
+<td colspan="5" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Notes:</em>
+</td>
+<td colspan="4" style="text-align:left">
+<sup>***</sup>Significant at the 1 percent level.
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="4" style="text-align:left">
+<sup>**</sup>Significant at the 5 percent level.
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="4" style="text-align:left">
+<sup>*</sup>Significant at the 10 percent level.
+</td>
+</tr>
+</table>
+<pre class="r"><code>catch_yards_reg &lt;-lm(yards_gained ~  complete_pass, data = pbp2021)</code></pre>
+<pre class="r"><code>stargazer(catch_yards_reg,
+          type=&quot;html&quot;,
+          title = &quot;Table 4: Catch to Yards&quot;,
+          style = &quot;aer&quot;,
+          covariate.labels = c(&quot;Yards Gained&quot;),
+          column.labels = c(&quot;Yards&quot;),
+          dep.var.labels = c(&quot;Yards Gained&quot;))</code></pre>
+<table style="text-align:center">
+<caption>
+<strong>Table 4: Catch to Yards</strong>
+</caption>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+Yards Gained
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+Yards
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Yards Gained
+</td>
+<td>
+8.921<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.076)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+2.052<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.042)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+40,305
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.256
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.256
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error
+</td>
+<td>
+7.056 (df = 40303)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+13,899.230<sup>***</sup> (df = 1; 40303)
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Notes:</em>
+</td>
+<td style="text-align:left">
+<sup>***</sup>Significant at the 1 percent level.
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td style="text-align:left">
+<sup>**</sup>Significant at the 5 percent level.
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td style="text-align:left">
+<sup>*</sup>Significant at the 10 percent level.
+</td>
+</tr>
+</table>
+</div>
+<div id="wide-receiver-data" class="section level2">
+<h2>5. Wide Receiver Data</h2>
+<pre class="r"><code>seperation %&gt;%
+  ggplot(aes(x = avg_separation, y = avg_yac_above_expectation)) +
+  #horizontal line with mean throw time
+  geom_hline(yintercept = mean(seperation$avg_yac_above_expectation), color = &quot;red&quot;, linetype = &quot;dashed&quot;, alpha=0.5) +
+  #vertical line with mean CPOE
+  geom_vline(xintercept =  mean(seperation$avg_separation), color = &quot;red&quot;, linetype = &quot;dashed&quot;, alpha=0.5) +
+  #add points for the QBs with the right colors
+  #cex controls point size and alpha the transparency (alpha = 1 is normal)
+  geom_point(color = seperation$team_color, cex=seperation$targets / 30, alpha = .6) +
+  #add names using ggrepel, which tries to make them not overlap
+  geom_text_repel(aes(label=player_short_name), size = 2.75 ) +
+  #add a smooth line fitting cpoe + epa
+  stat_smooth(geom=&#39;line&#39;, alpha=0.5, se=FALSE, method=&#39;lm&#39;)+
+  #titles and caption
+  labs(x = &quot;Avg Seperation&quot;,
+       y = &quot;Average YAC Over Expected&quot;,
+       title = &quot;Graph 3: Individual WR Performance&quot;,
+       caption = &quot;Min. 100 Targets&quot;) +
+  #uses the black and white ggplot theme
+  theme_bw() +
+  #center title with hjust = 0.5
+  theme(
+    plot.title = element_text(size = 14, hjust = 0.5, face = &quot;bold&quot;)
+  ) +
+
+  geom_label(aes(x = 3.75, y = -1, label = &quot;Gets Open&quot;), size = 2.5) +
+  geom_label(aes(x = 2.2, y = -0.5, label = &quot;Covered up&quot;),  color = &quot;red&quot;, size = 2.5) +
+  geom_label(aes(x = 2.2, y = 3.5, label = &quot;YAC Guys&quot;),  size = 2.5) +
+  geom_label(aes(x = 3.75, y = 3.5, label = &quot;Running Wild&quot;), color = &quot;dark green&quot;, size = 2.5) </code></pre>
+<p><img src="/post/2022-02-01-work/2021_Rolling_Data_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<pre class="r"><code>seperation %&gt;%
+  ggplot(aes(x = avg_cushion, y = avg_separation)) +
+  #horizontal line with mean throw time
+  geom_hline(yintercept = mean(seperation$avg_separation), color = &quot;red&quot;, linetype = &quot;dashed&quot;, alpha=0.5) +
+  #vertical line with mean CPOE
+  geom_vline(xintercept =  mean(seperation$avg_cushion), color = &quot;red&quot;, linetype = &quot;dashed&quot;, alpha=0.5) +
+  #add points for the QBs with the right colors
+  #cex controls point size and alpha the transparency (alpha = 1 is normal)
+  geom_point(color = seperation$team_color, cex=seperation$targets / 25, alpha = .6) +
+  #add names using ggrepel, which tries to make them not overlap
+  geom_text_repel(aes(label=player_short_name), size = 2.75 ) +
+  #add a smooth line fitting cpoe + epa
+  stat_smooth(geom=&#39;line&#39;, alpha=0.5, se=FALSE, method=&#39;lm&#39;)+
+  #titles and caption
+  labs(x = &quot;Avg Cushion&quot;,
+       y = &quot;Average Seperation&quot;,
+       title = &quot;Graph 4: WR Seperation&quot;,
+       caption = &quot;Min 100 Targets&quot;) +
+  #uses the black and white ggplot theme
+  theme_bw() +
+  #center title with hjust = 0.5
+  theme(
+    plot.title = element_text(size = 14, hjust = 0.5, face = &quot;bold&quot;)
+  ) </code></pre>
+<p><img src="/post/2022-02-01-work/2021_Rolling_Data_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+</div>
+<div id="team-receiver-data" class="section level2">
+<h2>6. Team Receiver Data</h2>
+<pre class="r"><code>seperation2 %&gt;%
+  ggplot(aes(x = mean_cush, y = mean_sep)) +
+  #horizontal line with mean throw time
+  geom_hline(yintercept = mean(seperation2$mean_sep), color = &quot;red&quot;, linetype = &quot;dashed&quot;, alpha=0.5) +
+  #vertical line with mean CPOE
+  geom_vline(xintercept =  mean(seperation2$mean_cush), color = &quot;red&quot;, linetype = &quot;dashed&quot;, alpha=0.5) +
+  #add points for the QBs with the right colors
+  #cex controls point size and alpha the transparency (alpha = 1 is normal)
+  
+  #add names using ggrepel, which tries to make them not overlap
+    geom_image(aes(image = url), size = 0.06) +
+  #add a smooth line fitting cpoe + epa
+  stat_smooth(geom=&#39;line&#39;, alpha=0.5, se=FALSE, method=&#39;lm&#39;)+
+  #titles and caption
+  labs(x = &quot;Avg Cushion&quot;,
+       y = &quot;Average Seperation&quot;,
+       title = &quot;Graph 5: Team WR Seperation&quot;) +
+  #uses the black and white ggplot theme
+  theme_bw() +
+  #center title with hjust = 0.5
+  theme(
+    plot.title = element_text(size = 14, hjust = 0.5, face = &quot;bold&quot;)
+  ) </code></pre>
+<p><img src="/post/2022-02-01-work/2021_Rolling_Data_files/figure-html/Team%20Seperation-1.png" width="672" /></p>
+</div>
+<div id="rushing-data" class="section level2">
+<h2>7. Rushing Data</h2>
+<pre class="r"><code>stargazer(EPA_by_Run_Gap_2020,
+          summary = FALSE,
+          style = &quot;aer&quot;,
+          type = &quot;html&quot;,
+          title = &quot;Table 1: 2020 EPA by Run Gap&quot;)</code></pre>
+<table style="text-align:center">
+<caption>
+<strong>Table 1: 2020 EPA by Run Gap</strong>
+</caption>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+Run Gap
+</td>
+<td>
+Mean EPA
+</td>
+<td>
+Plays
+</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+1
+</td>
+<td>
+guard
+</td>
+<td>
+-0.071
+</td>
+<td>
+2000
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+2
+</td>
+<td>
+tackle
+</td>
+<td>
+-0.036
+</td>
+<td>
+1876
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+3
+</td>
+<td>
+end
+</td>
+<td>
+0.101
+</td>
+<td>
+2141
+</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+</table>
+<pre class="r"><code>stargazer(EPA_by_Run_Gap,
+          summary = FALSE,
+          style = &quot;aer&quot;,
+          type = &quot;html&quot;,
+          title = &quot;Table 2: 2021 EPA by Run Gap&quot;)</code></pre>
+<table style="text-align:center">
+<caption>
+<strong>Table 2: 2021 EPA by Run Gap</strong>
+</caption>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+Run Gap
+</td>
+<td>
+Mean EPA
+</td>
+<td>
+Plays
+</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+1
+</td>
+<td>
+guard
+</td>
+<td>
+-0.041
+</td>
+<td>
+2059
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+2
+</td>
+<td>
+tackle
+</td>
+<td>
+-0.015
+</td>
+<td>
+1980
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+3
+</td>
+<td>
+end
+</td>
+<td>
+0.105
+</td>
+<td>
+2166
+</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+</table>
+</div>
+<div id="rushing-efficiency" class="section level2">
+<h2>8. Rushing Efficiency</h2>
+<pre class="r"><code>success_rate_runs %&gt;%
+  ggplot(aes(x = ypc, y = avg_wp)) +
+  #horizontal line with mean throw time
+  geom_hline(yintercept = mean(success_rate_runs$avg_wp), color = &quot;red&quot;, linetype = &quot;dashed&quot;, alpha=0.5) +
+  #vertical line with mean CPOE
+  geom_vline(xintercept =  mean(success_rate_runs$ypc), color = &quot;red&quot;, linetype = &quot;dashed&quot;, alpha=0.5) +
+
+    geom_image(aes(image = url), size = 0.06) +
+  #add a smooth line fitting cpoe + epa
+  stat_smooth(geom=&#39;line&#39;, alpha=0.5, se=FALSE, method=&#39;lm&#39;)+
+  #titles and caption
+  labs(x = &quot;Yards Per Carry&quot;,
+       y = &quot;Average Win Probability at All Times&quot;,
+       title = &quot;Graph 5: Yards Per Carry&quot;)+
+                        
+  #uses the black and white ggplot theme
+  theme_bw() +
+  #center title with hjust = 0.5
+  theme(
+    plot.title = element_text(size = 14, hjust = 0.5, face = &quot;bold&quot;)
+  ) </code></pre>
+<p><img src="/post/2022-02-01-work/2021_Rolling_Data_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<pre class="r"><code>success_rate_runs %&gt;%
+  ggplot(aes(x = success_rate, y = avg_wp)) +
+  #horizontal line with mean throw time
+  geom_hline(yintercept = mean(success_rate_runs$avg_wp), color = &quot;red&quot;, linetype = &quot;dashed&quot;, alpha=0.5) +
+  #vertical line with mean CPOE
+  geom_vline(xintercept =  mean(success_rate_runs$success_rate), color = &quot;red&quot;, linetype = &quot;dashed&quot;, alpha=0.5) +
+
+    geom_image(aes(image = url), size = 0.06) +
+  #add a smooth line fitting cpoe + epa
+  stat_smooth(geom=&#39;line&#39;, alpha=0.5, se=FALSE, method=&#39;lm&#39;)+
+  #titles and caption
+  labs(x = &quot;Success Rate on Runs&quot;,
+       y = &quot;Average Win Probability at All Times&quot;,
+       title = &quot;Graph 5: Rushing Success Rate&quot;) +
+  #uses the black and white ggplot theme
+  theme_bw() +
+  #center title with hjust = 0.5
+  theme(
+    plot.title = element_text(size = 14, hjust = 0.5, face = &quot;bold&quot;)
+  ) </code></pre>
+<p><img src="/post/2022-02-01-work/2021_Rolling_Data_files/figure-html/unnamed-chunk-27-2.png" width="672" /></p>
+<p><img src="/post/2022-02-01-work/2021_Rolling_Data_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+</div>
+<div id="pure-passing-epa-table" class="section level2">
+<h2>9. Pure Passing EPA Table</h2>
+<table style="text-align:center">
+<caption>
+<strong>Table 3: Passing EPA Leaders</strong>
+</caption>
+<tr>
+<td colspan="6" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+Passer
+</td>
+<td>
+Team
+</td>
+<td>
+Mean EPA
+</td>
+<td>
+Success Rate
+</td>
+<td>
+Passes
+</td>
+</tr>
+<tr>
+<td colspan="6" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+1
+</td>
+<td>
+M.Stafford
+</td>
+<td>
+LA
+</td>
+<td>
+0.23
+</td>
+<td>
+0.52
+</td>
+<td>
+783
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+2
+</td>
+<td>
+P.Mahomes
+</td>
+<td>
+KC
+</td>
+<td>
+0.23
+</td>
+<td>
+0.54
+</td>
+<td>
+933
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+3
+</td>
+<td>
+J.Allen
+</td>
+<td>
+BUF
+</td>
+<td>
+0.21
+</td>
+<td>
+0.52
+</td>
+<td>
+833
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+4
+</td>
+<td>
+T.Brady
+</td>
+<td>
+TB
+</td>
+<td>
+0.17
+</td>
+<td>
+0.51
+</td>
+<td>
+879
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+5
+</td>
+<td>
+J.Herbert
+</td>
+<td>
+LAC
+</td>
+<td>
+0.17
+</td>
+<td>
+0.51
+</td>
+<td>
+791
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+6
+</td>
+<td>
+J.Burrow
+</td>
+<td>
+CIN
+</td>
+<td>
+0.16
+</td>
+<td>
+0.49
+</td>
+<td>
+752
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+7
+</td>
+<td>
+J.Garoppolo
+</td>
+<td>
+SF
+</td>
+<td>
+0.14
+</td>
+<td>
+0.48
+</td>
+<td>
+579
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+8
+</td>
+<td>
+T.Bridgewater
+</td>
+<td>
+DEN
+</td>
+<td>
+0.13
+</td>
+<td>
+0.48
+</td>
+<td>
+494
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+9
+</td>
+<td>
+D.Prescott
+</td>
+<td>
+DAL
+</td>
+<td>
+0.13
+</td>
+<td>
+0.49
+</td>
+<td>
+753
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+10
+</td>
+<td>
+K.Cousins
+</td>
+<td>
+MIN
+</td>
+<td>
+0.12
+</td>
+<td>
+0.46
+</td>
+<td>
+635
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+11
+</td>
+<td>
+K.Murray
+</td>
+<td>
+ARI
+</td>
+<td>
+0.1
+</td>
+<td>
+0.49
+</td>
+<td>
+612
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+12
+</td>
+<td>
+M.Jones
+</td>
+<td>
+NE
+</td>
+<td>
+0.1
+</td>
+<td>
+0.5
+</td>
+<td>
+640
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+13
+</td>
+<td>
+D.Carr
+</td>
+<td>
+LV
+</td>
+<td>
+0.09
+</td>
+<td>
+0.47
+</td>
+<td>
+781
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+14
+</td>
+<td>
+R.Tannehill
+</td>
+<td>
+TEN
+</td>
+<td>
+0.08
+</td>
+<td>
+0.5
+</td>
+<td>
+657
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+15
+</td>
+<td>
+T.Tagovailoa
+</td>
+<td>
+MIA
+</td>
+<td>
+0.07
+</td>
+<td>
+0.49
+</td>
+<td>
+457
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+16
+</td>
+<td>
+R.Wilson
+</td>
+<td>
+SEA
+</td>
+<td>
+0.06
+</td>
+<td>
+0.45
+</td>
+<td>
+482
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+17
+</td>
+<td>
+C.Wentz
+</td>
+<td>
+IND
+</td>
+<td>
+0.06
+</td>
+<td>
+0.46
+</td>
+<td>
+620
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+18
+</td>
+<td>
+J.Hurts
+</td>
+<td>
+PHI
+</td>
+<td>
+0.06
+</td>
+<td>
+0.44
+</td>
+<td>
+587
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+19
+</td>
+<td>
+L.Jackson
+</td>
+<td>
+BAL
+</td>
+<td>
+0.05
+</td>
+<td>
+0.49
+</td>
+<td>
+493
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+20
+</td>
+<td>
+B.Mayfield
+</td>
+<td>
+CLE
+</td>
+<td>
+0.02
+</td>
+<td>
+0.44
+</td>
+<td>
+514
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+21
+</td>
+<td>
+M.Ryan
+</td>
+<td>
+ATL
+</td>
+<td>
+0
+</td>
+<td>
+0.47
+</td>
+<td>
+652
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+22
+</td>
+<td>
+D.Jones
+</td>
+<td>
+NYG
+</td>
+<td>
+0
+</td>
+<td>
+0.44
+</td>
+<td>
+436
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+23
+</td>
+<td>
+T.Heinicke
+</td>
+<td>
+WAS
+</td>
+<td>
+-0.02
+</td>
+<td>
+0.46
+</td>
+<td>
+610
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+24
+</td>
+<td>
+B.Roethlisberger
+</td>
+<td>
+PIT
+</td>
+<td>
+-0.03
+</td>
+<td>
+0.42
+</td>
+<td>
+738
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+25
+</td>
+<td>
+J.Goff
+</td>
+<td>
+DET
+</td>
+<td>
+-0.03
+</td>
+<td>
+0.47
+</td>
+<td>
+567
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+26
+</td>
+<td>
+T.Lawrence
+</td>
+<td>
+JAX
+</td>
+<td>
+-0.07
+</td>
+<td>
+0.45
+</td>
+<td>
+704
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+27
+</td>
+<td>
+D.Mills
+</td>
+<td>
+HOU
+</td>
+<td>
+-0.1
+</td>
+<td>
+0.43
+</td>
+<td>
+466
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+28
+</td>
+<td>
+J.Fields
+</td>
+<td>
+CHI
+</td>
+<td>
+-0.1
+</td>
+<td>
+0.43
+</td>
+<td>
+374
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+29
+</td>
+<td>
+S.Darnold
+</td>
+<td>
+CAR
+</td>
+<td>
+-0.13
+</td>
+<td>
+0.43
+</td>
+<td>
+487
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+30
+</td>
+<td>
+Z.Wilson
+</td>
+<td>
+NYJ
+</td>
+<td>
+-0.15
+</td>
+<td>
+0.38
+</td>
+<td>
+467
+</td>
+</tr>
+<tr>
+<td colspan="6" style="border-bottom: 1px solid black">
+</td>
+</tr>
+</table>
+</div>
+<div id="trick-play-passing-data" class="section level2">
+<h2>10. Trick Play Passing Data</h2>
+<p><img src="/post/2022-02-01-work/2021_Rolling_Data_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+</div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+

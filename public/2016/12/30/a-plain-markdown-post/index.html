@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.92.1" />
+
+
+<title>A Plain Markdown Post - A Hugo website</title>
+<meta property="og:title" content="A Plain Markdown Post - A Hugo website">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/rstudio/blogdown">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">A Plain Markdown Post</h1>
+
+    
+    <span class="article-date">2016-12-30</span>
+    
+
+    <div class="article-content">
+      <p>This is a post written in plain Markdown (<code>*.md</code>) instead of R Markdown (<code>*.Rmd</code>). The major differences are:</p>
+<pre tabindex="0"><code class="language-{r" data-lang="{r">knitr::opts_chunk$set(echo = TRUE)
+</code></pre><pre tabindex="0"><code class="language-{r," data-lang="{r,">library(tidyverse)
+library(nflscrapR)
+library(devtools)
+library(dplyr)
+library(nflfastR)
+library(stargazer)
+library(ggplot2)
+library(shiny)
+library(na.tools)
+library(ggimage)
+library(nflreadr)
+library(ggrepel)
+library(scales)
+</code></pre><pre tabindex="0"><code class="language-{r," data-lang="{r,">#2021 Data
+pbp &lt;- load_pbp(2021)
+write.csv(pbp, &quot;/Users/drew/Desktop/pbp.csv&quot;)
+PBP_Rolling_Data &lt;- read.csv(&quot;/Users/drew/Desktop/pbp.csv&quot;)
+pbp2021 &lt;- PBP_Rolling_Data %&gt;% 
+	filter(!is_na(epa), play_type==&quot;no_play&quot; | play_type==&quot;pass&quot; | play_type==&quot;run&quot;)
+
+pbp2021 &lt;- pbp2021 %&gt;%
+	mutate(
+	pass = if_else(str_detect(desc, &quot;( pass)|(sacked)|(scramble)&quot;), 1, 0),
+	rush = if_else(str_detect(desc, &quot;(left end)|(left tackle)|(left guard)|(up the middle)|(right guard)|(right tackle)|(right end)&quot;) &amp; pass == 0, 1, 0),
+	success = ifelse(epa&gt;0, 1 , 0)
+	) 
+</code></pre><pre tabindex="0"><code class="language-{r," data-lang="{r,">#2020 Data
+pbp &lt;- load_pbp(2020)
+write.csv(pbp, &quot;/Users/drew/Desktop/202020.csv&quot;)
+pbp2020 &lt;- read.csv(&quot;/Users/drew/Desktop/202020.csv&quot;)
+
+depth &lt;- load_rosters(2021)
+write.csv(depth, &quot;/Users/drew/Documents/depth.csv&quot;)
+depth &lt;- read.csv(&quot;/Users/drew/Documents/depth.csv&quot;)
+schedules &lt;- load_schedules(2021)
+</code></pre><pre tabindex="0"><code class="language-{r," data-lang="{r,">#Stats 2021
+stats &lt;- load_player_stats(seasons = 2021)
+write.csv(stats, &quot;/Users/drew/Desktop/stats.csv&quot;)
+stats_2021 &lt;- read.csv(&quot;/Users/drew/Desktop/stats.csv&quot;)
+</code></pre><pre tabindex="0"><code class="language-{r," data-lang="{r,">#pfr_passing_2021 &lt;- load_pfr_passing(2021)
+#write.csv(pfr_passing_2021, &quot;/Users/drew/Desktop/pfr_2021.csv&quot;)
+#pfr_2021 &lt;- read.csv(&quot;/Users/drew/Desktop/pfr_2021.csv&quot;)
+
+#Next Gen Stats
+nxt_gen_2021_receiving &lt;- load_nextgen_stats(2021, stat_type = &quot;receiving&quot;)
+write.csv(nxt_gen_2021_receiving, &quot;/Users/drew/Desktop/nxt_gen_2021_receiving.csv&quot;)
+WR_nxt &lt;- read.csv(&quot;/Users/drew/Desktop/nxt_gen_2021_receiving.csv&quot;)
+
+nxt_gen_2021 &lt;- load_nextgen_stats(2021)
+write.csv(nxt_gen_2021, &quot;/Users/drew/Desktop/nxt_gen_2021.csv&quot;)
+nxt_2021 &lt;- read.csv(&quot;/Users/drew/Desktop/nxt_gen_2021.csv&quot;)
+</code></pre><h2 id="1-qb-data">1. QB Data</h2>
+<pre tabindex="0"><code class="language-{r," data-lang="{r,">x_cpoe &lt;- pbp2021 %&gt;%
+  filter(!is.na(epa)) %&gt;%
+  group_by(id, name) %&gt;%
+  summarize(
+    epa = mean(epa),
+    cpoe = mean(cpoe, na.rm = T),
+    n_dropbacks = sum(pass),
+    n_plays = n(),
+    team = last(posteam)
+  ) %&gt;%
+  filter(n_dropbacks &gt; 349 &amp; n_plays &gt; 349)
+
+x_cpoe &lt;- x_cpoe %&gt;%
+  left_join(teams_colors_logos, by = c('team' = 'team_abbr'))
+
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">blogdown<span style="color:#f92672">::</span><span style="color:#a6e22e">new_post</span>(<span style="color:#e6db74">&#34;Post Title&#34;</span>, ext <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;.Rmd&#39;</span>)
+</code></pre></div>
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+
