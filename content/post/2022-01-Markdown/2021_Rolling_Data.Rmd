@@ -3,6 +3,7 @@ title: "NFL Weekly Updating Data"
 output:
   html_document:
     theme: journal
+    date: 2/1/2021
     toc: yes
     toc_float: yes
     code_folding: hide
@@ -295,7 +296,7 @@ This graphic shows the average time to throw to the average intended air yards f
 
 ## 4. Regressions
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+```{r, include=FALSE}
 EPAreg1 <-lm(epa~  as.factor(down) + rush_attempt+ pass_attempt, data = pbp2021)
 
 
@@ -308,7 +309,7 @@ EPAreg3 <-lm(epa~  rush_attempt + pass_attempt, data = pbp2021, na.rm = TRUE, su
 EPAreg4 <- lm(epa~ qb_scramble, data = pbp2021)
 ```
 
-```{r, echo = FALSE, message=FALSE, warning=FALSE, results='asis'}
+```{r, results ='asis', echo=FALSE}
 stargazer(EPAreg1, EPAreg2, EPAreg3,EPAreg4,
           type="html",
           title = "Table 3: EPA Regressions",
@@ -319,12 +320,12 @@ stargazer(EPAreg1, EPAreg2, EPAreg3,EPAreg4,
           
 ```
 
-```{r, message=FALSE, warning=FALSE}
+```{r, include=FALSE}
 catch_yards_reg <-lm(yards_gained ~  complete_pass, data = pbp2021)
 
 ```
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+```{r, results ='asis', echo=FALSE}
 stargazer(catch_yards_reg,
           type="html",
           title = "Table 4: Catch to Yards",
@@ -477,7 +478,7 @@ EPA_by_Run_Gap_2020 <- pbp2020 %>%
   colnames(EPA_by_Run_Gap_2020) <- c("Run Gap", "Mean EPA", "Plays")
 ```
   
-```{r, echo=FALSE, results='asis', message=FALSE, warning=FALSE}
+```{r, results ='asis', echo=FALSE}
 stargazer(EPA_by_Run_Gap_2020,
           summary = FALSE,
           style = "aer",
@@ -505,7 +506,7 @@ EPA_by_Run_Gap <- pbp2021 %>%
   colnames(EPA_by_Run_Gap) <- c("Run Gap", "Mean EPA", "Plays")
 ```
 
-```{r, echo=FALSE, results='asis', message=FALSE, warning=FALSE}
+```{r, results ='asis', echo=FALSE}
 stargazer(EPA_by_Run_Gap,
           summary = FALSE,
           style = "aer",
