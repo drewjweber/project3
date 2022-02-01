@@ -238,7 +238,7 @@ stargazer(sack_data_table,
 
 ## 3. aDot
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 time_to_throw_vs_Sticks <- nxt_2021 %>%
   filter(week==0) %>%
   group_by(player_gsis_id, player_short_name) %>%
@@ -254,7 +254,7 @@ time_to_throw_vs_Sticks <- time_to_throw_vs_Sticks %>%
   left_join(teams_colors_logos, by = c('team' = 'team_abbr'))
 ```
 
-```{r, message=FALSE, warning=FALSE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
 time_to_throw_vs_Sticks %>%
   ggplot(aes(x = avg_time_to_throw, y = avg_air_yards_to_sticks)) +
