@@ -97,11 +97,9 @@ nxt_2021 <- read.csv("/Users/drew/Desktop/nxt_gen_2021.csv")
 ```
 
 
-
-
 ## 1. QB Data
 
-```{r, message=FALSE, include=FALSE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 x_cpoe <- pbp2021 %>%
   filter(!is.na(epa)) %>%
   group_by(id, name) %>%
@@ -185,7 +183,6 @@ sack_data_table <- pbp2021 %>%
   filter(Sacks > 11)
 
 ```
-
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
@@ -298,7 +295,7 @@ This graphic shows the average time to throw to the average intended air yards f
 
 ## 4. Regressions
 
-```{r, message=FALSE, warning=FALSE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 EPAreg1 <-lm(epa~  as.factor(down) + rush_attempt+ pass_attempt, data = pbp2021)
 
 
@@ -311,7 +308,7 @@ EPAreg3 <-lm(epa~  rush_attempt + pass_attempt, data = pbp2021, na.rm = TRUE, su
 EPAreg4 <- lm(epa~ qb_scramble, data = pbp2021)
 ```
 
-```{r, message=FALSE, warning=FALSE, results='asis'}
+```{r, echo = FALSE, message=FALSE, warning=FALSE, results='asis'}
 stargazer(EPAreg1, EPAreg2, EPAreg3,EPAreg4,
           type="html",
           title = "Table 3: EPA Regressions",
@@ -327,7 +324,7 @@ catch_yards_reg <-lm(yards_gained ~  complete_pass, data = pbp2021)
 
 ```
 
-```{r, message=FALSE, warning=FALSE, results='asis'}
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 stargazer(catch_yards_reg,
           type="html",
           title = "Table 4: Catch to Yards",
@@ -357,7 +354,7 @@ seperation <- seperation %>%
   left_join(teams_colors_logos, by = c('team' = 'team_abbr'))
 ```
 
-```{r, message=FALSE, warning=FALSE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 seperation %>%
   ggplot(aes(x = avg_separation, y = avg_yac_above_expectation)) +
   #horizontal line with mean throw time
@@ -393,7 +390,7 @@ seperation %>%
 
 ```
 
-```{r, message=FALSE}
+```{r, echo=FALSE, message=FALSE}
 seperation %>%
   ggplot(aes(x = avg_cushion, y = avg_separation)) +
   #horizontal line with mean throw time
@@ -441,7 +438,7 @@ nfl_logos_df <- read_csv("https://raw.githubusercontent.com/statsbylopez/BlogPos
 seperation2 <- seperation2 %>% left_join(nfl_logos_df, by = c("team_abbr" = "team_code"))
 ```
 
-```{r Team Seperation, message = FALSE, warning=FALSE}
+```{r Team Seperation, echo=FALSE, message = FALSE, warning=FALSE}
 seperation2 %>%
   ggplot(aes(x = mean_cush, y = mean_sep)) +
   #horizontal line with mean throw time
@@ -470,7 +467,7 @@ seperation2 %>%
 
 ## 7. Rushing Data
 
-```{r, message=FALSE, include=FALSE}
+```{r, echo=FALSE, message=FALSE, include=FALSE}
 EPA_by_Run_Gap_2020 <- pbp2020 %>%
 	filter(wp>.20 & wp<.80 & half_seconds_remaining>120) %>%
 	group_by(run_gap) %>%
@@ -480,7 +477,7 @@ EPA_by_Run_Gap_2020 <- pbp2020 %>%
   colnames(EPA_by_Run_Gap_2020) <- c("Run Gap", "Mean EPA", "Plays")
 ```
   
-```{r, results='asis', message=FALSE, warning=FALSE}
+```{r, echo=FALSE, results='asis', message=FALSE, warning=FALSE}
 stargazer(EPA_by_Run_Gap_2020,
           summary = FALSE,
           style = "aer",
@@ -508,7 +505,7 @@ EPA_by_Run_Gap <- pbp2021 %>%
   colnames(EPA_by_Run_Gap) <- c("Run Gap", "Mean EPA", "Plays")
 ```
 
-```{r, results='asis', message=FALSE, warning=FALSE}
+```{r, echo=FALSE, results='asis', message=FALSE, warning=FALSE}
 stargazer(EPA_by_Run_Gap,
           summary = FALSE,
           style = "aer",
@@ -533,7 +530,7 @@ success_rate_runs <- success_rate_runs %>% left_join(nfl_logos_df, by = c("poste
 
 ```
 
-```{r, message = FALSE, warning=FALSE}
+```{r, echo=FALSE, message = FALSE, warning=FALSE}
 success_rate_runs %>%
   ggplot(aes(x = ypc, y = avg_wp)) +
   #horizontal line with mean throw time

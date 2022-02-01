@@ -801,23 +801,6 @@ IND
 </div>
 <div id="regressions" class="section level2">
 <h2>4. Regressions</h2>
-<pre class="r"><code>EPAreg1 &lt;-lm(epa~  as.factor(down) + rush_attempt+ pass_attempt, data = pbp2021)
-
-
-EPAreg2 &lt;-lm(epa~  rush_attempt, data = pbp2021, na.rm = TRUE, subset = down==1)
-
-
-EPAreg3 &lt;-lm(epa~  rush_attempt + pass_attempt, data = pbp2021, na.rm = TRUE, subset = down==4)
-
-
-EPAreg4 &lt;- lm(epa~ qb_scramble, data = pbp2021)</code></pre>
-<pre class="r"><code>stargazer(EPAreg1, EPAreg2, EPAreg3,EPAreg4,
-          type=&quot;html&quot;,
-          title = &quot;Table 3: EPA Regressions&quot;,
-          style = &quot;aer&quot;,
-          covariate.labels = c(&quot;2nd Down&quot;, &quot;3rd Down&quot;, &quot;4th Down&quot;, &quot;Rush Attempt&quot;, &quot;Pass Attempt&quot;, &quot;QB Scramble&quot;),
-          column.labels = c(&quot;Play Type and Down&quot;, &quot;First Down&quot;, &quot;Fourth Down&quot;, &quot;QB Scramble&quot;),
-          dep.var.labels = c(&quot;EPA&quot;))</code></pre>
 <table style="text-align:center">
 <caption>
 <strong>Table 3: EPA Regressions</strong>
@@ -1267,13 +1250,6 @@ F Statistic
 </tr>
 </table>
 <pre class="r"><code>catch_yards_reg &lt;-lm(yards_gained ~  complete_pass, data = pbp2021)</code></pre>
-<pre class="r"><code>stargazer(catch_yards_reg,
-          type=&quot;html&quot;,
-          title = &quot;Table 4: Catch to Yards&quot;,
-          style = &quot;aer&quot;,
-          covariate.labels = c(&quot;Yards Gained&quot;),
-          column.labels = c(&quot;Yards&quot;),
-          dep.var.labels = c(&quot;Yards Gained&quot;))</code></pre>
 <table style="text-align:center">
 <caption>
 <strong>Table 4: Catch to Yards</strong>
@@ -1412,96 +1388,15 @@ F Statistic
 </div>
 <div id="wide-receiver-data" class="section level2">
 <h2>5. Wide Receiver Data</h2>
-<pre class="r"><code>seperation %&gt;%
-  ggplot(aes(x = avg_separation, y = avg_yac_above_expectation)) +
-  #horizontal line with mean throw time
-  geom_hline(yintercept = mean(seperation$avg_yac_above_expectation), color = &quot;red&quot;, linetype = &quot;dashed&quot;, alpha=0.5) +
-  #vertical line with mean CPOE
-  geom_vline(xintercept =  mean(seperation$avg_separation), color = &quot;red&quot;, linetype = &quot;dashed&quot;, alpha=0.5) +
-  #add points for the QBs with the right colors
-  #cex controls point size and alpha the transparency (alpha = 1 is normal)
-  geom_point(color = seperation$team_color, cex=seperation$targets / 30, alpha = .6) +
-  #add names using ggrepel, which tries to make them not overlap
-  geom_text_repel(aes(label=player_short_name), size = 2.75 ) +
-  #add a smooth line fitting cpoe + epa
-  stat_smooth(geom=&#39;line&#39;, alpha=0.5, se=FALSE, method=&#39;lm&#39;)+
-  #titles and caption
-  labs(x = &quot;Avg Seperation&quot;,
-       y = &quot;Average YAC Over Expected&quot;,
-       title = &quot;Graph 3: Individual WR Performance&quot;,
-       caption = &quot;Min. 100 Targets&quot;) +
-  #uses the black and white ggplot theme
-  theme_bw() +
-  #center title with hjust = 0.5
-  theme(
-    plot.title = element_text(size = 14, hjust = 0.5, face = &quot;bold&quot;)
-  ) +
-
-  geom_label(aes(x = 3.75, y = -1, label = &quot;Gets Open&quot;), size = 2.5) +
-  geom_label(aes(x = 2.2, y = -0.5, label = &quot;Covered up&quot;),  color = &quot;red&quot;, size = 2.5) +
-  geom_label(aes(x = 2.2, y = 3.5, label = &quot;YAC Guys&quot;),  size = 2.5) +
-  geom_label(aes(x = 3.75, y = 3.5, label = &quot;Running Wild&quot;), color = &quot;dark green&quot;, size = 2.5) </code></pre>
 <p><img src="/post/2022-01-Markdown/2021_Rolling_Data_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
-<pre class="r"><code>seperation %&gt;%
-  ggplot(aes(x = avg_cushion, y = avg_separation)) +
-  #horizontal line with mean throw time
-  geom_hline(yintercept = mean(seperation$avg_separation), color = &quot;red&quot;, linetype = &quot;dashed&quot;, alpha=0.5) +
-  #vertical line with mean CPOE
-  geom_vline(xintercept =  mean(seperation$avg_cushion), color = &quot;red&quot;, linetype = &quot;dashed&quot;, alpha=0.5) +
-  #add points for the QBs with the right colors
-  #cex controls point size and alpha the transparency (alpha = 1 is normal)
-  geom_point(color = seperation$team_color, cex=seperation$targets / 25, alpha = .6) +
-  #add names using ggrepel, which tries to make them not overlap
-  geom_text_repel(aes(label=player_short_name), size = 2.75 ) +
-  #add a smooth line fitting cpoe + epa
-  stat_smooth(geom=&#39;line&#39;, alpha=0.5, se=FALSE, method=&#39;lm&#39;)+
-  #titles and caption
-  labs(x = &quot;Avg Cushion&quot;,
-       y = &quot;Average Seperation&quot;,
-       title = &quot;Graph 4: WR Seperation&quot;,
-       caption = &quot;Min 100 Targets&quot;) +
-  #uses the black and white ggplot theme
-  theme_bw() +
-  #center title with hjust = 0.5
-  theme(
-    plot.title = element_text(size = 14, hjust = 0.5, face = &quot;bold&quot;)
-  ) </code></pre>
 <p><img src="/post/2022-01-Markdown/2021_Rolling_Data_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 </div>
 <div id="team-receiver-data" class="section level2">
 <h2>6. Team Receiver Data</h2>
-<pre class="r"><code>seperation2 %&gt;%
-  ggplot(aes(x = mean_cush, y = mean_sep)) +
-  #horizontal line with mean throw time
-  geom_hline(yintercept = mean(seperation2$mean_sep), color = &quot;red&quot;, linetype = &quot;dashed&quot;, alpha=0.5) +
-  #vertical line with mean CPOE
-  geom_vline(xintercept =  mean(seperation2$mean_cush), color = &quot;red&quot;, linetype = &quot;dashed&quot;, alpha=0.5) +
-  #add points for the QBs with the right colors
-  #cex controls point size and alpha the transparency (alpha = 1 is normal)
-  
-  #add names using ggrepel, which tries to make them not overlap
-    geom_image(aes(image = url), size = 0.06) +
-  #add a smooth line fitting cpoe + epa
-  stat_smooth(geom=&#39;line&#39;, alpha=0.5, se=FALSE, method=&#39;lm&#39;)+
-  #titles and caption
-  labs(x = &quot;Avg Cushion&quot;,
-       y = &quot;Average Seperation&quot;,
-       title = &quot;Graph 5: Team WR Seperation&quot;) +
-  #uses the black and white ggplot theme
-  theme_bw() +
-  #center title with hjust = 0.5
-  theme(
-    plot.title = element_text(size = 14, hjust = 0.5, face = &quot;bold&quot;)
-  ) </code></pre>
 <p><img src="/post/2022-01-Markdown/2021_Rolling_Data_files/figure-html/Team%20Seperation-1.png" width="672" /></p>
 </div>
 <div id="rushing-data" class="section level2">
 <h2>7. Rushing Data</h2>
-<pre class="r"><code>stargazer(EPA_by_Run_Gap_2020,
-          summary = FALSE,
-          style = &quot;aer&quot;,
-          type = &quot;html&quot;,
-          title = &quot;Table 1: 2020 EPA by Run Gap&quot;)</code></pre>
 <table style="text-align:center">
 <caption>
 <strong>Table 1: 2020 EPA by Run Gap</strong>
@@ -1574,11 +1469,6 @@ end
 </td>
 </tr>
 </table>
-<pre class="r"><code>stargazer(EPA_by_Run_Gap,
-          summary = FALSE,
-          style = &quot;aer&quot;,
-          type = &quot;html&quot;,
-          title = &quot;Table 2: 2021 EPA by Run Gap&quot;)</code></pre>
 <table style="text-align:center">
 <caption>
 <strong>Table 2: 2021 EPA by Run Gap</strong>
@@ -1654,49 +1544,7 @@ end
 </div>
 <div id="rushing-efficiency" class="section level2">
 <h2>8. Rushing Efficiency</h2>
-<pre class="r"><code>success_rate_runs %&gt;%
-  ggplot(aes(x = ypc, y = avg_wp)) +
-  #horizontal line with mean throw time
-  geom_hline(yintercept = mean(success_rate_runs$avg_wp), color = &quot;red&quot;, linetype = &quot;dashed&quot;, alpha=0.5) +
-  #vertical line with mean CPOE
-  geom_vline(xintercept =  mean(success_rate_runs$ypc), color = &quot;red&quot;, linetype = &quot;dashed&quot;, alpha=0.5) +
-
-    geom_image(aes(image = url), size = 0.06) +
-  #add a smooth line fitting cpoe + epa
-  stat_smooth(geom=&#39;line&#39;, alpha=0.5, se=FALSE, method=&#39;lm&#39;)+
-  #titles and caption
-  labs(x = &quot;Yards Per Carry&quot;,
-       y = &quot;Average Win Probability at All Times&quot;,
-       title = &quot;Graph 5: Yards Per Carry&quot;)+
-                        
-  #uses the black and white ggplot theme
-  theme_bw() +
-  #center title with hjust = 0.5
-  theme(
-    plot.title = element_text(size = 14, hjust = 0.5, face = &quot;bold&quot;)
-  ) </code></pre>
-<p><img src="/post/2022-01-Markdown/2021_Rolling_Data_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
-<pre class="r"><code>success_rate_runs %&gt;%
-  ggplot(aes(x = success_rate, y = avg_wp)) +
-  #horizontal line with mean throw time
-  geom_hline(yintercept = mean(success_rate_runs$avg_wp), color = &quot;red&quot;, linetype = &quot;dashed&quot;, alpha=0.5) +
-  #vertical line with mean CPOE
-  geom_vline(xintercept =  mean(success_rate_runs$success_rate), color = &quot;red&quot;, linetype = &quot;dashed&quot;, alpha=0.5) +
-
-    geom_image(aes(image = url), size = 0.06) +
-  #add a smooth line fitting cpoe + epa
-  stat_smooth(geom=&#39;line&#39;, alpha=0.5, se=FALSE, method=&#39;lm&#39;)+
-  #titles and caption
-  labs(x = &quot;Success Rate on Runs&quot;,
-       y = &quot;Average Win Probability at All Times&quot;,
-       title = &quot;Graph 5: Rushing Success Rate&quot;) +
-  #uses the black and white ggplot theme
-  theme_bw() +
-  #center title with hjust = 0.5
-  theme(
-    plot.title = element_text(size = 14, hjust = 0.5, face = &quot;bold&quot;)
-  ) </code></pre>
-<p><img src="/post/2022-01-Markdown/2021_Rolling_Data_files/figure-html/unnamed-chunk-27-2.png" width="672" /></p>
+<p><img src="/post/2022-01-Markdown/2021_Rolling_Data_files/figure-html/unnamed-chunk-27-1.png" width="672" /><img src="/post/2022-01-Markdown/2021_Rolling_Data_files/figure-html/unnamed-chunk-27-2.png" width="672" /></p>
 <p><img src="/post/2022-01-Markdown/2021_Rolling_Data_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
 </div>
 <div id="pure-passing-epa-table" class="section level2">
