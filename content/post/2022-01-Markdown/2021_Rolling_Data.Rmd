@@ -238,7 +238,7 @@ stargazer(sack_data_table,
 
 ## 3. aDot
 
-```{r, include=FALSE, message=FALSE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 time_to_throw_vs_Sticks <- nxt_2021 %>%
   filter(week==0) %>%
   group_by(player_gsis_id, player_short_name) %>%
