@@ -11,15 +11,15 @@ ignoreFiles:
   - \.knit\.md$
   - \.utf8\.md$
 permalinks:
-  post: /:year/:month/:day/:slug/
+  post: /:month/:day/:year/:slug/
 menu:
   main:
     - name: About
       url: /about/
     - name: GitHub
-      url: https://github.com/rstudio/blogdown
+      url: https://github.com/drewjweber?tab=repositories
     - name: Twitter
-      url: https://twitter.com/rstudio
+      url: https://twitter.com/DrewJWeber
 params:
   MathJaxCDN: //cdnjs.cloudflare.com/ajax/libs
   MathJaxVersion: 2.7.5
