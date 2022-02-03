@@ -91,6 +91,8 @@ stats_2021 <- read.csv("/Users/drew/Desktop/stats.csv")
 nxt_gen_2021_receiving <- load_nextgen_stats(2021, stat_type = "receiving")
 write.csv(nxt_gen_2021_receiving, "/Users/drew/Desktop/nxt_gen_2021_receiving.csv")
 WR_nxt <- read.csv("/Users/drew/Desktop/nxt_gen_2021_receiving.csv")
+WR_nxt <- WR_nxt %>%
+  filter(!is_na(avg_cushion), !is_na(avg_separation), !is_na(avg_yac_above_expectation))
 
 nxt_gen_2021 <- load_nextgen_stats(2021)
 write.csv(nxt_gen_2021, "/Users/drew/Desktop/nxt_gen_2021.csv")
@@ -100,62 +102,193 @@ nxt_2021 <- read.csv("/Users/drew/Desktop/nxt_gen_2021.csv")
 
 
 
-## 1. QB Data
 
-```{r, message=FALSE, include=FALSE}
-x_cpoe <- pbp2021 %>%
-  filter(!is.na(epa)) %>%
-  group_by(id, name) %>%
+
+## 1. WR Seperation Data
+
+```{r, include=FALSE, message=FALSE, warning=FALSE}
+seperation <- WR_nxt %>%
+  filter(week==0) %>%
+  group_by(player_short_name) %>%
   summarize(
-    epa = mean(epa),
-    cpoe = mean(cpoe, na.rm = T),
-    n_dropbacks = sum(pass),
-    n_plays = n(),
-    team = last(posteam)
+    avg_cushion, 
+    avg_separation,
+    avg_yac_above_expectation,
+    targets,
+    team = last(team_abbr)
   ) %>%
-  filter(n_dropbacks > 349 & n_plays > 349)
+  filter(targets > 99) 
 
-x_cpoe <- x_cpoe %>%
+seperation <- seperation %>%
   left_join(teams_colors_logos, by = c('team' = 'team_abbr'))
-
 ```
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
-x_cpoe %>%
-  ggplot(aes(x = cpoe, y = epa)) +
-  #Horizontal line mean EPA
-  geom_hline(yintercept = mean(x_cpoe$epa), color = "red", linetype = "dashed", alpha=0.5) +
-  #Vertical line mean CPOE
-  geom_vline(xintercept =  mean(x_cpoe$cpoe), color = "red", linetype = "dashed", alpha=0.5) +
+seperation %>%
+  ggplot(aes(x = avg_separation, y = avg_yac_above_expectation)) +
+  #horizontal line with mean throw time
+  geom_hline(yintercept = mean(seperation$avg_yac_above_expectation), color = "red", linetype = "dashed", alpha=0.5) +
+  #vertical line with mean CPOE
+  geom_vline(xintercept =  mean(seperation$avg_separation), color = "red", linetype = "dashed", alpha=0.5) +
+  #add points for the QBs with the right colors
   #cex controls point size and alpha the transparency (alpha = 1 is normal)
-  geom_point(color = x_cpoe$team_color, cex=x_cpoe$n_plays / 150, alpha = .75) +
+  geom_point(color = seperation$team_color, cex=seperation$targets / 30, alpha = .6) +
   #add names using ggrepel, which tries to make them not overlap
-  geom_text_repel(aes(label=name), size = 3.25) +
+  geom_text_repel(aes(label=player_short_name), size = 2.75 ) +
   #add a smooth line fitting cpoe + epa
   stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm')+
   #titles and caption
-  labs(x = "Completion % Above Expected ",
-       y = "EPA per play",
-       title = "Graph 1: Quarterback Efficiency 2021",
-       caption = "Min. 350 Dropbacks") +
+  labs(x = "Avg Seperation",
+       y = "Average YAC Over Expected",
+       title = "Graph 1: Individual WR Performance",
+       caption = "Min. 100 Targets") +
   #uses the black and white ggplot theme
   theme_bw() +
   #center title with hjust = 0.5
   theme(
-    plot.title = element_text(size = 12, hjust = 0.5, face = "bold")
+    plot.title = element_text(size = 14, hjust = 0.5, face = "bold")
   ) +
-  #make ticks look nice
-  #if this doesn't work, `install.packages('scales')`
-  scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
-  scale_x_continuous(breaks = scales::pretty_breaks(n = 10))
+
+  geom_label(aes(x = 3.75, y = -1, label = "Gets Open"), size = 2.5) +
+  geom_label(aes(x = 2.2, y = -0.5, label = "Covered up"),  color = "red", size = 2.5) +
+  geom_label(aes(x = 2.2, y = 3.5, label = "YAC Guys"),  size = 2.5) +
+  geom_label(aes(x = 3.75, y = 3.5, label = "Running Wild"), color = "dark green", size = 2.5) 
 
 
 
 
 ```
 
+```{r, include=FALSE, message=FALSE}
+seperation %>%
+  ggplot(aes(x = avg_cushion, y = avg_separation)) +
+  #horizontal line with mean throw time
+  geom_hline(yintercept = mean(seperation$avg_separation), color = "red", linetype = "dashed", alpha=0.5) +
+  #vertical line with mean CPOE
+  geom_vline(xintercept =  mean(seperation$avg_cushion), color = "red", linetype = "dashed", alpha=0.5) +
+  #add points for the QBs with the right colors
+  #cex controls point size and alpha the transparency (alpha = 1 is normal)
+  geom_point(color = seperation$team_color, cex=seperation$targets / 25, alpha = .6) +
+  #add names using ggrepel, which tries to make them not overlap
+  geom_text_repel(aes(label=player_short_name), size = 2.75 ) +
+  #add a smooth line fitting cpoe + epa
+  stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm')+
+  #titles and caption
+  labs(x = "Avg Cushion",
+       y = "Average Seperation",
+       title = "Graph 2: WR Seperation",
+       caption = "Min 100 Targets") +
+  #uses the black and white ggplot theme
+  theme_bw() +
+  #center title with hjust = 0.5
+  theme(
+    plot.title = element_text(size = 14, hjust = 0.5, face = "bold")
+  ) 
+```
 
-## 2. QB Sack Data
+## 2. Team Receiver Data
+
+```{r Team Sep Data, include=FALSE, echo=FALSE}
+nfl_logos_df <- read_csv("https://raw.githubusercontent.com/statsbylopez/BlogPosts/master/nfl_teamlogos.csv")
+
+seperation2 <- WR_nxt %>% 
+   filter(week>0) %>%
+  group_by(team_abbr) %>%
+  summarize(
+    mean_cush = mean(avg_cushion), 
+    mean_sep = mean(avg_separation),
+    mean_eyac = mean(avg_yac_above_expectation),
+    mean_targets = mean(targets)
+  )  %>%
+  left_join(nfl_logos_df, by = c("team_abbr" = "team_code")) %>%
+  left_join(teams_colors_logos, by = 'team_abbr')
+```
+
+```{r Team Seperation, echo=FALSE, message = FALSE, warning=FALSE}
+seperation2 %>%
+  ggplot(aes(x = mean_cush, y = mean_sep, image = team_logo_wikipedia)) +
+  #horizontal line 
+  geom_hline(yintercept = mean(seperation2$mean_sep), color = "red", linetype = "dashed", alpha=0.5) +
+  #vertical line 
+  geom_vline(xintercept =  mean(seperation2$mean_cush), color = "red", linetype = "dashed", alpha=0.5) +
+  
+	geom_image(size = 0.06, by="width") +
+
+ stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm')+
+  #titles and caption
+  labs(x = "Avg Cushion",
+       y = "Average Seperation",
+       title = "Graph 3: Team WR Seperation") +
+  #bw theme
+  theme_bw() +
+  #center title with hjust = 0.5
+  theme(
+    plot.title = element_text(size = 14, hjust = 0.5, face = "bold")
+  ) 
+
+```
+
+## 3. aDot
+
+```{r, include=FALSE, message=FALSE}
+time_to_throw_vs_Sticks <- nxt_2021 %>%
+  filter(week==0) %>%
+  group_by(player_gsis_id, player_short_name) %>%
+  summarize(
+    avg_time_to_throw, 
+    avg_air_yards_to_sticks,
+    attempts,
+    team = last(team_abbr)
+  ) %>%
+  filter(attempts > 299) 
+
+time_to_throw_vs_Sticks <- time_to_throw_vs_Sticks %>%
+  left_join(teams_colors_logos, by = c('team' = 'team_abbr'))
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+time_to_throw_vs_Sticks %>%
+  ggplot(aes(x = avg_time_to_throw, y = avg_air_yards_to_sticks)) +
+  #horizontal line with mean throw time
+  geom_hline(yintercept = mean(time_to_throw_vs_Sticks$avg_air_yards_to_sticks), color = "red", linetype = "dashed", alpha=0.5) +
+  #vertical line with mean CPOE
+  geom_vline(xintercept =  mean(time_to_throw_vs_Sticks$avg_time_to_throw), color = "red", linetype = "dashed", alpha=0.5) +
+  #add points for the QBs with the right colors
+  #cex controls point size and alpha the transparency (alpha = 1 is normal)
+  geom_point(color = time_to_throw_vs_Sticks$team_color, cex=time_to_throw_vs_Sticks$attempts / 100, alpha = .6) +
+  #add names using ggrepel, which tries to make them not overlap
+  geom_text_repel(aes(label=player_short_name), size = 2.75 ) +
+  #add a smooth line fitting cpoe + epa
+  stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm')+
+  #titles and caption
+  labs(x = "Average Time to Throw",
+       y = "Average Intended Air Yards from 1st Down",
+       title = "Graph 4: QB Agressiveness",
+       caption = "Y=0 is First Down Marker") +
+  #uses the black and white ggplot theme
+  theme_bw() +
+  #center title with hjust = 0.5
+  theme(
+    plot.title = element_text(size = 14, hjust = 0.5, face = "bold")
+  ) +
+  #make ticks look nice
+  #if this doesn't work, `install.packages('scales')
+  
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 5)) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = )) +
+  geom_label(aes(x = 3.05, y = -2.5, label = "Hold Long, Shallow"), color = "red", size = 2.5) +
+  geom_label(aes(x = 2.42, y = -2.5, label = "Cowards"), size = 2.5) +
+  geom_label(aes(x = 2.42, y = .8, label = "Quick, Deep"), color = "dark green", size = 2.5) +
+  geom_label(aes(x = 3.05, y = .8, label = "Hero Ballers"), size = 2.5) +
+  ylim(-2.75, 1.15) +
+  xlim(2.35, 3.1)
+```
+
+This graphic shows the average time to throw to the average intended air yards from the sticks.  This means that Y=0 is the first down.  This is meant to show how QBs are getting the ball out.  The upper left is the best place to be.  It means these passers are getting the ball out quickly AND farther than average.  Conversely, the bottom right is a bad place to be.  It means these passers hang on to the ball long AND throw it shorter than average.
+
+
+## 4. QB Sack Data
 
 ```{r, message=FALSE, include=FALSE}
 sack_data <- pbp2021 %>%
@@ -203,7 +336,7 @@ sack_data %>%
   #titles and caption
   labs(x = "Total EPA Lost via Sacks",
        y = "Average EPA Lost via Sacks",
-       title = "Graph 2: EPA Lost by Sacks",
+       title = "Graph 5: EPA Lost by Sacks",
        caption = "Min. 12 Sacks") +
   #uses the black and white ggplot theme
   theme_bw() +
@@ -217,8 +350,8 @@ sack_data %>%
   scale_x_continuous(breaks = scales::pretty_breaks(n = 8)) +
 
   geom_label(aes(x = -25, y = -2.5, label = "Fewer but Costly Sacks"), size = 2.5) +
-  geom_label(aes(x = -70, y = -2.5, label = "Lots of Bad Sacks"),  color = "red", size = 2.5) +
-  geom_label(aes(x = -70, y = -1.4, label = "Lots of Sacks"),  size = 2.5) +
+  geom_label(aes(x = -100, y = -2.5, label = "Lots of Bad Sacks"),  color = "red", size = 2.5) +
+  geom_label(aes(x = -100, y = -1.4, label = "Lots of Sacks"),  size = 2.5) +
   geom_label(aes(x = -22, y = -1.4, label = "Not Costly"), color = "dark green", size = 2.5) 
 
 
@@ -235,67 +368,63 @@ stargazer(sack_data_table,
 ```
 
 
-## 3. aDot
 
-```{r, include=FALSE, message=FALSE}
-time_to_throw_vs_Sticks <- nxt_2021 %>%
-  filter(week==0) %>%
-  group_by(player_gsis_id, player_short_name) %>%
+## 5. QB Data
+
+```{r, message=FALSE, include=FALSE}
+x_cpoe <- pbp2021 %>%
+  filter(!is.na(epa)) %>%
+  group_by(id, name) %>%
   summarize(
-    avg_time_to_throw, 
-    avg_air_yards_to_sticks,
-    attempts,
-    team = last(team_abbr)
+    epa = mean(epa),
+    cpoe = mean(cpoe, na.rm = T),
+    n_dropbacks = sum(pass),
+    n_plays = n(),
+    team = last(posteam)
   ) %>%
-  filter(attempts > 299) 
+  filter(n_dropbacks > 349 & n_plays > 349)
 
-time_to_throw_vs_Sticks <- time_to_throw_vs_Sticks %>%
+x_cpoe <- x_cpoe %>%
   left_join(teams_colors_logos, by = c('team' = 'team_abbr'))
+
 ```
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
-
-time_to_throw_vs_Sticks %>%
-  ggplot(aes(x = avg_time_to_throw, y = avg_air_yards_to_sticks)) +
-  #horizontal line with mean throw time
-  geom_hline(yintercept = mean(time_to_throw_vs_Sticks$avg_air_yards_to_sticks), color = "red", linetype = "dashed", alpha=0.5) +
-  #vertical line with mean CPOE
-  geom_vline(xintercept =  mean(time_to_throw_vs_Sticks$avg_time_to_throw), color = "red", linetype = "dashed", alpha=0.5) +
-  #add points for the QBs with the right colors
+x_cpoe %>%
+  ggplot(aes(x = cpoe, y = epa)) +
+  #Horizontal line mean EPA
+  geom_hline(yintercept = mean(x_cpoe$epa), color = "red", linetype = "dashed", alpha=0.5) +
+  #Vertical line mean CPOE
+  geom_vline(xintercept =  mean(x_cpoe$cpoe), color = "red", linetype = "dashed", alpha=0.5) +
   #cex controls point size and alpha the transparency (alpha = 1 is normal)
-  geom_point(color = time_to_throw_vs_Sticks$team_color, cex=time_to_throw_vs_Sticks$attempts / 100, alpha = .6) +
+  geom_point(color = x_cpoe$team_color, cex=x_cpoe$n_plays / 150, alpha = .75) +
   #add names using ggrepel, which tries to make them not overlap
-  geom_text_repel(aes(label=player_short_name), size = 2.75 ) +
+  geom_text_repel(aes(label=name), size = 3.25) +
   #add a smooth line fitting cpoe + epa
   stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm')+
   #titles and caption
-  labs(x = "Average Time to Throw",
-       y = "Average Intended Air Yards from 1st Down",
-       title = "Graph 3: QB Agressiveness",
-       caption = "Y=0 is First Down Marker") +
+  labs(x = "Completion % Above Expected ",
+       y = "EPA per play",
+       title = "Graph 6: Quarterback Efficiency 2021",
+       caption = "Min. 350 Dropbacks") +
   #uses the black and white ggplot theme
   theme_bw() +
   #center title with hjust = 0.5
   theme(
-    plot.title = element_text(size = 14, hjust = 0.5, face = "bold")
+    plot.title = element_text(size = 12, hjust = 0.5, face = "bold")
   ) +
   #make ticks look nice
-  #if this doesn't work, `install.packages('scales')
-  
-  scale_y_continuous(breaks = scales::pretty_breaks(n = 5)) +
-  scale_x_continuous(breaks = scales::pretty_breaks(n = )) +
-  geom_label(aes(x = 3.05, y = -2.5, label = "Hold Long, Shallow"), color = "red", size = 2.5) +
-  geom_label(aes(x = 2.42, y = -2.5, label = "Cowards"), size = 2.5) +
-  geom_label(aes(x = 2.42, y = .8, label = "Quick, Deep"), color = "dark green", size = 2.5) +
-  geom_label(aes(x = 3.05, y = .8, label = "Hero Ballers"), size = 2.5) +
-  ylim(-2.75, 1.15) +
-  xlim(2.35, 3.1)
+  #if this doesn't work, `install.packages('scales')`
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 10))
+
+
+
+
 ```
 
-This graphic shows the average time to throw to the average intended air yards from the sticks.  This means that Y=0 is the first down.  This is meant to show how QBs are getting the ball out.  The upper left is the best place to be.  It means these passers are getting the ball out quickly AND farther than average.  Conversely, the bottom right is a bad place to be.  It means these passers hang on to the ball long AND throw it shorter than average.
 
-
-## 4. Regressions
+## 6. Situational Regressions
 
 ```{r, include=FALSE, message=FALSE, warning=FALSE}
 EPAreg1 <-lm(epa~  as.factor(down) + rush_attempt+ pass_attempt, data = pbp2021)
@@ -335,136 +464,6 @@ stargazer(catch_yards_reg,
           column.labels = c("Yards"),
           dep.var.labels = c("Yards Gained"))
           
-```
-
-## 5. Wide Receiver Data
-
-```{r, include=FALSE, message=FALSE, warning=FALSE}
-seperation <- WR_nxt %>%
-  filter(week==0) %>%
-  group_by(player_short_name) %>%
-  summarize(
-    avg_cushion, 
-    avg_separation,
-    avg_yac_above_expectation,
-    targets,
-    team = last(team_abbr)
-  ) %>%
-  filter(targets > 99) 
-
-seperation <- seperation %>%
-  left_join(teams_colors_logos, by = c('team' = 'team_abbr'))
-```
-
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
-seperation %>%
-  ggplot(aes(x = avg_separation, y = avg_yac_above_expectation)) +
-  #horizontal line with mean throw time
-  geom_hline(yintercept = mean(seperation$avg_yac_above_expectation), color = "red", linetype = "dashed", alpha=0.5) +
-  #vertical line with mean CPOE
-  geom_vline(xintercept =  mean(seperation$avg_separation), color = "red", linetype = "dashed", alpha=0.5) +
-  #add points for the QBs with the right colors
-  #cex controls point size and alpha the transparency (alpha = 1 is normal)
-  geom_point(color = seperation$team_color, cex=seperation$targets / 30, alpha = .6) +
-  #add names using ggrepel, which tries to make them not overlap
-  geom_text_repel(aes(label=player_short_name), size = 2.75 ) +
-  #add a smooth line fitting cpoe + epa
-  stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm')+
-  #titles and caption
-  labs(x = "Avg Seperation",
-       y = "Average YAC Over Expected",
-       title = "Graph 3: Individual WR Performance",
-       caption = "Min. 100 Targets") +
-  #uses the black and white ggplot theme
-  theme_bw() +
-  #center title with hjust = 0.5
-  theme(
-    plot.title = element_text(size = 14, hjust = 0.5, face = "bold")
-  ) +
-
-  geom_label(aes(x = 3.75, y = -1, label = "Gets Open"), size = 2.5) +
-  geom_label(aes(x = 2.2, y = -0.5, label = "Covered up"),  color = "red", size = 2.5) +
-  geom_label(aes(x = 2.2, y = 3.5, label = "YAC Guys"),  size = 2.5) +
-  geom_label(aes(x = 3.75, y = 3.5, label = "Running Wild"), color = "dark green", size = 2.5) 
-
-
-
-
-```
-
-```{r, include=FALSE, message=FALSE}
-seperation %>%
-  ggplot(aes(x = avg_cushion, y = avg_separation)) +
-  #horizontal line with mean throw time
-  geom_hline(yintercept = mean(seperation$avg_separation), color = "red", linetype = "dashed", alpha=0.5) +
-  #vertical line with mean CPOE
-  geom_vline(xintercept =  mean(seperation$avg_cushion), color = "red", linetype = "dashed", alpha=0.5) +
-  #add points for the QBs with the right colors
-  #cex controls point size and alpha the transparency (alpha = 1 is normal)
-  geom_point(color = seperation$team_color, cex=seperation$targets / 25, alpha = .6) +
-  #add names using ggrepel, which tries to make them not overlap
-  geom_text_repel(aes(label=player_short_name), size = 2.75 ) +
-  #add a smooth line fitting cpoe + epa
-  stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm')+
-  #titles and caption
-  labs(x = "Avg Cushion",
-       y = "Average Seperation",
-       title = "Graph 4: WR Seperation",
-       caption = "Min 100 Targets") +
-  #uses the black and white ggplot theme
-  theme_bw() +
-  #center title with hjust = 0.5
-  theme(
-    plot.title = element_text(size = 14, hjust = 0.5, face = "bold")
-  ) 
-```
-
-## 6. Team Receiver Data
-
-```{r Team Sep Data, include=FALSE, message=FALSE}
-seperation2 <- WR_nxt %>%
-  filter(week>0) %>%
-  group_by(team_abbr) %>%
-  summarize(
-    team_abbr,
-    mean_cush = mean(avg_cushion), 
-    mean_sep = mean(avg_separation),
-    avg_yac_above_expectation,
-    targets
-  ) 
-
-seperation2 <- seperation2 %>%
-  left_join(teams_colors_logos, by = 'team_abbr')
-
-nfl_logos_df <- read_csv("https://raw.githubusercontent.com/statsbylopez/BlogPosts/master/nfl_teamlogos.csv")
-seperation2 <- seperation2 %>% left_join(nfl_logos_df, by = c("team_abbr" = "team_code"))
-```
-
-```{r Team Seperation, echo=FALSE, message = FALSE, warning=FALSE}
-seperation2 %>%
-  ggplot(aes(x = mean_cush, y = mean_sep)) +
-  #horizontal line with mean throw time
-  geom_hline(yintercept = mean(seperation2$mean_sep), color = "red", linetype = "dashed", alpha=0.5) +
-  #vertical line with mean CPOE
-  geom_vline(xintercept =  mean(seperation2$mean_cush), color = "red", linetype = "dashed", alpha=0.5) +
-  #add points for the QBs with the right colors
-  #cex controls point size and alpha the transparency (alpha = 1 is normal)
-  
-  #add names using ggrepel, which tries to make them not overlap
-	geom_image(aes(image = url), size = 0.06) +
-  #add a smooth line fitting cpoe + epa
-  stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm')+
-  #titles and caption
-  labs(x = "Avg Cushion",
-       y = "Average Seperation",
-       title = "Graph 5: Team WR Seperation") +
-  #uses the black and white ggplot theme
-  theme_bw() +
-  #center title with hjust = 0.5
-  theme(
-    plot.title = element_text(size = 14, hjust = 0.5, face = "bold")
-  ) 
-
 ```
 
 ## 7. Rushing Data
@@ -535,20 +534,20 @@ success_rate_runs <- success_rate_runs %>% left_join(nfl_logos_df, by = c("poste
 ```{r, echo=FALSE, message = FALSE, warning=FALSE}
 success_rate_runs %>%
   ggplot(aes(x = ypc, y = avg_wp)) +
-  #horizontal line with mean throw time
+  #horizontal line 
   geom_hline(yintercept = mean(success_rate_runs$avg_wp), color = "red", linetype = "dashed", alpha=0.5) +
-  #vertical line with mean CPOE
+  #vertical line 
   geom_vline(xintercept =  mean(success_rate_runs$ypc), color = "red", linetype = "dashed", alpha=0.5) +
 
 	geom_image(aes(image = url), size = 0.06) +
-  #add a smooth line fitting cpoe + epa
+  
   stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm')+
   #titles and caption
   labs(x = "Yards Per Carry",
        y = "Average Win Probability at All Times",
-       title = "Graph 5: Yards Per Carry")+
+       title = "Graph 7: Yards Per Carry")+
                         
-  #uses the black and white ggplot theme
+  #black and white ggplot theme
   theme_bw() +
   #center title with hjust = 0.5
   theme(
@@ -612,7 +611,7 @@ runners %>%
   #titles and caption
   labs(x = "YPC",
        y = "EPA per play",
-       title = "Graph 6: Rushing Efficiency 2021",
+       title = "Graph 8: Rushing Efficiency 2021",
        caption = "Min. 150 Rushes") +
   #uses the black and white ggplot theme
   theme_bw() +
@@ -626,7 +625,6 @@ runners %>%
   scale_x_continuous(breaks = scales::pretty_breaks(n = 10))
 
 ```
-
 
 ## 9. Pure Passing EPA Table
 
