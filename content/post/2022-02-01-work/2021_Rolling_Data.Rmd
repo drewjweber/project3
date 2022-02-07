@@ -10,9 +10,11 @@ output:
   pdf_document:
     toc: yes
 ---
+
 Drew Weber
 
 ### --------------------------------------------------
+
 ```{css, echo = FALSE}
 
 table, td, th {
@@ -99,12 +101,7 @@ write.csv(nxt_gen_2021, "/Users/drew/Desktop/nxt_gen_2021.csv")
 nxt_2021 <- read.csv("/Users/drew/Desktop/nxt_gen_2021.csv")
 ```
 
-
-
-
-
-
-## 1. WR Seperation Data
+## 1. WR Separation Data
 
 ```{r, include=FALSE, message=FALSE, warning=FALSE}
 seperation <- WR_nxt %>%
@@ -186,6 +183,8 @@ seperation %>%
   ) 
 ```
 
+This graphic shows **Average Separation** and **Average Yards After Catch Over Expected. These are two important metrics on receiver performance. Separation may be the most important thing a WR can generate in football. Combining that with how well they do with the ball in their hands can paint a decent picture of how they are performing. It can be seen that Deebo Samuel is in a world of his own this year. His separation may be somewhat accredited to Shanahan route designs, but it cannot be understated how well he was as a playmaker this season.**
+
 ## 2. Team Receiver Data
 
 ```{r Team Sep Data, include=FALSE, echo=FALSE}
@@ -227,6 +226,8 @@ seperation2 %>%
   ) 
 
 ```
+
+This graphic shows Team Separation and Cushion data. This is important because it can show how teams are being played defensively and how they perform against that.
 
 ## 3. aDot
 
@@ -277,16 +278,15 @@ time_to_throw_vs_Sticks %>%
   
   scale_y_continuous(breaks = scales::pretty_breaks(n = 5)) +
   scale_x_continuous(breaks = scales::pretty_breaks(n = )) +
-  geom_label(aes(x = 3.05, y = -2.5, label = "Hold Long, Shallow"), color = "red", size = 2.5) +
+  geom_label(aes(x = 2.95, y = -2.5, label = "Hold Long, Shallow"), color = "red", size = 2.5) +
   geom_label(aes(x = 2.42, y = -2.5, label = "Cowards"), size = 2.5) +
-  geom_label(aes(x = 2.42, y = .8, label = "Quick, Deep"), color = "dark green", size = 2.5) +
-  geom_label(aes(x = 3.05, y = .8, label = "Hero Ballers"), size = 2.5) +
+  geom_label(aes(x = 2.42, y = .9, label = "Quick, Deep"), color = "dark green", size = 2.5) +
+  geom_label(aes(x = 2.95, y = .9, label = "Hero Ballers"), size = 2.5) +
   ylim(-2.75, 1.15) +
-  xlim(2.35, 3.1)
+  xlim(2.38, 3.0)
 ```
 
-This graphic shows the average time to throw to the average intended air yards from the sticks.  This means that Y=0 is the first down.  This is meant to show how QBs are getting the ball out.  The upper left is the best place to be.  It means these passers are getting the ball out quickly AND farther than average.  Conversely, the bottom right is a bad place to be.  It means these passers hang on to the ball long AND throw it shorter than average.
-
+This graphic shows the [**Average Time to Throw**]{.ul} to the [**Average Intended Air Yards From the Sticks**]{.ul}. This means that Y=0 is the first down. This is meant to show how QBs are getting the ball out. The upper left is the best place to be. It means these passers are getting the ball out quickly AND farther than average. Conversely, the bottom right is a bad place to be. It means these passers hang on to the ball long AND throw it shorter than average.
 
 ## 4. QB Sack Data
 
@@ -297,10 +297,187 @@ sack_data <- pbp2021 %>%
   summarize(
     av_epa_lost = round(mean(epa), digits = 2),
     total_epa_lost = round(sum(epa), digits = 2),
+    team = last(posteam),
+    Sacks = sum(pass)) %>%
+  arrange(desc(av_epa_lost)) %>%
+    filter(Sacks > 19)
+
+
+sack_data <- subset(sack_data, select = -c(id))
+sack_data <- sack_data %>%
+  left_join(teams_colors_logos, by = c('team' = 'team_abbr'))
+
+sack_data_table <- pbp2021 %>%
+  filter(sack==1) %>%
+  group_by(name) %>% 
+  summarize(
+    av_epa_lost = round(mean(epa), digits = 2),
+    total_epa_lost = round(sum(epa), digits = 2),
      team = last(posteam),
     Sacks = sum(pass)) %>%
   arrange(desc(av_epa_lost)) %>%
-  filter(Sacks > 11)
+  filter(Sacks > 19)
+
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+sack_data %>%
+  ggplot(aes(x = total_epa_lost, y = av_epa_lost)) +
+  #Horizontal line mean EPA
+  geom_hline(yintercept = mean(sack_data$av_epa_lost), color = "red", linetype = "dashed", alpha=0.5) +
+  #Vertical line mean CPOE
+  geom_vline(xintercept =  mean(sack_data$total_epa_lost), color = "red", linetype = "dashed", alpha=0.5) +
+  #cex controls point size and alpha the transparency (alpha = 1 is normal)
+  geom_point(color = sack_data$team_color, cex=sack_data$Sacks / 10, alpha = .75) +
+  #add names using ggrepel, which tries to make them not overlap
+  geom_text_repel(aes(label=name), size = 3.2) +
+  #add a smooth line fitting cpoe + epa
+  stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm')+
+  #titles and caption
+  labs(x = "Total EPA Lost via Sacks",
+       y = "Average EPA Lost via Sacks",
+       title = "Graph 5: EPA Lost by Sacks",
+       caption = "Min. 12 Sacks") +
+  #uses the black and white ggplot theme
+  theme_bw() +
+  #center title with hjust = 0.5
+  theme(
+    plot.title = element_text(size = 12, hjust = 0.5, face = "bold")
+  ) +
+  #make ticks look nice
+  #if this doesn't work, `install.packages('scales')`
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 8)) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 8)) +
+
+  geom_label(aes(x = -25, y = -2.5, label = "Fewer but Costly Sacks"), size = 2.5) +
+  geom_label(aes(x = -100, y = -2.5, label = "Lots of Bad Sacks"),  color = "red", size = 2.5) +
+  geom_label(aes(x = -100, y = -1.4, label = "Lots of Sacks"),  size = 2.5) +
+  geom_label(aes(x = -22, y = -1.4, label = "Not Costly"), color = "dark green", size = 2.5) 
+
+
+
+
+```
+
+Not all sacks are created equal. A sack on 1st and 10 is most likely much worse than a sack on 3rd and 20. It can ruin a drive or can be almost the same as an incompletion. This graphic shows how much [EPA is being lost on average and in total**.**]{.ul}The outliers are what should be noted most from this graphic. Wentz is a catastrophe, whereas Burrow lost the EPA but wasn't killed the Bengals every time he did it. Lamar Jackson and Josh Allen are freaks and it is interesting to see if the sack "avoiders" remain this way year over year.
+
+```{r, results ='asis', echo=FALSE}
+stargazer(sack_data_table,
+          summary = FALSE,
+          style = "aer",
+          type = "html",
+          title = "EPA Lost From Sacks")
+
+```
+
+## 5. QB Data
+
+```{r, message=FALSE, include=FALSE}
+x_cpoe <- pbp2021 %>%
+  filter(!is.na(epa)) %>%
+  group_by(id, name) %>%
+  summarize(
+    epa = mean(epa),
+    cpoe = mean(cpoe, na.rm = T),
+    n_dropbacks = sum(pass),
+    n_plays = n(),
+    team = last(posteam)
+  ) %>%
+  filter(n_dropbacks > 349 & n_plays > 349)
+
+x_cpoe <- x_cpoe %>%
+  left_join(teams_colors_logos, by = c('team' = 'team_abbr'))
+
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+x_cpoe %>%
+  ggplot(aes(x = cpoe, y = epa)) +
+  #Horizontal line mean EPA
+  geom_hline(yintercept = mean(x_cpoe$epa), color = "red", linetype = "dashed", alpha=0.5) +
+  #Vertical line mean CPOE
+  geom_vline(xintercept =  mean(x_cpoe$cpoe), color = "red", linetype = "dashed", alpha=0.5) +
+  #cex controls point size and alpha the transparency (alpha = 1 is normal)
+  geom_point(color = x_cpoe$team_color, cex=x_cpoe$n_plays / 150, alpha = .75) +
+  #add names using ggrepel, which tries to make them not overlap
+  geom_text_repel(aes(label=name), size = 3.25) +
+  #add a smooth line fitting cpoe + epa
+  stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm')+
+  #titles and caption
+  labs(x = "Completion % Above Expected ",
+       y = "EPA per play",
+       title = "Graph 6: Quarterback Efficiency 2021",
+       caption = "Min. 350 Dropbacks") +
+  #uses the black and white ggplot theme
+  theme_bw() +
+  #center title with hjust = 0.5
+  theme(
+    plot.title = element_text(size = 12, hjust = 0.5, face = "bold")
+  ) +
+  #make ticks look nice
+  #if this doesn't work, `install.packages('scales')`
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 10))
+
+
+
+
+```
+
+## 6. Situational Regressions
+
+```{r, include=FALSE, message=FALSE, warning=FALSE}
+EPAreg1 <-lm(epa~  as.factor(down) + rush_attempt+ pass_attempt, data = pbp2021)
+
+
+EPAreg2 <-lm(epa~  rush_attempt, data = pbp2021, na.rm = TRUE, subset = down==1)
+
+
+EPAreg3 <-lm(epa~  rush_attempt + pass_attempt, data = pbp2021, na.rm = TRUE, subset = down==4)
+
+
+EPAreg4 <- lm(epa~ qb_scramble, data = pbp2021)
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+stargazer(EPAreg1, EPAreg2, EPAreg3,EPAreg4,
+          type="html",
+          title = "Table 3: EPA Regressions",
+          style = "aer",
+          covariate.labels = c("2nd Down", "3rd Down", "4th Down", "Rush Attempt", "Pass Attempt", "QB Scramble"),
+          column.labels = c("Play Type and Down", "First Down", "Fourth Down", "QB Scramble"),
+          dep.var.labels = c("EPA"))
+          
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+catch_yards_reg <-lm(yards_gained ~  complete_pass, data = pbp2021)
+
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+stargazer(catch_yards_reg,
+          type="html",
+          title = "Table 4: Catch to Yards",
+          style = "aer",
+          covariate.labels = c("Yards Gained"),
+          column.labels = c("Yards"),
+          dep.var.labels = c("Yards Gained"))
+          
+```
+
+## 4. QB Sack Data
+
+```{r, message=FALSE, include=FALSE}
+sack_data <- pbp2021 %>%
+  filter(sack==1) %>%
+  group_by(id, name) %>% 
+  summarize(
+    av_epa_lost = round(mean(epa), digits = 2),
+    total_epa_lost = round(sum(epa), digits = 2),
+    team = last(posteam),
+    Sacks = sum(pass)) %>%
+  arrange(desc(av_epa_lost)) 
 
 
 sack_data <- subset(sack_data, select = -c(id))
@@ -367,105 +544,6 @@ stargazer(sack_data_table,
 
 ```
 
-
-
-## 5. QB Data
-
-```{r, message=FALSE, include=FALSE}
-x_cpoe <- pbp2021 %>%
-  filter(!is.na(epa)) %>%
-  group_by(id, name) %>%
-  summarize(
-    epa = mean(epa),
-    cpoe = mean(cpoe, na.rm = T),
-    n_dropbacks = sum(pass),
-    n_plays = n(),
-    team = last(posteam)
-  ) %>%
-  filter(n_dropbacks > 349 & n_plays > 349)
-
-x_cpoe <- x_cpoe %>%
-  left_join(teams_colors_logos, by = c('team' = 'team_abbr'))
-
-```
-
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
-x_cpoe %>%
-  ggplot(aes(x = cpoe, y = epa)) +
-  #Horizontal line mean EPA
-  geom_hline(yintercept = mean(x_cpoe$epa), color = "red", linetype = "dashed", alpha=0.5) +
-  #Vertical line mean CPOE
-  geom_vline(xintercept =  mean(x_cpoe$cpoe), color = "red", linetype = "dashed", alpha=0.5) +
-  #cex controls point size and alpha the transparency (alpha = 1 is normal)
-  geom_point(color = x_cpoe$team_color, cex=x_cpoe$n_plays / 150, alpha = .75) +
-  #add names using ggrepel, which tries to make them not overlap
-  geom_text_repel(aes(label=name), size = 3.25) +
-  #add a smooth line fitting cpoe + epa
-  stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm')+
-  #titles and caption
-  labs(x = "Completion % Above Expected ",
-       y = "EPA per play",
-       title = "Graph 6: Quarterback Efficiency 2021",
-       caption = "Min. 350 Dropbacks") +
-  #uses the black and white ggplot theme
-  theme_bw() +
-  #center title with hjust = 0.5
-  theme(
-    plot.title = element_text(size = 12, hjust = 0.5, face = "bold")
-  ) +
-  #make ticks look nice
-  #if this doesn't work, `install.packages('scales')`
-  scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
-  scale_x_continuous(breaks = scales::pretty_breaks(n = 10))
-
-
-
-
-```
-
-
-## 6. Situational Regressions
-
-```{r, include=FALSE, message=FALSE, warning=FALSE}
-EPAreg1 <-lm(epa~  as.factor(down) + rush_attempt+ pass_attempt, data = pbp2021)
-
-
-EPAreg2 <-lm(epa~  rush_attempt, data = pbp2021, na.rm = TRUE, subset = down==1)
-
-
-EPAreg3 <-lm(epa~  rush_attempt + pass_attempt, data = pbp2021, na.rm = TRUE, subset = down==4)
-
-
-EPAreg4 <- lm(epa~ qb_scramble, data = pbp2021)
-```
-
-```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
-stargazer(EPAreg1, EPAreg2, EPAreg3,EPAreg4,
-          type="html",
-          title = "Table 3: EPA Regressions",
-          style = "aer",
-          covariate.labels = c("2nd Down", "3rd Down", "4th Down", "Rush Attempt", "Pass Attempt", "QB Scramble"),
-          column.labels = c("Play Type and Down", "First Down", "Fourth Down", "QB Scramble"),
-          dep.var.labels = c("EPA"))
-          
-```
-
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
-catch_yards_reg <-lm(yards_gained ~  complete_pass, data = pbp2021)
-
-```
-
-```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
-stargazer(catch_yards_reg,
-          type="html",
-          title = "Table 4: Catch to Yards",
-          style = "aer",
-          covariate.labels = c("Yards Gained"),
-          column.labels = c("Yards"),
-          dep.var.labels = c("Yards Gained"))
-          
-```
-
 ## 7. Rushing Data
 
 ```{r, message=FALSE, include=FALSE}
@@ -477,7 +555,7 @@ EPA_by_Run_Gap_2020 <- pbp2020 %>%
 	arrange(mean_epa) 
   colnames(EPA_by_Run_Gap_2020) <- c("Run Gap", "Mean EPA", "Plays")
 ```
-  
+
 ```{r, echo=FALSE, results='asis', message=FALSE, warning=FALSE}
 stargazer(EPA_by_Run_Gap_2020,
           summary = FALSE,
@@ -653,7 +731,6 @@ stargazer(EPA_Leaders_Twenty_One,
 
 ```
 
-
 ## 10. Trick Play Passing Data
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
@@ -689,7 +766,6 @@ Non_QB_Passers <- Non_QB_Passers[Non_QB_Passers$name != "K.Mond", ]
   #mutate_all(~replace(., is.nan(.), 0))
 ```
 
-
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
 
 Non_QB_Passers %>%
@@ -724,8 +800,3 @@ Non_QB_Passers %>%
 
 
 ```
-
-
-
-
-
