@@ -183,7 +183,7 @@ seperation %>%
   ) 
 ```
 
-This graphic shows **Average Separation** and **Average Yards After Catch Over Expected. These are two important metrics on receiver performance. Separation may be the most important thing a WR can generate in football. Combining that with how well they do with the ball in their hands can paint a decent picture of how they are performing. It can be seen that Deebo Samuel is in a world of his own this year. His separation may be somewhat accredited to Shanahan route designs, but it cannot be understated how well he was as a playmaker this season.**
+This graphic shows **Average Separation** and **Average Yards After Catch Over Expected.** These are two important metrics on receiver performance. Separation may be the most important thing a WR can generate in football. Combining that with how well they do with the ball in their hands can paint a decent picture of how they are performing. It can be seen that Deebo Samuel is in a world of his own this year. His separation may be somewhat accredited to Shanahan route designs, but it cannot be understated how well he was as a playmaker this season.
 
 ## 2. Team Receiver Data
 
@@ -349,17 +349,17 @@ sack_data %>%
   scale_y_continuous(breaks = scales::pretty_breaks(n = 8)) +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 8)) +
 
-  geom_label(aes(x = -25, y = -2.5, label = "Fewer but Costly Sacks"), size = 2.5) +
+  geom_label(aes(x = -50, y = -2.5, label = "Fewer but Costly Sacks"), size = 2.5) +
   geom_label(aes(x = -100, y = -2.5, label = "Lots of Bad Sacks"),  color = "red", size = 2.5) +
   geom_label(aes(x = -100, y = -1.4, label = "Lots of Sacks"),  size = 2.5) +
-  geom_label(aes(x = -22, y = -1.4, label = "Not Costly"), color = "dark green", size = 2.5) 
+  geom_label(aes(x = -45, y = -1.38, label = "Not Costly"), color = "dark green", size = 2.5) 
 
 
 
 
 ```
 
-Not all sacks are created equal. A sack on 1st and 10 is most likely much worse than a sack on 3rd and 20. It can ruin a drive or can be almost the same as an incompletion. This graphic shows how much [EPA is being lost on average and in total**.**]{.ul}The outliers are what should be noted most from this graphic. Wentz is a catastrophe, whereas Burrow lost the EPA but wasn't killed the Bengals every time he did it. Lamar Jackson and Josh Allen are freaks and it is interesting to see if the sack "avoiders" remain this way year over year.
+Not all sacks are created equal. A sack on 1st and 10 is most likely much worse than a sack on 3rd and 20. It can ruin a drive or can be almost the same as an incompletion. This graphic shows how much [EPA is being lost on average and in total]{.ul}**.** The outliers are what should be noted most from this graphic. Wentz is a catastrophe, whereas Burrow lost the most EPA but wasn't killing the Bengals every time he did it. Lamar Jackson and Josh Allen are freaks and it is interesting to see if the sack "avoiders" remain this way year over year.\`
 
 ```{r, results ='asis', echo=FALSE}
 stargazer(sack_data_table,
@@ -450,6 +450,8 @@ stargazer(EPAreg1, EPAreg2, EPAreg3,EPAreg4,
           
 ```
 
+This is the second straight year that QB Scramble has over a 0.4 EPA coefficient. It is something I always thought about as QBs tend to not make mistakes on scrambles and can usually gain a few yards with their legs at the least. Many young QBs play far better out of structure as they can turn their processor off and just ball.
+
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 catch_yards_reg <-lm(yards_gained ~  complete_pass, data = pbp2021)
 
@@ -466,83 +468,17 @@ stargazer(catch_yards_reg,
           
 ```
 
-## 4. QB Sack Data
+This was purely made from a betting standpoint. Parlaying a receivers catch props with their receiving props can be profitable if
 
-```{r, message=FALSE, include=FALSE}
-sack_data <- pbp2021 %>%
-  filter(sack==1) %>%
-  group_by(id, name) %>% 
-  summarize(
-    av_epa_lost = round(mean(epa), digits = 2),
-    total_epa_lost = round(sum(epa), digits = 2),
-    team = last(posteam),
-    Sacks = sum(pass)) %>%
-  arrange(desc(av_epa_lost)) 
+A. The book allows you.
 
+B. [**They don't take into account this colinearity.**]{.ul}
 
-sack_data <- subset(sack_data, select = -c(id))
-sack_data <- sack_data %>%
-  left_join(teams_colors_logos, by = c('team' = 'team_abbr'))
+For example, if I bet on a receiver to get 26 yards, they most likely need 2 or more catches to do so. This means if I expect them to get 26 yards, I should throw in the 2 catch prop as well.
 
-sack_data_table <- pbp2021 %>%
-  filter(sack==1) %>%
-  group_by(name) %>% 
-  summarize(
-    av_epa_lost = round(mean(epa), digits = 2),
-    total_epa_lost = round(sum(epa), digits = 2),
-     team = last(posteam),
-    Sacks = sum(pass)) %>%
-  arrange(desc(av_epa_lost)) %>%
-  filter(Sacks > 11)
+The reason this matters is because books are betting that [at least]{.ul} one of the bets won't hit. In this situation, it is most likely that either 0 of 2 hit, or 2 of 2 hit.
 
-```
-
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
-sack_data %>%
-  ggplot(aes(x = total_epa_lost, y = av_epa_lost)) +
-  #Horizontal line mean EPA
-  geom_hline(yintercept = mean(sack_data$av_epa_lost), color = "red", linetype = "dashed", alpha=0.5) +
-  #Vertical line mean CPOE
-  geom_vline(xintercept =  mean(sack_data$total_epa_lost), color = "red", linetype = "dashed", alpha=0.5) +
-  #cex controls point size and alpha the transparency (alpha = 1 is normal)
-  geom_point(color = sack_data$team_color, cex=sack_data$Sacks / 10, alpha = .75) +
-  #add names using ggrepel, which tries to make them not overlap
-  geom_text_repel(aes(label=name), size = 3.2) +
-  #add a smooth line fitting cpoe + epa
-  stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm')+
-  #titles and caption
-  labs(x = "Total EPA Lost via Sacks",
-       y = "Average EPA Lost via Sacks",
-       title = "Graph 5: EPA Lost by Sacks",
-       caption = "Min. 12 Sacks") +
-  #uses the black and white ggplot theme
-  theme_bw() +
-  #center title with hjust = 0.5
-  theme(
-    plot.title = element_text(size = 12, hjust = 0.5, face = "bold")
-  ) +
-  #make ticks look nice
-  #if this doesn't work, `install.packages('scales')`
-  scale_y_continuous(breaks = scales::pretty_breaks(n = 8)) +
-  scale_x_continuous(breaks = scales::pretty_breaks(n = 8)) +
-
-  geom_label(aes(x = -25, y = -2.5, label = "Fewer but Costly Sacks"), size = 2.5) +
-  geom_label(aes(x = -100, y = -2.5, label = "Lots of Bad Sacks"),  color = "red", size = 2.5) +
-  geom_label(aes(x = -100, y = -1.4, label = "Lots of Sacks"),  size = 2.5) +
-  geom_label(aes(x = -22, y = -1.4, label = "Not Costly"), color = "dark green", size = 2.5) 
-
-
-
-```
-
-```{r, results ='asis', echo=FALSE}
-stargazer(sack_data_table,
-          summary = FALSE,
-          style = "aer",
-          type = "html",
-          title = "EPA Lost From Sacks")
-
-```
+This is very dependent on books NOT discounting for this colinearity. If they are, it needs to be analyzed at the discount rate they are using.
 
 ## 7. Rushing Data
 
@@ -735,10 +671,11 @@ stargazer(EPA_Leaders_Twenty_One,
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 Non_QB_Passers <- pbp2021 %>%
-  filter(!is.na(epa)) %>%
+  filter(!is.na(epa), !is.na(cpoe)) %>%
   group_by(id, name) %>%
   summarize(
     epa = mean(qb_epa),
+    cpoe = mean(cpoe),
     yards = mean(yards_gained, na.rm = T),
     n_dropbacks = sum(pass),
     n_plays = n(),
@@ -761,6 +698,8 @@ Non_QB_Passers <- Non_QB_Passers[Non_QB_Passers$name != "C.Beathard", ]
 Non_QB_Passers <- Non_QB_Passers[Non_QB_Passers$name != "G.Minshew II", ] 
 Non_QB_Passers <- Non_QB_Passers[Non_QB_Passers$name != "F.Franks", ] 
 Non_QB_Passers <- Non_QB_Passers[Non_QB_Passers$name != "K.Mond", ] 
+Non_QB_Passers <- Non_QB_Passers[Non_QB_Passers$name != "M.Mariota", ] 
+
  
 #Non_QB_Passers <- Non_QB_Passers %>% 
   #mutate_all(~replace(., is.nan(.), 0))
@@ -769,7 +708,7 @@ Non_QB_Passers <- Non_QB_Passers[Non_QB_Passers$name != "K.Mond", ]
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
 
 Non_QB_Passers %>%
-  ggplot(aes(x = yards, y = epa)) +
+  ggplot(aes(x = cpoe, y = epa)) +
   #horizontal line with mean EPA
   geom_hline(yintercept = mean(Non_QB_Passers$epa), color = "red", linetype = "dashed", alpha=0.5) +
   #vertical line with mean CPOE
@@ -782,7 +721,7 @@ Non_QB_Passers %>%
   #add a smooth line fitting cpoe + epa
   stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm')+
   #titles and caption
-  labs(x = "Yards",
+  labs(x = "CPOE",
        y = "EPA per Play",
        title = "Graph 7: Non-QB Passers EPA",
        caption = "Non-Primary QBs") +
@@ -800,3 +739,5 @@ Non_QB_Passers %>%
 
 
 ```
+
+Just for fun!
