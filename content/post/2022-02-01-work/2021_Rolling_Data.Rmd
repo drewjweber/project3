@@ -111,6 +111,7 @@ seperation <- WR_nxt %>%
     avg_cushion, 
     avg_separation,
     avg_yac_above_expectation,
+    avg_intended_air_yards,
     targets,
     team = last(team_abbr)
   ) %>%
@@ -153,6 +154,52 @@ seperation %>%
 
 
 
+
+```
+
+```{r, include=FALSE, message=FALSE, warning=FALSE}
+seperation <- WR_nxt %>%
+  filter(week==0) %>%
+  group_by(player_short_name) %>%
+  summarize(
+    avg_cushion, 
+    avg_separation,
+    avg_yac_above_expectation,
+    avg_intended_air_yards,
+    targets,
+    team = last(team_abbr)
+  ) %>%
+  filter(targets > 99) 
+
+seperation <- seperation %>%
+  left_join(teams_colors_logos, by = c('team' = 'team_abbr'))
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+seperation %>%
+  ggplot(aes(x = avg_separation, y = avg_intended_air_yards)) +
+  #horizontal line with mean throw time
+  geom_hline(yintercept = mean(seperation$avg_intended_air_yards), color = "red", linetype = "dashed", alpha=0.5) +
+  #vertical line with mean CPOE
+  geom_vline(xintercept =  mean(seperation$avg_separation), color = "red", linetype = "dashed", alpha=0.5) +
+  #add points for the QBs with the right colors
+  #cex controls point size and alpha the transparency (alpha = 1 is normal)
+  geom_point(color = seperation$team_color, cex=seperation$targets / 30, alpha = .6) +
+  #add names using ggrepel, which tries to make them not overlap
+  geom_text_repel(aes(label=player_short_name), size = 2.75 ) +
+  #add a smooth line fitting cpoe + epa
+  stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm')+
+  #titles and caption
+  labs(x = "Avg Seperation",
+       y = "Average Intended Air Yards",
+       title = "Graph 1: Individual WR Performance",
+       caption = "Min. 100 Targets") +
+  #uses the black and white ggplot theme
+  theme_bw() +
+  #center title with hjust = 0.5
+  theme(
+    plot.title = element_text(size = 14, hjust = 0.5, face = "bold")
+  ) 
 
 ```
 
