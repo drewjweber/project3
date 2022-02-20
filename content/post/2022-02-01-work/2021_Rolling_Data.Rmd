@@ -143,7 +143,7 @@ separation %>%
   #titles and caption
   labs(x = "Avg Separation",
        y = "Average YAC Over Expected",
-       title = "Graph 1: Individual WR Performance",
+       title = "Graph 1: Individual WR Separation and YAC",
        caption = "Min. 100 Targets") +
  
   theme_bw() +
@@ -162,6 +162,8 @@ separation %>%
 
 ```
 
+This graphic shows **Average Separation** and **Average Yards After Catch Over Expected.** These are two important metrics on receiver performance. Separation may be the most important thing a WR can generate in football. Combining that with how well they do with the ball in their hands can paint a decent picture of how they are performing. It can be seen that Deebo Samuel is in a world of his own this year. His separation may be somewhat accredited to Shanahan route designs, but it cannot be understated how well he was as a playmaker this season.
+
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 separation %>%
@@ -170,8 +172,7 @@ separation %>%
   geom_hline(yintercept = mean(separation$avg_intended_air_yards), color = "red", linetype = "dashed", alpha=0.5) +
   #vertical line with mean CPOE
   geom_vline(xintercept =  mean(separation$avg_separation), color = "red", linetype = "dashed", alpha=0.5) +
-  #add points for the QBs with the right colors
-  #cex controls point size and alpha the transparency (alpha = 1 is normal)
+
   geom_point(color = separation$team_color, cex=separation$targets / 30, alpha = .6) +
   #add names using ggrepel, which tries to make them not overlap
   geom_text_repel(aes(label=player_short_name), size = 2.75 ) +
@@ -180,7 +181,7 @@ separation %>%
   #titles and caption
   labs(x = "Avg Separation",
        y = "Average Intended Air Yards",
-       title = "Graph 1: Individual WR Performance",
+       title = "Graph 2: Individual WR Performance",
        caption = "Min. 100 Targets") +
   #uses the black and white ggplot theme
   theme_bw() +
@@ -191,7 +192,8 @@ separation %>%
 
 ```
 
-```{r, include=FALSE, message=FALSE}
+
+```{r, message=FALSE, echo=FALSE}
 separation %>%
   ggplot(aes(x = avg_cushion, y = avg_separation)) +
   #horizontal line with mean throw time
@@ -208,7 +210,7 @@ separation %>%
   #titles and caption
   labs(x = "Avg Cushion",
        y = "Average Separation",
-       title = "Graph 2: WR Separation",
+       title = "Graph 3: WR Separation",
        caption = "Min 100 Targets") +
   #uses the black and white ggplot theme
   theme_bw() +
@@ -218,7 +220,7 @@ separation %>%
   ) 
 ```
 
-This graphic shows **Average Separation** and **Average Yards After Catch Over Expected.** These are two important metrics on receiver performance. Separation may be the most important thing a WR can generate in football. Combining that with how well they do with the ball in their hands can paint a decent picture of how they are performing. It can be seen that Deebo Samuel is in a world of his own this year. His separation may be somewhat accredited to Shanahan route designs, but it cannot be understated how well he was as a playmaker this season.
+
 
 ## 2. Team Receiver Data
 
@@ -252,7 +254,7 @@ separation2 %>%
   #titles and caption
   labs(x = "Avg Cushion",
        y = "Average Separation",
-       title = "Graph 3: Team WR Separation") +
+       title = "Graph 4: Team WR Separation") +
   #bw theme
   theme_bw() +
   #center title with hjust = 0.5
@@ -308,7 +310,7 @@ time_to_throw_vs_Sticks %>%
   #titles and caption
   labs(x = "Average Time to Throw",
        y = "Average Intended Air Yards from 1st Down",
-       title = "Graph 4: QB Agressiveness",
+       title = "Graph 5: QB Agressiveness",
        caption = "Y=0 is First Down Marker") +
   #uses the black and white ggplot theme
   theme_bw() +
@@ -332,23 +334,21 @@ time_to_throw_vs_Sticks %>%
 This graphic shows the [**Average Time to Throw**]{.ul} to the [**Average Intended Air Yards From the Sticks**]{.ul}. This means that Y=0 is the first down. This is meant to show how QBs are getting the ball out. The upper left is the best place to be. It means these passers are getting the ball out quickly AND farther than average. Conversely, the bottom right is a bad place to be. It means these passers hang on to the ball long AND throw it shorter than average.
 
 ```{r, include=FALSE, message=FALSE}
-time_to_throw_vs_Sticks <- nxt_2021 %>%
-  filter(week==0) %>%
-  group_by(player_gsis_id, player_short_name) %>%
-  summarize(
-    avg_time_to_throw, 
-    avg_air_yards_to_sticks,
-    aggressiveness,
-    completion_percentage_above_expectation,
-    attempts,
-    team = last(team_abbr)
-  ) %>%
-  filter(attempts > 299) 
+#time_to_throw_vs_Sticks <- nxt_2021 %>%
+ # filter(week==0) %>%
+  #group_by(player_gsis_id, player_short_name) %>%
+  #summarize(
+   # avg_time_to_throw, 
+    #avg_air_yards_to_sticks,
+    #aggressiveness,
+    #completion_percentage_above_expectation,
+    #attempts,
+    #team = last(team_abbr)
+  #) %>%
+  #filter(attempts > 299) 
 
-time_to_throw_vs_Sticks <- time_to_throw_vs_Sticks %>%
-  left_join(teams_colors_logos, by = c('team' = 'team_abbr'))
 
-teams_colors_logos
+#time_to_throw_vs_Sticks <- read.csv("/Users/drew/Documents/time_to_throw.csv")
 ```
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
@@ -431,7 +431,7 @@ sack_data %>%
   #titles and caption
   labs(x = "Total EPA Lost via Sacks",
        y = "Average EPA Lost via Sacks",
-       title = "Graph 5: EPA Lost by Sacks",
+       title = "Graph 6: EPA Lost by Sacks",
        caption = "Min. 12 Sacks") +
   #uses the black and white ggplot theme
   theme_bw() +
@@ -501,7 +501,7 @@ x_cpoe %>%
   #titles and caption
   labs(x = "Completion % Above Expected ",
        y = "EPA per play",
-       title = "Graph 6: Quarterback Efficiency 2021",
+       title = "Graph 7: Quarterback Efficiency 2021",
        caption = "Min. 350 Dropbacks") +
   #uses the black and white ggplot theme
   theme_bw() +
@@ -537,7 +537,7 @@ EPAreg4 <- lm(epa~ qb_scramble, data = pbp2021)
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 stargazer(EPAreg1, EPAreg2, EPAreg3,EPAreg4,
           type="html",
-          title = "Table 3: EPA Regressions",
+          title = "EPA Regressions",
           style = "aer",
           covariate.labels = c("2nd Down", "3rd Down", "4th Down", "Rush Attempt", "Pass Attempt", "QB Scramble"),
           column.labels = c("Play Type and Down", "First Down", "Fourth Down", "QB Scramble"),
@@ -555,7 +555,7 @@ catch_yards_reg <-lm(yards_gained ~  complete_pass, data = pbp2021)
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 stargazer(catch_yards_reg,
           type="html",
-          title = "Table 4: Catch to Yards",
+          title = "Catch to Yards Correlation",
           style = "aer",
           covariate.labels = c("Yards Gained"),
           column.labels = c("Yards"),
@@ -592,7 +592,7 @@ stargazer(EPA_by_Run_Gap_2020,
           summary = FALSE,
           style = "aer",
           type = "html",
-          title = "Table 1: 2020 EPA by Run Gap")
+          title = "2020 EPA by Run Gap")
 ```
 
 ```{r, message=FALSE, include=FALSE}
@@ -620,7 +620,7 @@ stargazer(EPA_by_Run_Gap,
           summary = FALSE,
           style = "aer",
           type = "html",
-          title = "Table 2: 2021 EPA by Run Gap")
+          title = "2021 EPA by Run Gap")
 ```
 
 ## 8. Rushing Efficiency
@@ -654,7 +654,7 @@ success_rate_runs %>%
   #titles and caption
   labs(x = "Yards Per Carry",
        y = "Average Win Probability at All Times",
-       title = "Graph 7: Yards Per Carry")+
+       title = "Graph 8: Yards Per Carry")+
                         
   #black and white ggplot theme
   theme_bw() +
@@ -676,7 +676,7 @@ success_rate_runs %>%
   #titles and caption
   labs(x = "Success Rate on Runs",
        y = "Average Win Probability at All Times",
-       title = "Graph 5: Rushing Success Rate") +
+       title = "Graph 9: Rushing Success Rate") +
   #uses the black and white ggplot theme
   theme_bw() +
   #center title with hjust = 0.5
@@ -720,7 +720,7 @@ runners %>%
   #titles and caption
   labs(x = "YPC",
        y = "EPA per play",
-       title = "Graph 8: Rushing Efficiency 2021",
+       title = "Graph 10: Rushing Efficiency 2021",
        caption = "Min. 150 Rushes") +
   #uses the black and white ggplot theme
   theme_bw() +
@@ -758,7 +758,7 @@ stargazer(EPA_Leaders_Twenty_One,
           summary = FALSE,
           style = "aer",
           type = "html",
-          title = "Table 3: Passing EPA Leaders")
+          title = "Passing EPA Leaders")
 
 ```
 
@@ -818,7 +818,7 @@ Non_QB_Passers %>%
   #titles and caption
   labs(x = "CPOE",
        y = "EPA per Play",
-       title = "Graph 7: Non-QB Passers EPA",
+       title = "Graph 11: Non-QB Passers EPA",
        caption = "Non-Primary QBs") +
   #uses the black and white ggplot theme
   theme_bw() +
