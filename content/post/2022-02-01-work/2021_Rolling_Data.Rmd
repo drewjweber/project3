@@ -193,7 +193,7 @@ separation %>%
 ```
 
 
-```{r, message=FALSE, echo=FALSE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 separation %>%
   ggplot(aes(x = avg_cushion, y = avg_separation)) +
   #horizontal line with mean throw time
