@@ -1,10 +1,10 @@
 ---
-title: "NFL Weekly Updating Data"
+title: "MLB Analytics"
 output:
   pdf_document:
     toc: yes
   html_document:
-    date: 2/2/2022
+    date: 3/22/2022
     theme: journal
     toc: yes
     toc_float: yes
