@@ -1,14 +1,14 @@
 ---
 title: "NFL Weekly Updating Data"
 output:
+  pdf_document:
+    toc: yes
   html_document:
     date: 2/2/2022
     theme: journal
     toc: yes
     toc_float: yes
     code_folding: hide
-  pdf_document:
-    toc: yes
 ---
 
 Drew Weber
@@ -189,6 +189,7 @@ separation %>%
   theme(
     plot.title = element_text(size = 14, hjust = 0.5, face = "bold")
   ) 
+
 
 ```
 
@@ -518,6 +519,25 @@ x_cpoe %>%
 
 
 ```
+
+```{r, message=FALSE, include=FALSE}
+qb_hit_2021 <- pbp2021 %>%
+  starts
+  filter(qb_hit==1, !is.na(epa)) %>%
+  group_by(id, name) %>%
+  summarize(
+    epa = mean(epa),
+    cpoe = mean(cpoe, na.rm = T),
+    n_dropbacks = sum(pass),
+    n_plays = n(),
+    team = last(posteam)
+  ) %>%
+  filter()
+
+qb_hit_2021 <- qb_hit_2021 %>%
+  left_join(teams_colors_logos, by = c('team' = 'team_abbr'))
+```
+
 
 ## 6. Situational Regressions
 
