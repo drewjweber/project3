@@ -1,5 +1,5 @@
 ---
-title: "NFL Weekly Updating Data"
+title: "MLB Analytics 2021"
 output:
   pdf_document:
     toc: yes
