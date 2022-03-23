@@ -1,0 +1,92 @@
+---
+title: MLB Analytics
+author: Drew J. Weber
+date: '2022-03-22'
+slug: mlb-attempt-85
+categories: []
+tags: []
+---
+
+### 
+
+```{css, echo = FALSE}
+
+table, td, th {
+  border: none;
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+```
+
+```{r setup, include=FALSE, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE, echo=FALSE}
+library(tidyverse)
+library(nflscrapR)
+library(devtools)
+library(dplyr)
+library(nflfastR)
+library(stargazer)
+library(ggplot2)
+library(shiny)
+library(na.tools)
+library(ggimage)
+library(nflreadr)
+library(ggrepel)
+library(scales)
+```
+
+```{r, echo=FALSE, include=FALSE}
+MLB_2021_analytics <- read.csv("/Users/drew/Downloads/MLB_2021_Analytics.csv")
+```
+
+```{r, message=FALSE, include=FALSE}
+MLB_2021_analytics <- MLB_2021_analytics %>%
+  group_by(player_id, last_name) 
+
+#Removed b_ from column names
+  # for col in 1 to number of columns in df {
+     #colnames(df)[] <- sub("b_", "with a blank spot", colnames(MLB_2021_analytics)[col])
+#NOTE: If there is a * after B_, it will remove all Bs and underscored in all the colnames. We do not want this.
+for ( col in 1:ncol(MLB_2021_analytics)){
+    colnames(MLB_2021_analytics)[col] <-  sub("b_", "", colnames(MLB_2021_analytics)[col])
+}
+```
+
+
+
+## 1. Home Run
+```{r, include=FALSE, message=FALSE, warning=FALSE}
+HR_reg <-lm(home_run~  launch_angle_avg + exit_velocity_avg + sweet_spot_percent + barrel_batted_rate, data = MLB_2021_analytics)
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+stargazer(HR_reg,
+          type="html",
+          title = "How to hit Home Runs",
+          style = "aer",
+          covariate.labels = c("Launch Angle", "Exit Velo", "Sweet Spot%", "Barrel Batted%"))
+          
+```
+
+## 2. Strikeout
+
+```{r, include=FALSE, message=FALSE, warning=FALSE}
+k_reg <-lm(strikeout~  oz_swing_percent + z_swing_miss_percent + called_strike  + launch_angle_avg, data = MLB_2021_analytics)
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+stargazer(k_reg,
+          type="html",
+          title = "Strikeouts",
+          style = "aer",
+          covariate.labels = c("Out of Zone Swing%", "In Zone Swing and Miss%", "Called Strikes", "Launch Angle Average"))
+          
+```
