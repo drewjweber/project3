@@ -520,7 +520,6 @@ x_cpoe %>%
 
 ```{r, message=FALSE, include=FALSE}
 qb_hit_2021 <- pbp2021 %>%
-  starts
   filter(qb_hit==1, !is.na(epa)) %>%
   group_by(id, name) %>%
   summarize(
