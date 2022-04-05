@@ -1,14 +1,14 @@
 ---
 title: "NFL Weekly Updating Data"
 output:
-  pdf_document:
-    toc: yes
   html_document:
     date: 2/2/2022
     theme: journal
     toc: yes
     toc_float: yes
     code_folding: hide
+  pdf_document:
+    toc: yes
 ---
 
 Drew Weber
@@ -190,7 +190,7 @@ separation %>%
 
 ```
 
-Separation is not created equal.  It is harder to create separation farther down the field than it is to catch a bubble screen behind the LOS.  A great performer here is Tyler Lockett, who is creating separation far down the field unlike many other players.  In contrast, Cole Beasley was the best separator in the NFL last year (Over 100 targets).  But here we can see his aDot is also the lowest.
+Separation is not created equal.  It is harder to create separation farther down the field than it is to catch a bubble screen behind the LOS.  A great performer here is Tyler Lockett, who is creating separation far down the field unlike many other players.  In contrast, Cole Beasley was the best separator in the NFL last year (Over 100 targets).  But here we can see his aDot is also the lowest. 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 separation %>%
