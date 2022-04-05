@@ -29,19 +29,42 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r, include=FALSE, echo=FALSE}
 library(tidyverse)
-library(nflscrapR)
 library(devtools)
 library(dplyr)
-library(nflfastR)
 library(stargazer)
 library(ggplot2)
 library(shiny)
 library(na.tools)
 library(ggimage)
-library(nflreadr)
 library(ggrepel)
 library(scales)
+library(pacman)
+library(Lahman)
+library(pitchRx)
 ```
+
+
+
+
+```{r}
+team_consistency(2015)
+```
+
+
+```{R}
+bref_daily_batter <- bref_daily_batter("2021-01-11", "2021-12-11")
+
+statcast_2021 <- scrape_statcast_savant("2021-01-11", "2021-12-11")
+
+baseball_2021 <- bref_daily_batter("2021-01-11", "2021-12-11") %>%
+  dplyr::filter(PA > 200) %>%
+  woba_plus %>%
+  dplyr::arrange(desc(wOBA)) %>%
+  dplyr::select(Name, Team, season, PA, wOBA, wOBA_CON) %>%
+  dplyr::glimpse()
+```
+
+
 
 ```{r, echo=FALSE, include=FALSE}
 MLB_2021_analytics <- read.csv("/Users/drew/Downloads/MLB_2021_Analytics.csv")
@@ -93,6 +116,21 @@ stargazer(k_reg,
 
 ## 3. Density Graph
 ```{r, include=FALSE, echo=FALSE}
+MLB_2021_analytics <- MLB_2021_analytics %>% 
+  filter(total_pa > 200, on_base_percent > .299) %>%
+  summarize(total_pa,
+            isolated_power,
+            slg_percent,
+            home_run,
+            on_base_percent,
+            xobp,
+            xiso,
+            xslg,
+            last_name)
+```
+
+```{r}
+
 Power_Hitting <- MLB_2021_analytics %>% 
   filter(total_pa > 200, on_base_percent > .299) %>%
   summarize(total_pa,
@@ -157,6 +195,21 @@ Power_Hitting %>%
     plot.title = element_text(size = 14, hjust = 0.5, face = "bold")
   ) 
 
+```
+
+Slow players like Mike Zunino have some of the highest ISO's in the league, but his slugging falls behind.  How much does speed have to do with getting extra bases?
+
+```{r, include=FALSE, message=FALSE, warning=FALSE}
+iso_reg <-lm(slg_percent~  sprint_speed + isolated_power, data = MLB_2021_analytics)
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+stargazer(iso_reg,
+          type="html",
+          title = "Slugging",
+          style = "aer",
+          covariate.labels = c("Sprint Speed", "ISO"))
+          
 ```
 
 

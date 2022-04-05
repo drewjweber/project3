@@ -1,0 +1,209 @@
+---
+title: "EPA_Correlations"
+output: html_document
+---
+
+```{css, echo = FALSE}
+
+table, td, th {
+  border: none;
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+```
+
+```{r setup, include=FALSE, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE, echo=FALSE}
+library(tidyverse)
+library(nflscrapR)
+library(devtools)
+library(dplyr)
+library(nflfastR)
+library(stargazer)
+library(ggplot2)
+library(shiny)
+library(na.tools)
+library(ggimage)
+library(nflreadr)
+library(ggrepel)
+library(scales)
+library(tseries)
+```
+
+```{r, include=FALSE, echo=FALSE}
+pbp2021 <- read.csv("/Users/drew/Documents/pbp2021.csv")
+
+pbp2020 <- read.csv("/Users/drew/Documents/Season_20.csv")
+
+pbp <- load_pbp(2019)
+write.csv(pbp, "/Users/drew/Documents/Season_19.csv")
+pbp2019 <- read.csv("/Users/drew/Documents/Season_19.csv")
+
+pbp <- load_pbp(2018)
+write.csv(pbp, "/Users/drew/Documents/Season_18.csv")
+pbp2018 <- read.csv("/Users/drew/Documents/Season_18.csv")
+```
+
+```{r, include=FALSE, echo=FALSE}
+separation <- read.csv("/Users/drew/Documents/separation.csv")
+
+separation <- separation %>%
+  left_join(teams_colors_logos, by = c('team' = 'team_abbr')) 
+```
+
+```{r, include=FALSE, echo=FALSE}
+nfl_logos_df <- read_csv("https://raw.githubusercontent.com/statsbylopez/BlogPosts/master/nfl_teamlogos.csv")
+
+team_pbp <- pbp2021 %>%
+  filter(!is_na(posteam)) %>%
+  group_by(posteam) %>%
+  summarize(mean_epa = mean(epa),
+            mean_wp = mean(wp),
+            posteam = last(posteam))
+
+
+
+separation2 <- WR_nxt %>% 
+   filter(week>0) %>%
+  group_by(team_abbr) %>%
+  summarize(
+    mean_cush = mean(avg_cushion), 
+    mean_sep = mean(avg_separation),
+    mean_eyac = mean(avg_yac_above_expectation),
+    mean_targets = mean(targets)
+  )  
+
+separation2["18", "team_abbr"] <- "LA"
+
+
+  separation2 <- separation2 %>%
+  left_join(nfl_logos_df, by = c("team_abbr" = "team_code")) %>%
+  left_join(teams_colors_logos, by = 'team_abbr') %>%
+  left_join(team_pbp, by = c("team_abbr" = "posteam"))
+  
+  quantile(separation2$mean_wp, probs = 1)
+
+```
+
+```{r, include=FALSE, echo=FALSE}
+Team_Sep_Reg <- lm(mean_wp ~ mean_sep, mean_eyac, data = separation2)
+```
+
+```{r, include=FALSE, echo=FALSE}
+qb_20 <- pbp2020 %>%
+  filter(!is.na(epa)) %>%
+  group_by(id, name) %>%
+  summarize(
+    epa = mean(epa),
+    cpoe = mean(cpoe, na.rm = T),
+    n_dropbacks = sum(pass),
+    n_plays = n(),
+    team = last(posteam)
+  ) %>%
+  filter(n_dropbacks > 100 & n_plays > 100)
+
+qb_20 <- qb_20 %>%
+  rename( EPA_2020 = epa,
+          CPOE_2020 = cpoe,
+          n_dropbacks_2020 = n_dropbacks,
+          n_plays_2020 = n_plays,
+            team_2020 = team)
+
+qb_19 <- pbp2019 %>%
+  filter(!is.na(epa)) %>%
+  group_by(id, name) %>%
+  summarize(
+    epa = mean(epa),
+    cpoe = mean(cpoe, na.rm = T),
+    n_dropbacks = sum(pass),
+    n_plays = n(),
+    team = last(posteam)
+  ) %>%
+  filter(n_dropbacks > 100 & n_plays > 100)
+
+qb_19 <- qb_19 %>%
+  rename( EPA_2019 = epa,
+          CPOE_2019 = cpoe,
+          n_dropbacks_2019 = n_dropbacks,
+          n_plays_2019 = n_plays,
+            team_2019 = team)
+
+qb_18 <- pbp2018 %>%
+  filter(!is.na(epa)) %>%
+  group_by(id, name) %>%
+  summarize(
+    epa = mean(epa),
+    cpoe = mean(cpoe, na.rm = T),
+    n_dropbacks = sum(pass),
+    n_plays = n(),
+    team = last(posteam)
+  ) %>%
+  filter(n_dropbacks > 100 & n_plays > 100)
+
+qb_18 <- qb_18 %>%
+  rename( EPA_2018 = epa,
+          CPOE_2018 = cpoe,
+          n_dropbacks_2018 = n_dropbacks,
+          n_plays_2018 = n_plays,
+            team_2018 = team)
+
+qb_21 <- pbp2021 %>%
+  filter(!is.na(epa)) %>%
+  group_by(id, name) %>%
+  summarize(
+    epa = mean(epa),
+    cpoe = mean(cpoe, na.rm = T),
+    n_dropbacks = sum(pass),
+    n_plays = n(),
+    scram_rate = mean(qb_scramble),
+    scram_tot = sum(qb_scramble),
+    team = last(posteam)) %>%
+  filter(n_dropbacks > 100 & n_plays > 100) %>%
+  rename( EPA_2021 = epa,
+          CPOE_2021 = cpoe,
+          n_dropbacks_2021 = n_dropbacks,
+          n_plays_2021 = n_plays,
+            team_2021 = team) %>%
+  left_join(qb_20, by = c('id', 'name')) %>%
+  left_join(qb_19, by = c('id', 'name')) %>%
+  left_join(qb_18, by = c('id', 'name')) %>%
+   filter(!is_na(EPA_2020 | EPA_2019 | EPA_2018))
+
+
+
+```
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+qb_years_reg_21 <-lm(EPA_2021 ~  EPA_2020 + EPA_2019 + EPA_2018, data = qb_21)
+
+qb_years_reg_20 <-lm(EPA_2020 ~ EPA_2019 + EPA_2018, data = qb_21)
+
+qb_years_reg_19 <-lm(EPA_2019 ~ EPA_2018, data = qb_21)
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+stargazer(qb_years_reg_21, qb_years_reg_20, qb_years_reg_19,
+          type="text",
+          title = "QB EPA over Years",
+          style = "aer",
+          column.labels = c("EPA"),
+          dep.var.labels = c("2021 EPA"))
+          
+```
+
+```{r, echo=FALSE}
+x <- arima.sim(list(order = c(1,0,0),ar = 0.2),n = 100)
+adf.test(x)
+# ADF test for co2 data
+adf.test(co2)
+
+```

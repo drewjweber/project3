@@ -51,26 +51,27 @@ library(scales)
 
 ```{r, echo=FALSE, include=FALSE}
 #2021 Data
-pbp <- load_pbp(2021)
-write.csv(pbp, "/Users/drew/Desktop/pbp.csv")
-PBP_Rolling_Data <- read.csv("/Users/drew/Desktop/pbp.csv")
-pbp2021 <- PBP_Rolling_Data %>% 
-	filter(!is_na(epa), play_type=="no_play" | play_type=="pass" | play_type=="run")
+#pbp2021 <- load_pbp(2021)
+#pbp2021 <- pbp2021 %>% 
+	#filter(!is_na(epa), play_type=="no_play" | play_type=="pass" | play_type=="run") %>%
+#	mutate(
+#	pass = if_else(str_detect(desc, "( pass)|(sacked)|(scramble)"), 1, 0),
+#	rush = if_else(str_detect(desc, "(left end)|(left tackle)|(left guard)|(up the middle)|(right guard)|(right tackle)|(right end)") & pass == 0, 1, 0),
+#	success = ifelse(epa>0, 1 , 0)
+#	) 
+#write.csv(pbp2021, "/Users/drew/Documents/pbp2021.csv")
+pbp2021 <- read.csv("/Users/drew/Documents/pbp2021.csv")
 
-pbp2021 <- pbp2021 %>%
-	mutate(
-	pass = if_else(str_detect(desc, "( pass)|(sacked)|(scramble)"), 1, 0),
-	rush = if_else(str_detect(desc, "(left end)|(left tackle)|(left guard)|(up the middle)|(right guard)|(right tackle)|(right end)") & pass == 0, 1, 0),
-	success = ifelse(epa>0, 1 , 0)
-	) 
 ```
 
 ```{r, echo=FALSE, include=FALSE}
 #2020 Data
 pbp <- load_pbp(2020)
-write.csv(pbp, "/Users/drew/Desktop/202020.csv")
-pbp2020 <- read.csv("/Users/drew/Desktop/202020.csv")
+write.csv(pbp, "/Users/drew/Documents/Season_20.csv")
+pbp2020 <- read.csv("/Users/drew/Documents/Season_20.csv")
+```
 
+```{r, echo=FALSE, include=FALSE}
 depth <- load_rosters(2021)
 write.csv(depth, "/Users/drew/Documents/depth.csv")
 depth <- read.csv("/Users/drew/Documents/depth.csv")
@@ -90,20 +91,19 @@ stats_2021 <- read.csv("/Users/drew/Desktop/stats.csv")
 #pfr_2021 <- read.csv("/Users/drew/Desktop/pfr_2021.csv")
 
 #Next Gen Stats
-nxt_gen_2021_receiving <- load_nextgen_stats(2021, stat_type = "receiving")
-write.csv(nxt_gen_2021_receiving, "/Users/drew/Desktop/nxt_gen_2021_receiving.csv")
-WR_nxt <- read.csv("/Users/drew/Desktop/nxt_gen_2021_receiving.csv")
-WR_nxt <- WR_nxt %>%
-  filter(!is_na(avg_cushion), !is_na(avg_separation), !is_na(avg_yac_above_expectation))
+#WR_nxt <- load_nextgen_stats(2021, stat_type = "receiving")
+#WR_nxt <- WR_nxt %>%
+ # filter(!is_na(avg_cushion), !is_na(avg_separation), !is_na(avg_yac_above_expectation))
+#write.csv(WR_nxt, "/Users/drew/Documents/nxt_gen_2021_receiving.csv")
+WR_nxt <- read.csv("/Users/drew/Documents/nxt_gen_2021_receiving.csv")
 
-nxt_gen_2021 <- load_nextgen_stats(2021)
-write.csv(nxt_gen_2021, "/Users/drew/Desktop/nxt_gen_2021.csv")
-nxt_2021 <- read.csv("/Users/drew/Desktop/nxt_gen_2021.csv")
 
-"/Users/drew/Documents/time_to_throw.csv"
+#nxt_2021 <- load_nextgen_stats(2021)
+#write.csv(nxt_2021, "/Users/drew/Documents/nxt_gen_2021.csv")
+nxt_2021 <- read.csv("/Users/drew/Documents/nxt_gen_2021.csv")
 ```
 
-## 1. WR Separation Data
+## 1. WR Data
 
 ```{r, include=FALSE, message=FALSE, warning=FALSE}
 #separation <- WR_nxt %>%
@@ -135,7 +135,7 @@ separation %>%
 
   geom_vline(xintercept =  mean(separation$avg_separation), color = "red", linetype = "dashed", alpha=0.5) +
   
-  geom_point(color = separation$team_color, cex=separation$targets / 30, alpha = .6) +
+  geom_point(color = separation$team_color, cex=separation$targets / 50, alpha = .6) +
 
   geom_text_repel(aes(label=player_short_name), size = 2.75 ) +
 
@@ -147,10 +147,7 @@ separation %>%
        caption = "Min. 100 Targets") +
  
   theme_bw() +
-
-  theme(
-    plot.title = element_text(size = 14, hjust = 0.5, face = "bold")
-  ) +
+  theme(plot.title = element_text(size = 14, hjust = 0.5, face = "bold")) +
 
   geom_label(aes(x = 3.75, y = -1, label = "Gets Open"), size = 2.5) +
   geom_label(aes(x = 2.2, y = -0.5, label = "Covered up"),  color = "red", size = 2.5) +
@@ -161,7 +158,8 @@ separation %>%
 
 ```
 
-This graphic shows **Average Separation** and **Average Yards After Catch Over Expected.** These are two important metrics on receiver performance. Separation may be the most important thing a WR can generate in football. Combining that with how well they do with the ball in their hands can paint a decent picture of how they are performing. It can be seen that Deebo Samuel is in a world of his own this year. His separation may be somewhat accredited to Shanahan route designs, but it cannot be understated how well he was as a playmaker this season.
+This graphic shows **Average Separation** and **Average Yards After Catch Over Expected.** These are two important metrics on receiver performance. Separation may be the most important thing a WR can generate in football. Combining that with how well they do with the ball in their hands can paint a decent picture of how they are performing. It can be seen that Deebo Samuel is in a world of his own this year. His separation may be somewhat accredited to Shanahan route designs, but it cannot be understated how well he was as a playmaker this season.  
+
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
@@ -179,7 +177,7 @@ separation %>%
   stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm')+
   #titles and caption
   labs(x = "Avg Separation",
-       y = "Average Intended Air Yards",
+       y = "Average Depth of Target",
        title = "Graph 2: Individual WR Performance",
        caption = "Min. 100 Targets") +
   #uses the black and white ggplot theme
@@ -192,6 +190,7 @@ separation %>%
 
 ```
 
+Separation is not created equal.  It is harder to create separation farther down the field than it is to catch a bubble screen behind the LOS.  A great performer here is Tyler Lockett, who is creating separation far down the field unlike many other players.  In contrast, Cole Beasley was the best separator in the NFL last year (Over 100 targets).  But here we can see his aDot is also the lowest.
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 separation %>%
@@ -220,9 +219,6 @@ separation %>%
   ) 
 ```
 
-
-
-## 2. Team Receiver Data
 
 ```{r Team Sep Data, include=FALSE, echo=FALSE}
 nfl_logos_df <- read_csv("https://raw.githubusercontent.com/statsbylopez/BlogPosts/master/nfl_teamlogos.csv")
@@ -265,7 +261,8 @@ separation2 %>%
 
 This graphic shows Team Separation and Cushion data. This is important because it can show how teams are being played defensively and how they perform against that.
 
-## 3. aDot
+
+## 2. QB Data
 
 ```{r, include=FALSE, message=FALSE}
 #There is an error when loading in next gen stats.  Week 0 for some QBs is NA.  This makes the data visualization incorrect.  I downloaded this as a csv, then edited the NAs.
@@ -289,10 +286,12 @@ time_to_throw_vs_Sticks <- read.csv("/Users/drew/Documents/time_to_throw.csv")
 
 time_to_throw_vs_Sticks <- time_to_throw_vs_Sticks %>%
   left_join(teams_colors_logos, by = c('team' = 'team_abbr'))
+
+test <- time_to_throw_vs_Sticks %>%
+  left_join(qb_21, by = c("player_short_name" = "name"))
 ```
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
-
 time_to_throw_vs_Sticks %>%
   ggplot(aes(x = avg_time_to_throw, y = avg_air_yards_to_sticks)) +
   #horizontal line with mean throw time
@@ -382,7 +381,6 @@ time_to_throw_vs_Sticks %>%
   scale_x_continuous(breaks = scales::pretty_breaks(n = )) 
 ```
 
-## 4. QB Sack Data
 
 ```{r, message=FALSE, include=FALSE}
 sack_data <- pbp2021 %>%
@@ -453,18 +451,8 @@ sack_data %>%
 
 ```
 
-Not all sacks are created equal. A sack on 1st and 10 is most likely much worse than a sack on 3rd and 20. It can ruin a drive or can be almost the same as an incompletion. This graphic shows how much [EPA is being lost on average and in total]{.ul}**.** The outliers are what should be noted most from this graphic. Wentz is a catastrophe, whereas Burrow lost the most EPA but wasn't killing the Bengals every time he did it. Lamar Jackson and Josh Allen are freaks and it is interesting to see if the sack "avoiders" remain this way year over year.\`
+Not all sacks are created equal. A sack on 1st and 10 is most likely much worse than a sack on 3rd and 20. It can ruin a drive or can be almost the same as an incompletion. This graphic shows how much [EPA is being lost on average and in total]{.ul}**.** The outliers are what should be noted most from this graphic. Wentz is a catastrophe, whereas Burrow lost the most EPA but wasn't killing the Bengals every time he did it. Lamar Jackson and Josh Allen are freaks and it is interesting to see if the sack "avoiders" remain this way year over year.
 
-```{r, results ='asis', echo=FALSE}
-stargazer(sack_data_table,
-          summary = FALSE,
-          style = "aer",
-          type = "html",
-          title = "EPA Lost From Sacks")
-
-```
-
-## 5. QB Data
 
 ```{r, message=FALSE, include=FALSE}
 x_cpoe <- pbp2021 %>%
@@ -520,7 +508,6 @@ x_cpoe %>%
 
 ```{r, message=FALSE, include=FALSE}
 qb_hit_2021 <- pbp2021 %>%
-  starts
   filter(qb_hit==1, !is.na(epa)) %>%
   group_by(id, name) %>%
   summarize(
@@ -838,14 +825,13 @@ Non_QB_Passers %>%
        y = "EPA per Play",
        title = "Graph 11: Non-QB Passers EPA",
        caption = "Non-Primary QBs") +
-  #uses the black and white ggplot theme
+
   theme_bw() +
-  #center title with hjust = 0.5
+
   theme(
     plot.title = element_text(size = 14, hjust = 0.5, face = "bold")
   ) +
-  #make ticks look nice
-  #if this doesn't work, `install.packages('scales')`
+
   scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 10))
 
