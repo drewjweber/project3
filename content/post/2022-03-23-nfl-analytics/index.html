@@ -1,14 +1,14 @@
 ---
-title: "NFL Weekly Updating Data"
+title: "NFL PBP Analytics"
 output:
-  pdf_document:
-    toc: yes
   html_document:
     date: 2/2/2022
     theme: journal
     toc: yes
     toc_float: yes
     code_folding: hide
+  pdf_document:
+    toc: yes
 ---
 
 
@@ -30,27 +30,924 @@ table, td, th {
 
 </style>
 </div>
-<div id="wr-separation-data" class="section level2">
-<h2>1. WR Separation Data</h2>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-<p>This graphic shows <strong>Average Separation</strong> and <strong>Average Yards After Catch Over Expected.</strong> These are two important metrics on receiver performance. Separation may be the most important thing a WR can generate in football. Combining that with how well they do with the ball in their hands can paint a decent picture of how they are performing. It can be seen that Deebo Samuel is in a world of his own this year. His separation may be somewhat accredited to Shanahan route designs, but it cannot be understated how well he was as a playmaker this season.</p>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-</div>
-<div id="team-receiver-data" class="section level2">
-<h2>2. Team Receiver Data</h2>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/Team%20Separation-1.png" width="672" /></p>
+<div id="wr-data" class="section level2">
+<h2>1. WR Data</h2>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>This graphic shows <strong>Average Separation</strong> and <strong>Average Yards After Catch Over Expected.</strong> Average YAC Over Expected is a metric that measures how receivers do after the catch compared to how they are supposed to. These are two important metrics on receiver performance. Separation may be the most important thing a WR can generate in football. Combining that with how well they do with the ball in their hands can paint a decent picture of how they are performing. It can be seen that Deebo Samuel is in a world of his own this year. His separation may be somewhat accredited to Shanahan route designs, but it cannot be understated how well he was as a playmaker this season.</p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>Separation is not created equal. It is harder to get open farther down the the field as opposed to catching a bubble screen at the line of scrimmage. Tyler Lockett gets open extremely deep, unlike how the other receievers are producing. This will be interesting to see with a new Quarterback in Seattle this year.</p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>Receivers have an easier time getting open when they are given cushions off the line of scrimmage. This makes sense as even if a Cornerback is beaten press coverage, they are most likely manned up with the receiver and will not cede much separation.</p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 <p>This graphic shows Team Separation and Cushion data. This is important because it can show how teams are being played defensively and how they perform against that.</p>
 </div>
-<div id="adot" class="section level2">
-<h2>3. aDot</h2>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<div id="qb-adot" class="section level2">
+<h2>2. QB aDot</h2>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <p>This graphic shows the <u><strong>Average Time to Throw</strong></u> to the <u><strong>Average Intended Air Yards From the Sticks</strong></u>. This means that Y=0 is the first down. This is meant to show how QBs are getting the ball out. The upper left is the best place to be. It means these passers are getting the ball out quickly AND farther than average. Conversely, the bottom right is a bad place to be. It means these passers hang on to the ball long AND throw it shorter than average.</p>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p>2020 Stats</p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+</div>
+<div id="qb-short-report-how-consistent-is-quarterbacking" class="section level2">
+<h2>3. QB Short Report: How Consistent is Quarterbacking?</h2>
+<p>How consistent is NFL QB play? Can we look at previous seasons to predict forward for QB play? What about when players change teams, such as Matthew Stafford?</p>
+<table style="text-align:center">
+<caption>
+<strong>QB EPA over Years</strong>
+</caption>
+<tr>
+<td colspan="5" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="4">
+2021 EPA
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+Since 2017
+</td>
+<td>
+Since 2018
+</td>
+<td>
+Since 2019
+</td>
+<td>
+Since 2020
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+<td>
+(3)
+</td>
+<td>
+(4)
+</td>
+</tr>
+<tr>
+<td colspan="5" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+2020 EPA
+</td>
+<td>
+0.516<sup>*</sup>
+</td>
+<td>
+0.701<sup>***</sup>
+</td>
+<td>
+0.586<sup>***</sup>
+</td>
+<td>
+0.673<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.228)
+</td>
+<td>
+(0.178)
+</td>
+<td>
+(0.172)
+</td>
+<td>
+(0.151)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+2019 EPA
+</td>
+<td>
+0.411
+</td>
+<td>
+0.241
+</td>
+<td>
+0.157
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.437)
+</td>
+<td>
+(0.225)
+</td>
+<td>
+(0.232)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+2018 EPA
+</td>
+<td>
+-0.413
+</td>
+<td>
+-0.060
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.339)
+</td>
+<td>
+(0.178)
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+2017 EPA
+</td>
+<td>
+0.317
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.191)
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+New Team in 2019
+</td>
+<td>
+</td>
+<td>
+-0.146
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+(0.092)
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+New Team in 2020
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+0.021
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(0.047)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+New Team in 2021
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+0.016
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(0.038)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+-0.008
+</td>
+<td>
+-0.020
+</td>
+<td>
+-0.002
+</td>
+<td>
+0.007
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.058)
+</td>
+<td>
+(0.028)
+</td>
+<td>
+(0.026)
+</td>
+<td>
+(0.026)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+12
+</td>
+<td>
+18
+</td>
+<td>
+21
+</td>
+<td>
+26
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.740
+</td>
+<td>
+0.697
+</td>
+<td>
+0.588
+</td>
+<td>
+0.522
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.592
+</td>
+<td>
+0.604
+</td>
+<td>
+0.515
+</td>
+<td>
+0.480
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error
+</td>
+<td>
+0.063 (df = 7)
+</td>
+<td>
+0.067 (df = 13)
+</td>
+<td>
+0.070 (df = 17)
+</td>
+<td>
+0.069 (df = 23)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+4.985<sup>**</sup> (df = 4; 7)
+</td>
+<td>
+7.469<sup>***</sup> (df = 4; 13)
+</td>
+<td>
+8.093<sup>***</sup> (df = 3; 17)
+</td>
+<td>
+12.560<sup>***</sup> (df = 2; 23)
+</td>
+</tr>
+<tr>
+<td colspan="5" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Notes:</em>
+</td>
+<td colspan="4" style="text-align:left">
+<sup>***</sup>Significant at the 1 percent level.
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="4" style="text-align:left">
+<sup>**</sup>Significant at the 5 percent level.
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="4" style="text-align:left">
+<sup>*</sup>Significant at the 10 percent level.
+</td>
+</tr>
+</table>
+<p>The farther we go back, the better goodness of fit we achieve. 2020 EPA is correlated at a statistically significant level in 3 of the 4 regressions. We can see that changing teams does not have a statistically significant effect on EPA. This is very intriguing as it poses the hypothesis that maybe a QB is just who they are. Something I wish that could be expanded on is the scheme that the QB is in. Scheme matters heavily in difficulty, comfort, and production for QBs. Finding a way to apply this to data is something I hope to do in the future, if possible.</p>
+<table style="text-align:center">
+<caption>
+<strong>QB CPOE over Years</strong>
+</caption>
+<tr>
+<td colspan="5" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="4">
+2021 CPOE
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+CPOE
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+<td>
+(3)
+</td>
+<td>
+(4)
+</td>
+</tr>
+<tr>
+<td colspan="5" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+2020 CPOE
+</td>
+<td>
+0.517<sup>*</sup>
+</td>
+<td>
+0.629<sup>***</sup>
+</td>
+<td>
+0.649<sup>***</sup>
+</td>
+<td>
+0.507<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.222)
+</td>
+<td>
+(0.172)
+</td>
+<td>
+(0.156)
+</td>
+<td>
+(0.135)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+2019 CPOE
+</td>
+<td>
+0.171
+</td>
+<td>
+0.217
+</td>
+<td>
+0.161
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.242)
+</td>
+<td>
+(0.158)
+</td>
+<td>
+(0.141)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+2018 CPOE
+</td>
+<td>
+-0.020
+</td>
+<td>
+0.038
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.166)
+</td>
+<td>
+(0.113)
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+2017 CPOE
+</td>
+<td>
+0.112
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.256)
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+-0.190
+</td>
+<td>
+-0.641
+</td>
+<td>
+-0.337
+</td>
+<td>
+0.380
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.669)
+</td>
+<td>
+(0.547)
+</td>
+<td>
+(0.476)
+</td>
+<td>
+(0.452)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+12
+</td>
+<td>
+18
+</td>
+<td>
+21
+</td>
+<td>
+26
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.636
+</td>
+<td>
+0.602
+</td>
+<td>
+0.573
+</td>
+<td>
+0.369
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.428
+</td>
+<td>
+0.517
+</td>
+<td>
+0.525
+</td>
+<td>
+0.343
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error
+</td>
+<td>
+1.857 (df = 7)
+</td>
+<td>
+1.873 (df = 14)
+</td>
+<td>
+1.823 (df = 18)
+</td>
+<td>
+2.180 (df = 24)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+3.057<sup>*</sup> (df = 4; 7)
+</td>
+<td>
+7.069<sup>***</sup> (df = 3; 14)
+</td>
+<td>
+12.056<sup>***</sup> (df = 2; 18)
+</td>
+<td>
+14.038<sup>***</sup> (df = 1; 24)
+</td>
+</tr>
+<tr>
+<td colspan="5" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Notes:</em>
+</td>
+<td colspan="4" style="text-align:left">
+<sup>***</sup>Significant at the 1 percent level.
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="4" style="text-align:left">
+<sup>**</sup>Significant at the 5 percent level.
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="4" style="text-align:left">
+<sup>*</sup>Significant at the 10 percent level.
+</td>
+</tr>
+</table>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p>Simple. Above the reference line, improvement of EPA. Below, a worse EPA.</p>
+<pre><code>## 
+## &lt;table style=&quot;text-align:center&quot;&gt;&lt;caption&gt;&lt;strong&gt;20 to 21 EPA per Dropback Difference&lt;/strong&gt;&lt;/caption&gt;
+## &lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;border-bottom: 1px solid black&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;name&lt;/td&gt;&lt;td&gt;epa_diff&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;border-bottom: 1px solid black&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;1&lt;/td&gt;&lt;td&gt;C.Wentz&lt;/td&gt;&lt;td&gt;0.1475&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;2&lt;/td&gt;&lt;td&gt;M.Stafford&lt;/td&gt;&lt;td&gt;0.073&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;3&lt;/td&gt;&lt;td&gt;D.Jones&lt;/td&gt;&lt;td&gt;0.0658&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;4&lt;/td&gt;&lt;td&gt;J.Burrow&lt;/td&gt;&lt;td&gt;0.0507&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;5&lt;/td&gt;&lt;td&gt;T.Bridgewater&lt;/td&gt;&lt;td&gt;0.0476&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;6&lt;/td&gt;&lt;td&gt;T.Tagovailoa&lt;/td&gt;&lt;td&gt;0.0475&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;border-bottom: 1px solid black&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+## 
+## &lt;table style=&quot;text-align:center&quot;&gt;&lt;caption&gt;&lt;strong&gt;20 to 21 EPA per Dropback Difference&lt;/strong&gt;&lt;/caption&gt;
+## &lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;border-bottom: 1px solid black&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;name&lt;/td&gt;&lt;td&gt;epa_diff&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;border-bottom: 1px solid black&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;1&lt;/td&gt;&lt;td&gt;J.Goff&lt;/td&gt;&lt;td&gt;-0.0781&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;2&lt;/td&gt;&lt;td&gt;A.Rodgers&lt;/td&gt;&lt;td&gt;-0.0804&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;3&lt;/td&gt;&lt;td&gt;B.Roethlisberger&lt;/td&gt;&lt;td&gt;-0.1186&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;4&lt;/td&gt;&lt;td&gt;B.Mayfield&lt;/td&gt;&lt;td&gt;-0.1233&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;5&lt;/td&gt;&lt;td&gt;M.Ryan&lt;/td&gt;&lt;td&gt;-0.1282&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;6&lt;/td&gt;&lt;td&gt;R.Tannehill&lt;/td&gt;&lt;td&gt;-0.1992&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;border-bottom: 1px solid black&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</code></pre>
+<p>We can see a few of the best and worst of EPA per dropback difference from 2020 to 2021. It is interesting that Jared Goff and Matt Stafford went different directions of almost the same amount. Goff and Stafford were traded for each other before 2021. The Rams added about 0.15 EPA per dropback by doing this. It may not seem like much, but it is a massive upgrade. That is over 5 more expected points a game when around 30 dropbacks a game. Even more impressive is that Stafford was throwing lots of pick sixes (massively, massively negative EPA plays) and he still put up this difference over Goff!</p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p>Sam Darnold is really bad.</p>
 </div>
 <div id="qb-sack-data" class="section level2">
 <h2>4. QB Sack Data</h2>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
 <p>Not all sacks are created equal. A sack on 1st and 10 is most likely much worse than a sack on 3rd and 20. It can ruin a drive or can be almost the same as an incompletion. This graphic shows how much <u>EPA is being lost on average and in total</u><strong>.</strong> The outliers are what should be noted most from this graphic. Wentz is a catastrophe, whereas Burrow lost the most EPA but wasn’t killing the Bengals every time he did it. Lamar Jackson and Josh Allen are freaks and it is interesting to see if the sack “avoiders” remain this way year over year.`</p>
 <table style="text-align:center">
 <caption>
@@ -144,508 +1041,44 @@ DEN
 </td>
 </tr>
 <tr>
-<td style="text-align:left">
-4
+<td colspan="6" style="border-bottom: 1px solid black">
 </td>
-<td>
-A.Rodgers
-</td>
-<td>
--1.54
-</td>
-<td>
--53.85
-</td>
-<td>
-GB
-</td>
-<td>
-35
+</tr>
+</table>
+<table style="text-align:center">
+<caption>
+<strong>EPA Lost From Sacks</strong>
+</caption>
+<tr>
+<td colspan="6" style="border-bottom: 1px solid black">
 </td>
 </tr>
 <tr>
 <td style="text-align:left">
-5
 </td>
 <td>
-K.Murray
+name
 </td>
 <td>
--1.63
+av_epa_lost
 </td>
 <td>
--53.7
+total_epa_lost
 </td>
 <td>
-ARI
+team
 </td>
 <td>
-33
+Sacks
+</td>
+</tr>
+<tr>
+<td colspan="6" style="border-bottom: 1px solid black">
 </td>
 </tr>
 <tr>
 <td style="text-align:left">
-6
-</td>
-<td>
-P.Mahomes
-</td>
-<td>
--1.65
-</td>
-<td>
--60.89
-</td>
-<td>
-KC
-</td>
-<td>
-37
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-7
-</td>
-<td>
-J.Herbert
-</td>
-<td>
--1.71
-</td>
-<td>
--53.15
-</td>
-<td>
-LAC
-</td>
-<td>
-31
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-8
-</td>
-<td>
-D.Prescott
-</td>
-<td>
--1.72
-</td>
-<td>
--60.35
-</td>
-<td>
-DAL
-</td>
-<td>
-35
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-9
-</td>
-<td>
-S.Darnold
-</td>
-<td>
--1.73
-</td>
-<td>
--60.61
-</td>
-<td>
-CAR
-</td>
-<td>
-35
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-10
-</td>
-<td>
-J.Garoppolo
-</td>
-<td>
--1.74
-</td>
-<td>
--57.34
-</td>
-<td>
-SF
-</td>
-<td>
-33
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-11
-</td>
-<td>
-J.Burrow
-</td>
-<td>
--1.76
-</td>
-<td>
--123.03
-</td>
-<td>
-CIN
-</td>
-<td>
-70
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-12
-</td>
-<td>
-T.Heinicke
-</td>
-<td>
--1.76
-</td>
-<td>
--66.95
-</td>
-<td>
-WAS
-</td>
-<td>
-38
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-13
-</td>
-<td>
-D.Mills
-</td>
-<td>
--1.78
-</td>
-<td>
--55.08
-</td>
-<td>
-HOU
-</td>
-<td>
-31
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-14
-</td>
-<td>
-J.Hurts
-</td>
-<td>
--1.79
-</td>
-<td>
--50.22
-</td>
-<td>
-PHI
-</td>
-<td>
-28
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-15
-</td>
-<td>
-R.Tannehill
-</td>
-<td>
--1.8
-</td>
-<td>
--86.59
-</td>
-<td>
-TEN
-</td>
-<td>
-48
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-16
-</td>
-<td>
-M.Ryan
-</td>
-<td>
--1.81
-</td>
-<td>
--72.57
-</td>
-<td>
-ATL
-</td>
-<td>
-40
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-17
-</td>
-<td>
-Z.Wilson
-</td>
-<td>
--1.81
-</td>
-<td>
--79.66
-</td>
-<td>
-NYJ
-</td>
-<td>
-44
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-18
-</td>
-<td>
-R.Wilson
-</td>
-<td>
--1.84
-</td>
-<td>
--60.56
-</td>
-<td>
-SEA
-</td>
-<td>
-33
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-19
-</td>
-<td>
-T.Brady
-</td>
-<td>
--1.87
-</td>
-<td>
--54.19
-</td>
-<td>
-TB
-</td>
-<td>
-29
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-20
-</td>
-<td>
-B.Mayfield
-</td>
-<td>
--1.88
-</td>
-<td>
--80.72
-</td>
-<td>
-CLE
-</td>
-<td>
-43
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-21
-</td>
-<td>
-T.Tagovailoa
-</td>
-<td>
--1.88
-</td>
-<td>
--37.67
-</td>
-<td>
-MIA
-</td>
-<td>
-20
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-22
-</td>
-<td>
-M.Stafford
-</td>
-<td>
--1.91
-</td>
-<td>
--70.65
-</td>
-<td>
-LA
-</td>
-<td>
-37
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-23
-</td>
-<td>
-D.Carr
-</td>
-<td>
--1.93
-</td>
-<td>
--83.07
-</td>
-<td>
-LV
-</td>
-<td>
-43
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-24
-</td>
-<td>
-B.Roethlisberger
-</td>
-<td>
--1.94
-</td>
-<td>
--77.42
-</td>
-<td>
-PIT
-</td>
-<td>
-40
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-25
-</td>
-<td>
-M.Jones
-</td>
-<td>
--1.99
-</td>
-<td>
--61.73
-</td>
-<td>
-NE
-</td>
-<td>
-31
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-26
-</td>
-<td>
-T.Lawrence
-</td>
-<td>
--2.05
-</td>
-<td>
--65.5
-</td>
-<td>
-JAX
-</td>
-<td>
-32
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-27
-</td>
-<td>
-D.Jones
-</td>
-<td>
--2.07
-</td>
-<td>
--45.57
-</td>
-<td>
-NYG
-</td>
-<td>
-22
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-28
-</td>
-<td>
-K.Cousins
-</td>
-<td>
--2.08
-</td>
-<td>
--58.14
-</td>
-<td>
-MIN
-</td>
-<td>
-28
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-29
+1
 </td>
 <td>
 J.Fields
@@ -665,7 +1098,7 @@ CHI
 </tr>
 <tr>
 <td style="text-align:left">
-30
+2
 </td>
 <td>
 J.Goff
@@ -685,7 +1118,7 @@ DET
 </tr>
 <tr>
 <td style="text-align:left">
-31
+3
 </td>
 <td>
 C.Wentz
@@ -709,12 +1142,8 @@ IND
 </tr>
 </table>
 </div>
-<div id="qb-data" class="section level2">
-<h2>5. QB Data</h2>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
-</div>
-<div id="situational-regressions" class="section level2">
-<h2>6. Situational Regressions</h2>
+<div id="situational-regressions-and-betting-collinearity" class="section level2">
+<h2>5. Situational Regressions and Betting Collinearity</h2>
 </div>
 <div id="epa-regressions" class="section level1">
 <h1>EPA Regressions</h1>
@@ -909,7 +1338,7 @@ F Statistic
 <p>The reason this matters is because books are betting that <u>at least</u> one of the bets won’t hit. In this situation, it is most likely that either 0 of 2 hit, or 2 of 2 hit.</p>
 <p>This is very dependent on books NOT discounting for this colinearity. If they are, it needs to be analyzed at the discount rate they are using.</p>
 <div id="rushing-data" class="section level2">
-<h2>7. Rushing Data</h2>
+<h2>6. Rushing Data</h2>
 <table style="text-align:center">
 <caption>
 <strong>2020 EPA by Run Gap</strong>
@@ -1054,14 +1483,10 @@ end
 </td>
 </tr>
 </table>
-</div>
-<div id="rushing-efficiency" class="section level2">
-<h2>8. Rushing Efficiency</h2>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-31-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-31-2.png" width="672" /></p>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
 </div>
 <div id="pure-passing-epa-table" class="section level2">
-<h2>9. Pure Passing EPA Table</h2>
+<h2>7. Pure Passing EPA Table</h2>
 <table style="text-align:center">
 <caption>
 <strong>Passing EPA Leaders</strong>
@@ -1254,454 +1679,14 @@ DEN
 </td>
 </tr>
 <tr>
-<td style="text-align:left">
-9
-</td>
-<td>
-D.Prescott
-</td>
-<td>
-DAL
-</td>
-<td>
-0.13
-</td>
-<td>
-0.49
-</td>
-<td>
-753
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-10
-</td>
-<td>
-K.Cousins
-</td>
-<td>
-MIN
-</td>
-<td>
-0.12
-</td>
-<td>
-0.46
-</td>
-<td>
-635
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-11
-</td>
-<td>
-K.Murray
-</td>
-<td>
-ARI
-</td>
-<td>
-0.1
-</td>
-<td>
-0.49
-</td>
-<td>
-612
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-12
-</td>
-<td>
-M.Jones
-</td>
-<td>
-NE
-</td>
-<td>
-0.1
-</td>
-<td>
-0.5
-</td>
-<td>
-640
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-13
-</td>
-<td>
-D.Carr
-</td>
-<td>
-LV
-</td>
-<td>
-0.09
-</td>
-<td>
-0.47
-</td>
-<td>
-781
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-14
-</td>
-<td>
-R.Tannehill
-</td>
-<td>
-TEN
-</td>
-<td>
-0.08
-</td>
-<td>
-0.5
-</td>
-<td>
-657
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-15
-</td>
-<td>
-T.Tagovailoa
-</td>
-<td>
-MIA
-</td>
-<td>
-0.07
-</td>
-<td>
-0.49
-</td>
-<td>
-457
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-16
-</td>
-<td>
-R.Wilson
-</td>
-<td>
-SEA
-</td>
-<td>
-0.06
-</td>
-<td>
-0.45
-</td>
-<td>
-482
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-17
-</td>
-<td>
-C.Wentz
-</td>
-<td>
-IND
-</td>
-<td>
-0.06
-</td>
-<td>
-0.46
-</td>
-<td>
-620
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-18
-</td>
-<td>
-J.Hurts
-</td>
-<td>
-PHI
-</td>
-<td>
-0.06
-</td>
-<td>
-0.44
-</td>
-<td>
-587
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-19
-</td>
-<td>
-L.Jackson
-</td>
-<td>
-BAL
-</td>
-<td>
-0.05
-</td>
-<td>
-0.49
-</td>
-<td>
-493
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-20
-</td>
-<td>
-B.Mayfield
-</td>
-<td>
-CLE
-</td>
-<td>
-0.02
-</td>
-<td>
-0.44
-</td>
-<td>
-514
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-21
-</td>
-<td>
-M.Ryan
-</td>
-<td>
-ATL
-</td>
-<td>
-0
-</td>
-<td>
-0.47
-</td>
-<td>
-652
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-22
-</td>
-<td>
-D.Jones
-</td>
-<td>
-NYG
-</td>
-<td>
-0
-</td>
-<td>
-0.44
-</td>
-<td>
-436
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-23
-</td>
-<td>
-T.Heinicke
-</td>
-<td>
-WAS
-</td>
-<td>
--0.02
-</td>
-<td>
-0.46
-</td>
-<td>
-610
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-24
-</td>
-<td>
-B.Roethlisberger
-</td>
-<td>
-PIT
-</td>
-<td>
--0.03
-</td>
-<td>
-0.42
-</td>
-<td>
-738
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-25
-</td>
-<td>
-J.Goff
-</td>
-<td>
-DET
-</td>
-<td>
--0.03
-</td>
-<td>
-0.46
-</td>
-<td>
-568
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-26
-</td>
-<td>
-T.Lawrence
-</td>
-<td>
-JAX
-</td>
-<td>
--0.07
-</td>
-<td>
-0.45
-</td>
-<td>
-704
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-27
-</td>
-<td>
-D.Mills
-</td>
-<td>
-HOU
-</td>
-<td>
--0.1
-</td>
-<td>
-0.43
-</td>
-<td>
-466
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-28
-</td>
-<td>
-J.Fields
-</td>
-<td>
-CHI
-</td>
-<td>
--0.1
-</td>
-<td>
-0.43
-</td>
-<td>
-374
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-29
-</td>
-<td>
-S.Darnold
-</td>
-<td>
-CAR
-</td>
-<td>
--0.13
-</td>
-<td>
-0.43
-</td>
-<td>
-487
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-30
-</td>
-<td>
-Z.Wilson
-</td>
-<td>
-NYJ
-</td>
-<td>
--0.15
-</td>
-<td>
-0.38
-</td>
-<td>
-467
-</td>
-</tr>
-<tr>
 <td colspan="6" style="border-bottom: 1px solid black">
 </td>
 </tr>
 </table>
 </div>
 <div id="trick-play-passing-data" class="section level2">
-<h2>10. Trick Play Passing Data</h2>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+<h2>8. Trick Play Passing Data</h2>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
 <p>Just for fun!</p>
 </div>
 </div>
