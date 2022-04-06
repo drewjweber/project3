@@ -381,6 +381,409 @@ time_to_throw_vs_Sticks %>%
   scale_x_continuous(breaks = scales::pretty_breaks(n = )) 
 ```
 
+```{r, include=FALSE, echo=FALSE}
+pbp2021 <- read.csv("/Users/drew/Documents/pbp2021.csv")
+
+pbp2020 <- read.csv("/Users/drew/Documents/Season_20.csv")
+
+#pbp <- load_pbp(2019)
+#write.csv(pbp, "/Users/drew/Documents/Season_19.csv")
+pbp2019 <- read.csv("/Users/drew/Documents/Season_19.csv")
+
+#pbp <- load_pbp(2018)
+#write.csv(pbp, "/Users/drew/Documents/Season_18.csv")
+pbp2018 <- read.csv("/Users/drew/Documents/Season_18.csv")
+
+#pbp <- load_pbp(2017)
+#write.csv(pbp, "/Users/drew/Documents/Season_17.csv")
+pbp2017 <- read.csv("/Users/drew/Documents/Season_17.csv")
+```
+
+```{r, include=FALSE, echo=FALSE}
+#nxt_2020 <- load_nextgen_stats(2020)
+#write.csv(nxt_2020, "/Users/drew/Documents/nxt_gen_2020.csv")
+nxt_2020 <- read.csv("/Users/drew/Documents/nxt_gen_2020.csv")
+```
+
+```{r, include=FALSE, echo=FALSE}
+nfl_logos_df <- read_csv("https://raw.githubusercontent.com/statsbylopez/BlogPosts/master/nfl_teamlogos.csv")
+
+#team_pbp <- pbp2021 %>%
+ # filter(!is_na(posteam)) %>%
+  #group_by(posteam) %>%
+  #summarize(mean_epa = mean(epa),
+   #         mean_wp = mean(wp),
+    #        posteam = last(posteam))
+
+
+```
+
+```{r, include=FALSE, echo=FALSE}
+qb_20 <- pbp2020 %>%
+  filter(!is.na(epa)) %>%
+  group_by(id, name) %>%
+  summarize(
+    epa = mean(epa),
+    cpoe = mean(cpoe, na.rm = T),
+    n_dropbacks = sum(pass),
+    n_plays = n(),
+    team = last(posteam)
+  ) %>%
+  filter(n_dropbacks > 100 & n_plays > 100)
+
+qb_20 <- qb_20 %>%
+  rename( EPA_2020 = epa,
+          CPOE_2020 = cpoe,
+          n_dropbacks_2020 = n_dropbacks,
+          n_plays_2020 = n_plays,
+            team_2020 = team)
+
+qb_19 <- pbp2019 %>%
+  filter(!is.na(epa)) %>%
+  group_by(id, name) %>%
+  summarize(
+    epa = mean(epa),
+    cpoe = mean(cpoe, na.rm = T),
+    n_dropbacks = sum(pass),
+    n_plays = n(),
+    team = last(posteam)
+  ) %>%
+  filter(n_dropbacks > 100 & n_plays > 100)
+
+qb_19 <- qb_19 %>%
+  rename( EPA_2019 = epa,
+          CPOE_2019 = cpoe,
+          n_dropbacks_2019 = n_dropbacks,
+          n_plays_2019 = n_plays,
+            team_2019 = team)
+
+qb_18 <- pbp2018 %>%
+  filter(!is.na(epa)) %>%
+  group_by(id, name) %>%
+  summarize(
+    epa = mean(epa),
+    cpoe = mean(cpoe, na.rm = T),
+    n_dropbacks = sum(pass),
+    n_plays = n(),
+    team = last(posteam)
+  ) %>%
+  filter(n_dropbacks > 100 & n_plays > 100)
+
+qb_18 <- qb_18 %>%
+  rename( EPA_2018 = epa,
+          CPOE_2018 = cpoe,
+          n_dropbacks_2018 = n_dropbacks,
+          n_plays_2018 = n_plays,
+            team_2018 = team)
+
+qb_17 <- pbp2017 %>%
+  filter(!is.na(epa)) %>%
+  group_by(id, name) %>%
+  summarize(
+    epa = mean(epa),
+    cpoe = mean(cpoe, na.rm = T),
+    n_dropbacks = sum(pass),
+    n_plays = n(),
+    team = last(posteam)
+  ) %>%
+  filter(n_dropbacks > 100 & n_plays > 100)
+
+qb_17 <- qb_17 %>%
+  rename( EPA_2017 = epa,
+          CPOE_2017 = cpoe,
+          n_dropbacks_2017 = n_dropbacks,
+          n_plays_2017 = n_plays,
+            team_2017 = team)
+
+qb_21 <- pbp2021 %>%
+  filter(!is.na(epa)) %>%
+  group_by(id, name) %>%
+  summarize(
+    epa = mean(epa),
+    cpoe = mean(cpoe, na.rm = T),
+    n_dropbacks = sum(pass),
+    n_plays = n(),
+    scram_rate = mean(qb_scramble),
+    scram_tot = sum(qb_scramble),
+    team = last(posteam)) %>%
+  filter(n_dropbacks > 199 & n_plays > 199) %>%
+  rename(EPA_2021 = epa,
+          CPOE_2021 = cpoe,
+          n_dropbacks_2021 = n_dropbacks,
+          n_plays_2021 = n_plays,
+            team_2021 = team) %>%
+  left_join(qb_20, by = c('id', 'name')) %>%
+  left_join(qb_19, by = c('id', 'name')) %>%
+  left_join(qb_18, by = c('id', 'name')) %>%
+  left_join(qb_17, by = c('id', 'name')) %>%
+  left_join(teams_colors_logos, by = c('team_2021' = 'team_abbr')) %>%
+   filter(!is_na(EPA_2020 | EPA_2019 | EPA_2018)) %>%
+  filter(!is_na(EPA_2020)) %>%
+  mutate(epa_diff = round(EPA_2021 - EPA_2020, digits = 4)) %>%
+  mutate(change_team_2021 = ifelse(team_2021==team_2020, 0,1),
+          change_change_2021 = ifelse(team_2021==team_2019, 0,1),
+         
+         change_team_2020 = ifelse(team_2020==team_2019, 0,1),
+         change_change_2020 = ifelse(team_2020==team_2018, 0,1),
+         
+        change_team_2019 = ifelse(team_2019==team_2018, 0,1),
+        change_change_2020 = ifelse(team_2019==team_2017, 0,1))
+
+
+
+qb_21_graph <- qb_21 %>%
+  filter(!is_na(EPA_2020)) %>%
+  mutate(epa_diff = round(EPA_2021 - EPA_2020, digits = 4)) %>%
+  summarise(EPA_2021,
+            EPA_2020,
+            name,
+            n_plays_2021,
+            team_color,
+            epa_diff)
+
+
+```
+
+## 1. Intro
+
+How consistent is NFL QB play?  Can we look at previous seasons to predict forward for QB play?  What about when players change teams, such as Matthew Stafford?  
+
+## 2. Regressing EPA over Years
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+qb_years_reg_21 <-lm(EPA_2021 ~  EPA_2020 + EPA_2019 + EPA_2018 + EPA_2017, data = qb_21)
+
+qb_years_reg_20 <-lm(EPA_2021 ~ EPA_2020 + EPA_2019 + EPA_2018 +change_team_2019, data = qb_21)
+
+qb_years_reg_19 <-lm(EPA_2021 ~ EPA_2020 + EPA_2019 + change_team_2020, data = qb_21)
+
+qb_years_reg_18 <-lm(EPA_2021 ~ EPA_2020 + change_team_2021, data = qb_21)
+
+
+qb_cpoe_2017 <-lm(CPOE_2021 ~  CPOE_2020 + CPOE_2019 + CPOE_2018 + CPOE_2017, data = qb_21)
+
+qb_cpoe_2018 <-lm(CPOE_2021 ~ CPOE_2020 + CPOE_2019 + CPOE_2018, data = qb_21)
+
+qb_cpoe_2019 <-lm(CPOE_2021 ~ CPOE_2020 + CPOE_2019, data = qb_21)
+
+qb_cpoe_2020 <-lm(CPOE_2021 ~ CPOE_2020, data = qb_21)
+```
+
+```{r Regressions Stargazer, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+stargazer(qb_years_reg_21, qb_years_reg_20, qb_years_reg_19, qb_years_reg_18,
+          type="html",
+          title = "QB EPA over Years",
+          style = "aer",
+          column.labels = c("Since 2017", "Since 2018", "Since 2019", "Since 2020"),
+          covariate.labels = c("2020 EPA", "2019 EPA", "2018 EPA", "2017 EPA", "New Team in 2019", "New Team in 2020", "New Team in 2021"),
+          dep.var.labels = c("2021 EPA"))
+
+```
+
+The farther we go back, the better goodness of fit we achieve.  2020 EPA is correlated at a statistically significant level in 3 of the 4 regressions.  We can see that changing teams does not have a statistically significant effect on EPA.  This is very intriguing as it poses the hypothesis that maybe a QB is just who they are.  Something I wish that could be expanded on is the scheme that the QB is in.  Scheme matters heavily in difficulty, comfort, and production for QBs.  Finding a way to apply this to data is something I hope to do in the future, if possible.
+
+
+```{r Regressions Stargazer, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+stargazer(qb_cpoe_2017, qb_cpoe_2018, qb_cpoe_2019, qb_cpoe_2020,
+          type="html",
+          title = "QB CPOE over Years",
+          style = "aer",
+          covariate.labels = c("2020 CPOE", "2019 CPOE", "2018 CPOE", "2017 CPOE"),
+          column.labels = c("CPOE"),
+          dep.var.labels = c("2021 CPOE"))
+          
+```
+
+```{r EPA vs EPA, warning=FALSE, echo=FALSE, message=FALSE}
+qb_21_graph %>%
+  ggplot(aes(x = EPA_2020, y = EPA_2021)) +
+
+  geom_hline(yintercept = mean(qb_21_graph$EPA_2021), color = "red", linetype = "dashed", alpha=0.5) +
+
+  geom_vline(xintercept =  mean(qb_21_graph$EPA_2020), color = "red", linetype = "dashed", alpha=0.5) +
+
+  geom_point(color = qb_21_graph$team_color, cex=qb_21_graph$n_plays_2021 / 150, alpha = .6) +
+
+  geom_text_repel(aes(label=name), size = 3.25) +
+
+  stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm')+
+  #titles and caption
+  labs(x = "2020 EPA",
+       y = "2021 EPA",
+       title = "EPA 2020 & 2021",
+       caption = "Min. 200 2021 Dropbacks") +
+  
+  theme_bw() +
+ 
+  theme(
+    plot.title = element_text(size = 12, hjust = 0.5, face = "bold")
+  ) +
+
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 10))
+```
+
+Simple. Above the reference line, improvement of EPA. Below, a worse EPA.
+
+```{r, Heads and Tails, warning=FALSE, echo=FALSE, message=FALSE}
+head_epa_diff <- qb_21 %>%
+  select(name, epa_diff) %>%
+  arrange(desc(epa_diff)) %>%
+  head() 
+
+tail_epa_diff <- qb_21 %>%
+  select(name, epa_diff) %>%
+  arrange(desc(epa_diff)) %>%
+  tail() 
+
+head_epa_diff <- subset(head_epa_diff, select = -c(id))
+tail_epa_diff <- subset(tail_epa_diff, select = -c(id))
+
+stargazer(head_epa_diff, tail_epa_diff,
+          summary = FALSE,
+          style = "aer",
+          type = "text",
+          title = "20 to 21 EPA per Dropback Difference")
+```
+
+We can see a few of the best and worst of EPA per dropback difference from 2020 to 2021.  It is interesting that Jared Goff and Matt Stafford went different directions of almost the same amount.  Goff and Stafford were traded for each other before 2021.  The Rams added about 0.15 EPA per dropback by doing this.  It may not seem like much, but it is a massive upgrade.  That is over 5 more expected points a game when around 30 dropbacks a game.  Even more impressive is that Stafford was throwing lots of pick sixes (massively, massively negative EPA plays)  and he still put up this difference over Goff!
+
+## 3. Time to Throw Data
+
+```{r, include=FALSE}
+time_to_throw_vs_Sticks <- read.csv("/Users/drew/Documents/time_to_throw.csv")
+
+time_to_throw_vs_Sticks <- time_to_throw_vs_Sticks %>%
+  left_join(teams_colors_logos, by = c('team' = 'team_abbr'))
+
+time_to_throw_2020 <- nxt_2020 %>%
+  filter(week==0) %>%
+  group_by(player_gsis_id, player_short_name) %>%
+  mutate(team=last(team_abbr)) %>%
+  summarize(
+   avg_time_to_throw, 
+    avg_air_yards_to_sticks,
+    aggressiveness,
+    completion_percentage_above_expectation,
+    attempts
+  ) %>%
+    filter(attempts>299) 
+
+
+time_to_throw_2020 <- time_to_throw_2020 %>%
+  rename(avg_time_to_throw_2020 = avg_time_to_throw, 
+    avg_air_yards_to_sticks_202 = avg_air_yards_to_sticks,
+    aggressiveness_2020 = aggressiveness,
+    completion_percentage_above_expectation_2020 = completion_percentage_above_expectation,
+    attempts_2020 = attempts)
+
+
+test <- time_to_throw_vs_Sticks %>%
+  left_join(qb_21, by = c("player_short_name" = "name")) %>%
+  left_join(time_to_throw_2020, by = c("player_short_name" = "player_short_name")) 
+
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+test %>%
+  ggplot(aes(x = avg_time_to_throw, y = avg_air_yards_to_sticks)) +
+ 
+  geom_hline(yintercept = mean(test$avg_air_yards_to_sticks), color = "red", linetype = "dashed", alpha=0.5) +
+  #vertical line with mean CPOE
+  geom_vline(xintercept =  mean(test$avg_time_to_throw), color = "red", linetype = "dashed", alpha=0.5) +
+  #add points for the QBs with the right colors
+  #cex controls point size and alpha the transparency (alpha = 1 is normal)
+  geom_point(color = test$team_color.x, cex=test$attempts / 100, alpha = .6) +
+  #add names using ggrepel, which tries to make them not overlap
+  geom_text_repel(aes(label=player_short_name), size = 2.75 ) +
+  #add a smooth line fitting cpoe + epa
+  stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm') +
+  #titles and caption
+  labs(x = "Average Time to Throw",
+       y = "Average Air Yards from 1st Down",
+       title = "2021 QB Depth of Target",
+       caption = "Y=0 is First Down Marker") +
+  
+  theme_bw() +
+  theme(
+    plot.title = element_text(size = 14, hjust = 0.5, face = "bold")) +
+  
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 5)) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 5)) +
+  geom_label(aes(x = 2.95, y = -2.5, label = "Hold Long, Shallow"), color = "red", size = 2.5) +
+  geom_label(aes(x = 2.42, y = -2.5, label = "Cowards"), size = 2.5) +
+  geom_label(aes(x = 2.42, y = .9, label = "Quick, Deep"), color = "dark green", size = 2.5) +
+  geom_label(aes(x = 2.95, y = .9, label = "Hero Ballers"), size = 2.5) +
+ ylim(-2.75, 1.15) +
+  xlim(2.38, 3.0)
+
+
+test_graph2 <- test %>%
+  filter(!is_na(avg_air_yards_to_sticks_202))
+
+test_graph2 %>%
+  ggplot(aes(x = avg_time_to_throw_2020, y = avg_air_yards_to_sticks_202)) +
+ 
+  geom_hline(yintercept = mean(test_graph2$avg_air_yards_to_sticks_202), color = "red", linetype = "dashed", alpha=0.5) +
+  #vertical line with mean CPOE
+  geom_vline(xintercept =  mean(test_graph2$avg_time_to_throw_2020), color = "red", linetype = "dashed", alpha=0.5) +
+  #add points for the QBs with the right colors
+  #cex controls point size and alpha the transparency (alpha = 1 is normal)
+  geom_point(color = test_graph2$team_color.y, cex=test_graph2$attempts_2020 / 100, alpha = .6) +
+  #add names using ggrepel, which tries to make them not overlap
+  geom_text_repel(aes(label=player_short_name), size = 2.75 ) +
+  #add a smooth line fitting cpoe + epa
+  stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm') +
+  #titles and caption
+  labs(x = "Average Time to Throw",
+       y = "Average Air Yards from 1st Down",
+       title = "2020 QB Depth of Target",
+       caption = "Y=0 is First Down Marker") +
+  
+  theme_bw() +
+  theme(
+    plot.title = element_text(size = 14, hjust = 0.5, face = "bold")) +
+  
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 5)) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 5)) +
+  geom_label(aes(x = 2.95, y = -2.5, label = "Hold Long, Shallow"), color = "red", size = 2.5) +
+  geom_label(aes(x = 2.42, y = -2.5, label = "Cowards"), size = 2.5) +
+  geom_label(aes(x = 2.42, y = .9, label = "Quick, Deep"), color = "dark green", size = 2.5) +
+  geom_label(aes(x = 2.95, y = .9, label = "Hero Ballers"), size = 2.5) 
+```
+
+## 4. Regressions Visualized
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+test_graph3 <- test %>%
+  select(EPA_2021, EPA_2020, player_short_name) %>%
+  filter(!is_na(EPA_2020)) %>%
+  left_join(qb_21, by = c("player_short_name" = "name")) %>%
+  select(EPA_2021.x, EPA_2020.x, player_short_name, epa_diff) %>%
+  rename(EPA_2021 = EPA_2021.x,
+         EPA_2020 = EPA_2020.x,
+         name = player_short_name,
+         epa_diff = epa_diff) %>%
+  arrange(desc(epa_diff))
+
+test_graph3 %>%
+  ggplot(aes(x = epa_diff, y = EPA_2021, color = "red")) +
+  
+  geom_point(aes(y=EPA_2020, color = "blue")) +
+  # Custom the Y scales:
+  scale_y_continuous(
+    name = "EPA 2021",
+    sec.axis = sec_axis( trans=~., name="EPA 2020")) + 
+  
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90), legend.position = "none") 
+
+  
+ttt_reg <- lm(data = test, avg_time_to_throw ~ avg_time_to_throw_2020)
+```
+
+Sam Darnold is really bad.
+
 
 ```{r, message=FALSE, include=FALSE}
 sack_data <- pbp2021 %>%
