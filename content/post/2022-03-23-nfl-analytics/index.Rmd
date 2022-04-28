@@ -670,6 +670,10 @@ tail_epa_diff <- qb_21 %>%
 head_epa_diff <- subset(head_epa_diff, select = -c(id))
 tail_epa_diff <- subset(tail_epa_diff, select = -c(id))
 
+```
+
+
+```{r, results ='asis', echo=FALSE}
 stargazer(head_epa_diff, tail_epa_diff,
           summary = FALSE,
           style = "aer",
@@ -706,8 +710,6 @@ test_graph3 %>%
   
 ttt_reg <- lm(data = test, avg_time_to_throw ~ avg_time_to_throw_2020)
 ```
-
-Sam Darnold is really bad.
 
 ## 4. QB Sack Data
 
@@ -807,7 +809,7 @@ EPAreg4 <- lm(epa~ qb_scramble, data = pbp2021)
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 stargazer(EPAreg1, EPAreg2, EPAreg3,EPAreg4,
-          type="text",
+          type="html",
           title = "EPA Regressions",
           style = "aer",
           covariate.labels = c("2nd Down", "3rd Down", "4th Down", "Rush Attempt", "Pass Attempt", "QB Scramble"),
@@ -820,7 +822,6 @@ This is the second straight year that QB Scramble has over a 0.4 EPA coefficient
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 catch_yards_reg <-lm(yards_gained ~  complete_pass, data = pbp2021)
-
 ```
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
@@ -922,6 +923,8 @@ success_rate_runs %>%
   ) 
 
 ```
+
+Results are most likely spurious as teams who are winning are going to run the ball the most.
 
 ## 7. Pure Passing EPA Table
 
