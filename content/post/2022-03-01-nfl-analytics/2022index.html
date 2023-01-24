@@ -30,4 +30,611 @@ table, td, th {
 <div id="wr-data" class="section level2">
 <h2>1. WR Data</h2>
 <p><img src="/post/2022-03-01-nfl-analytics/2022index_files/figure-html/unnamed-chunk-3-1.png" width="672" /><img src="/post/2022-03-01-nfl-analytics/2022index_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<p>This graphic shows <strong>Average Separation</strong> and <strong>Average Yards After Catch Over Expected.</strong> Average YAC Over Expected is a metric that measures how receivers do after the catch compared to how they are supposed to. These are two important metrics on receiver performance. Separation may be the most important thing a WR can generate in football. Combining that with how well they do with the ball in their hands can paint a decent picture of how they are performing. It can be seen that Deebo Samuel is in a world of his own this year. His separation may be somewhat accredited to Shanahan route designs, but it cannot be understated how well he was as a playmaker this season.</p>
+<p>Separation is not created equal. It is harder to get open farther down the the field as opposed to catching a bubble screen at the line of scrimmage. Tyler Lockett gets open extremely deep, unlike how the other receivers are producing. This will be interesting to see with a new Quarterback in Seattle this year.</p>
+</div>
+<div id="qb-adot" class="section level2">
+<h2>2. QB aDot</h2>
+<p><img src="/post/2022-03-01-nfl-analytics/2022index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>This graphic shows the <u><strong>Average Time to Throw</strong></u> to the <u><strong>Average Intended Air Yards From the Sticks</strong></u>. This means that Y=0 is the first down. This is meant to show how QBs are getting the ball out. The upper left is the best place to be. It means these passers are getting the ball out quickly AND farther than average. Conversely, the bottom right is a bad place to be. It means these passers hang on to the ball long AND throw it shorter than average.</p>
+<p><img src="/post/2022-03-01-nfl-analytics/2022index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Not all sacks are created equal. A sack on 1st and 10 is most likely much worse than a sack on 3rd and 20. It can ruin a drive or can be almost the same as an incompletion. This graphic shows how much <u>EPA is being lost on average and in total</u><strong>.</strong> The outliers are what should be noted most from this graphic. Wentz is a catastrophe, whereas Burrow lost the most EPA but wasn’t killing the Bengals every time he did it. Lamar Jackson and Josh Allen are freaks and it is interesting to see if the sack “avoiders” remain this way year over year.`</p>
+</div>
+<div id="rushing-data" class="section level2">
+<h2>3. Rushing Data</h2>
+<p><img src="/post/2022-03-01-nfl-analytics/2022index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="/post/2022-03-01-nfl-analytics/2022index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="situational-regressions-and-betting-collinearity" class="section level2">
+<h2>4. Situational Regressions and Betting Collinearity</h2>
+<table style="text-align:center">
+<caption>
+<strong>EPA Regressions</strong>
+</caption>
+<tr>
+<td colspan="5" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="4">
+EPA
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+Play Type and Down
+</td>
+<td>
+First Down
+</td>
+<td>
+Fourth Down
+</td>
+<td>
+QB Scramble
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+<td>
+(3)
+</td>
+<td>
+(4)
+</td>
+</tr>
+<tr>
+<td colspan="5" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+2nd Down
+</td>
+<td>
+0.050<sup>***</sup>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.016)
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+3rd Down
+</td>
+<td>
+-0.017
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.019)
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+4th Down
+</td>
+<td>
+0.027
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.030)
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Rush Attempt
+</td>
+<td>
+0.016
+</td>
+<td>
+-0.090<sup>***</sup>
+</td>
+<td>
+0.352<sup>***</sup>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.027)
+</td>
+<td>
+(0.016)
+</td>
+<td>
+(0.100)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Pass Attempt
+</td>
+<td>
+0.039
+</td>
+<td>
+</td>
+<td>
+-0.362<sup>***</sup>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.026)
+</td>
+<td>
+</td>
+<td>
+(0.082)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+QB Scramble
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+0.432<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(0.039)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+-0.056<sup>**</sup>
+</td>
+<td>
+0.014
+</td>
+<td>
+-0.010
+</td>
+<td>
+-0.022<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.027)
+</td>
+<td>
+(0.012)
+</td>
+<td>
+(0.028)
+</td>
+<td>
+(0.006)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+41,127
+</td>
+<td>
+16,507
+</td>
+<td>
+4,253
+</td>
+<td>
+49,069
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.000
+</td>
+<td>
+0.002
+</td>
+<td>
+0.008
+</td>
+<td>
+0.002
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.000
+</td>
+<td>
+0.002
+</td>
+<td>
+0.008
+</td>
+<td>
+0.002
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error
+</td>
+<td>
+1.338 (df = 41121)
+</td>
+<td>
+1.048 (df = 16505)
+</td>
+<td>
+1.664 (df = 4250)
+</td>
+<td>
+1.233 (df = 49067)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+3.735<sup>***</sup> (df = 5; 41121)
+</td>
+<td>
+30.380<sup>***</sup> (df = 1; 16505)
+</td>
+<td>
+17.570<sup>***</sup> (df = 2; 4250)
+</td>
+<td>
+121.251<sup>***</sup> (df = 1; 49067)
+</td>
+</tr>
+<tr>
+<td colspan="5" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Notes:</em>
+</td>
+<td colspan="4" style="text-align:left">
+<sup>***</sup>Significant at the 1 percent level.
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="4" style="text-align:left">
+<sup>**</sup>Significant at the 5 percent level.
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="4" style="text-align:left">
+<sup>*</sup>Significant at the 10 percent level.
+</td>
+</tr>
+</table>
+<p>This is the second straight year that QB Scramble has over a 0.4 EPA coefficient. It is something I always thought about as QBs tend to not make mistakes on scrambles and can usually gain a few yards with their legs at the least. Many young QBs play far better out of structure as they can turn their processor off and just ball.</p>
+<table style="text-align:center">
+<caption>
+<strong>Catch to Yards Correlation</strong>
+</caption>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+Yards Gained
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+Yards
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Yards Gained
+</td>
+<td>
+9.261<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.069)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+1.680<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.035)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+47,447
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.274
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.274
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error
+</td>
+<td>
+6.570 (df = 47445)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+17,881.000<sup>***</sup> (df = 1; 47445)
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Notes:</em>
+</td>
+<td style="text-align:left">
+<sup>***</sup>Significant at the 1 percent level.
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td style="text-align:left">
+<sup>**</sup>Significant at the 5 percent level.
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td style="text-align:left">
+<sup>*</sup>Significant at the 10 percent level.
+</td>
+</tr>
+</table>
+<p>This was purely made from a betting standpoint. Parlaying a receivers catch props with their receiving props can be profitable if</p>
+<p>A. The book allows you.</p>
+<p>B. <u><strong>They don’t take into account this colinearity.</strong></u></p>
+<p>For example, if I bet on a receiver to get 26 yards, they most likely need 2 or more catches to do so. This means if I expect them to get 26 yards, I should throw in the 2 catch prop as well.</p>
+<p>The reason this matters is because books are betting that <u>at least</u> one of the bets won’t hit. In this situation, it is most likely that either 0 of 2 hit, or 2 of 2 hit.</p>
+<p>This is very dependent on books NOT discounting for this colinearity. If they are, it needs to be analyzed at the discount rate they are using.</p>
 </div>

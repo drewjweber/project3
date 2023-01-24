@@ -139,3 +139,250 @@ separation %>%
   theme_bw() +
   theme(plot.title = element_text(size = 14, hjust = 0.5, face = "bold"))
 ```
+
+This graphic shows **Average Separation** and **Average Yards After Catch Over Expected.** Average YAC Over Expected is a metric that measures how receivers do after the catch compared to how they are supposed to.  These are two important metrics on receiver performance. Separation may be the most important thing a WR can generate in football. Combining that with how well they do with the ball in their hands can paint a decent picture of how they are performing. It can be seen that Deebo Samuel is in a world of his own this year. His separation may be somewhat accredited to Shanahan route designs, but it cannot be understated how well he was as a playmaker this season.
+
+Separation is not created equal.  It is harder to get open farther down the the field as opposed to catching a bubble screen at the line of scrimmage.  Tyler Lockett gets open extremely deep, unlike how the other receivers are producing.  This will be interesting to see with a new Quarterback in Seattle this year.
+
+## 2. QB aDot
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+QB_week0 <- QB_nxt %>%
+  filter(week==0)
+
+QB_cutoff <- quantile(QB_week0$attempts, .10)
+
+time_to_throw_vs_Sticks <- QB_week0 %>%
+group_by(player_gsis_id, player_short_name) %>%
+  mutate(team=last(team_abbr)) %>%
+  summarize(
+    avg_time_to_throw,
+    avg_air_yards_to_sticks,
+    aggressiveness,
+    completion_percentage_above_expectation,
+    attempts,
+    team
+  ) %>%
+  filter(attempts > QB_cutoff)%>%
+  left_join(teams_colors_logos, by = c('team' = 'team_abbr'))
+
+x_high_ttt <- max(time_to_throw_vs_Sticks$avg_time_to_throw) + 0.01
+x_low_ttt <- min(time_to_throw_vs_Sticks$avg_time_to_throw)
+
+y_high_yts <- max(time_to_throw_vs_Sticks$avg_air_yards_to_sticks) + .05
+y_low_yts <- min(time_to_throw_vs_Sticks$avg_air_yards_to_sticks) - .05
+
+######################################################################################################################Graph
+time_to_throw_vs_Sticks %>%
+  ggplot(aes(x = avg_time_to_throw, y = avg_air_yards_to_sticks)) +
+
+  geom_hline(yintercept = mean(time_to_throw_vs_Sticks$avg_air_yards_to_sticks), color = "red", linetype = "dashed", alpha=0.5) +
+  geom_vline(xintercept =  mean(time_to_throw_vs_Sticks$avg_time_to_throw), color = "red", linetype = "dashed", alpha=0.5) +
+  geom_point(color = time_to_throw_vs_Sticks$team_color, cex=time_to_throw_vs_Sticks$attempts / 100, alpha = .6) +
+  geom_text_repel(aes(label=player_short_name), size = 2.75, nudge_y = 0.02) +
+
+  stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm')+
+  labs(x = "Average Time to Throw",
+       y = "Average Intended Air Yards from 1st Down",
+       title = "Time to Throw vs aDot",
+       caption = "Y=0 is First Down Marker") +
+
+  theme_bw() +
+  theme(plot.title = element_text(size = 14, hjust = 0.5, face = "bold")) +
+ 
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 5)) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = )) +
+  geom_label(aes(x = x_high_ttt, y = y_low_yts, label = "Bad"), color = "red", size = 2.5) +
+  geom_label(aes(x = x_low_ttt, y = y_low_yts, label = "Cowards"), size = 2.5) +
+  geom_label(aes(x = x_low_ttt, y = y_high_yts, label = "Quick, Deep"), color = "dark green", size = 2.5) +
+  geom_label(aes(x = x_high_ttt, y = y_high_yts, label = "Hero Ballers"), size = 2.5) 
+```
+
+This graphic shows the [**Average Time to Throw**]{.ul} to the [**Average Intended Air Yards From the Sticks**]{.ul}. This means that Y=0 is the first down. This is meant to show how QBs are getting the ball out. The upper left is the best place to be. It means these passers are getting the ball out quickly AND farther than average. Conversely, the bottom right is a bad place to be. It means these passers hang on to the ball long AND throw it shorter than average.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+qb_sacks <- pbp2022 %>%
+  filter(sack==1) %>%
+  group_by(id, name) %>%
+  summarize(
+    av_epa_lost = round(mean(epa), digits = 2),
+    total_epa_lost = round(sum(epa), digits = 2),
+    team = last(posteam),
+    Sacks = sum(pass)) %>%
+  arrange(desc(av_epa_lost))
+
+qb_sack_cutoff <- quantile(qb_sacks$Sacks, .55)
+
+sack_data <- qb_sacks %>%
+    filter(Sacks > qb_sack_cutoff) %>%
+    left_join(teams_colors_logos, by = c('team' = 'team_abbr'))
+
+x_high_sacks <- max(sack_data$total_epa_lost) - 1
+x_low_sacks <- min(sack_data$total_epa_lost) + 2
+
+y_high_av_sacks <- max(sack_data$av_epa_lost)
+y_low_av_sacks <- min(sack_data$av_epa_lost)
+
+######################################################################################################################Graph
+sack_data %>%
+  ggplot(aes(x = total_epa_lost, y = av_epa_lost)) +
+  
+  geom_hline(yintercept = mean(sack_data$av_epa_lost), color = "red", linetype = "dashed", alpha=0.5) +
+  geom_vline(xintercept =  mean(sack_data$total_epa_lost), color = "red", linetype = "dashed", alpha=0.5) +
+  geom_point(color = sack_data$team_color, cex=sack_data$Sacks /(max(sack_data$Sacks/4.5)), alpha = .75) +
+  geom_text_repel(aes(label=name), size = 3, nudge_y = -.03) +
+  stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm')+
+
+  labs(x = "Total EPA Lost via Sacks",
+       y = "Average EPA Lost via Sacks",
+       title = "Graph 6: EPA Lost by Sacks") +
+
+  theme_bw() +
+  theme(plot.title = element_text(size = 12, hjust = 0.5, face = "bold")) +
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 8)) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 8)) +
+
+  geom_label(aes(x = x_high_sacks, y = y_low_av_sacks, label = "Few but Costly"), size = 2.5) +
+  geom_label(aes(x = x_low_sacks, y = y_low_av_sacks, label = "Lots of Bad Sacks"),  color = "red", size = 2.5) +
+  geom_label(aes(x = x_low_sacks, y = y_high_av_sacks, label = "Sacks"),  size = 2.5) +
+  geom_label(aes(x = x_high_sacks, y = y_high_av_sacks, label = "Not Costly"), color = "dark green", size = 2.5)
+```
+
+Not all sacks are created equal. A sack on 1st and 10 is most likely much worse than a sack on 3rd and 20. It can ruin a drive or can be almost the same as an incompletion. This graphic shows how much [EPA is being lost on average and in total]{.ul}**.** The outliers are what should be noted most from this graphic. Wentz is a catastrophe, whereas Burrow lost the most EPA but wasn't killing the Bengals every time he did it. Lamar Jackson and Josh Allen are freaks and it is interesting to see if the sack "avoiders" remain this way year over year.\`
+
+## 3. Rushing Data
+
+```{r, echo=FALSE, message = FALSE, warning=FALSE}
+success_rate_runs <- pbp2022 %>%
+   group_by(posteam) %>%
+  filter(!is.na(epa), play_type=="run") %>%
+  summarize(
+    success_rate = round(mean(success), digits = 2),
+    avg_wp = mean(wp),
+    ypc = mean(yards_gained)
+  )
+success_rate_runs <- success_rate_runs %>% left_join(nfl_logos_df, by = c("posteam" = "team_code"))
+
+######################################################################################################################Graph
+success_rate_runs %>%
+  ggplot(aes(x = success_rate, y = avg_wp)) +
+  geom_hline(yintercept = mean(success_rate_runs$avg_wp), color = "red", linetype = "dashed", alpha=0.5) +
+  geom_vline(xintercept =  mean(success_rate_runs$success_rate), color = "red", linetype = "dashed", alpha=0.5) +
+
+geom_image(aes(image = url), size = 0.06) +
+  stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm')+
+  labs(x = "Success Rate on Runs",
+       y = "Average Win Probability at All Times",
+       title = "Graph 9: Rushing Success Rate") +
+  theme_bw() +
+  theme(
+    plot.title = element_text(size = 14, hjust = 0.5, face = "bold"))
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+ngs_rb <- RB_nxt %>%
+  filter(week==0)
+
+rb_cutoff <- quantile(ngs_rb$rush_attempts, .5)
+
+ngs_rb <- RB_nxt %>%
+    group_by(player_gsis_id, player_short_name) %>%
+      summarize(
+        percent_attempts_gte_eight_defenders,
+          rush_yards_over_expected_per_att,
+            rush_attempts,
+              player_short_name,
+                player_gsis_id,
+                  team = last(team_abbr)) %>%
+                      filter(rush_attempts > rb_cutoff) %>%
+                        left_join(teams_colors_logos, by = c('team' = 'team_abbr'))
+
+#ngs_rb <- distinct(ngs_rb, player_gsis_id, .keep_all= TRUE)
+
+qb_scramble_rushes <- pbp2022 %>%
+  filter(rush_attempt==1, qb_scramble==1) %>%
+  group_by(rusher_player_name) %>%
+  summarize(rusher_player_name = last(rusher_player_name), rushes = sum(rush_attempt), succ_rate = mean(success), mean_epa = mean(epa))
+
+pbp_rb <- pbp2022 %>%
+  filter(rush_attempt==1) %>%
+  group_by(rusher_player_name) %>%
+  summarize(rusher_player_name = last(rusher_player_name), 
+            rushes = sum(rush_attempt), 
+            succ_rate = mean(success), 
+            mean_epa = mean(epa), 
+            rusher_player_id = last(rusher_player_id)) %>%
+    filter(rushes > 40)
+
+pbp_rb <- pbp_rb %>%
+  left_join(ngs_rb, by = c('rusher_player_id' = 'player_gsis_id'))
+
+######################################################################################################################Graph
+ngs_rb %>%
+  ggplot(aes(x = percent_attempts_gte_eight_defenders, y = rush_yards_over_expected_per_att)) +
+
+  geom_hline(yintercept = mean(ngs_rb$rush_yards_over_expected_per_att), color = "red", linetype = "dashed", alpha=0.5) +
+  geom_vline(xintercept =  mean(ngs_rb$percent_attempts_gte_eight_defenders), color = "red", linetype = "dashed", alpha=0.5) +
+  geom_point(color = ngs_rb$team_color, cex=(max(ngs_rb$rush_attempts/100)), alpha = .6) +
+  geom_text_repel(label=ngs_rb$player_short_name, size = 2.75) +
+
+  stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm')+
+  #titles and caption
+  labs(x = "8 Men in Box Percentage",
+       y = "Rushing Yards Over Expected Per Attempt",
+       title = "RB Rushing Success",
+       caption = "Among Qualified RBs") +
+
+  theme(
+    plot.title = element_text(size = 14, hjust = 0.5, face = "bold")
+  ) + theme(axis.title.y = element_text(hjust = 0.5),
+        axis.title.x = element_text(hjust = 0.5))
+```
+
+## 4. Situational Regressions and Betting Collinearity
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+EPAreg1 <-lm(epa~  as.factor(down) + rush_attempt+ pass_attempt, data = pbp2022)
+
+EPAreg2 <-lm(epa~  rush_attempt, data = pbp2022, na.rm = TRUE, subset = down==1)
+
+EPAreg3 <-lm(epa~  rush_attempt + pass_attempt, data = pbp2022, na.rm = TRUE, subset = down==4)
+
+EPAreg4 <- lm(epa~ qb_scramble, data = pbp2022)
+
+stargazer(EPAreg1, EPAreg2, EPAreg3,EPAreg4,
+          type="html",
+          title = "EPA Regressions",
+          style = "aer",
+          covariate.labels = c("2nd Down", "3rd Down", "4th Down", "Rush Attempt", "Pass Attempt", "QB Scramble"),
+          column.labels = c("Play Type and Down", "First Down", "Fourth Down", "QB Scramble"),
+          dep.var.labels = c("EPA"))
+         
+```
+
+This is the second straight year that QB Scramble has over a 0.4 EPA coefficient. It is something I always thought about as QBs tend to not make mistakes on scrambles and can usually gain a few yards with their legs at the least. Many young QBs play far better out of structure as they can turn their processor off and just ball.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+catch_yards_reg <-lm(yards_gained ~  complete_pass, data = pbp2022)
+
+######################################################################################################################Table
+stargazer(catch_yards_reg,
+          type="html",
+          title = "Catch to Yards Correlation",
+          style = "aer",
+          covariate.labels = c("Yards Gained"),
+          column.labels = c("Yards"),
+          dep.var.labels = c("Yards Gained"))
+```
+
+This was purely made from a betting standpoint. Parlaying a receivers catch props with their receiving props can be profitable if
+
+A. The book allows you.
+
+B. [**They don't take into account this colinearity.**]{.ul}
+
+For example, if I bet on a receiver to get 26 yards, they most likely need 2 or more catches to do so. This means if I expect them to get 26 yards, I should throw in the 2 catch prop as well.
+
+The reason this matters is because books are betting that [at least]{.ul} one of the bets won't hit. In this situation, it is most likely that either 0 of 2 hit, or 2 of 2 hit.
+
+This is very dependent on books NOT discounting for this colinearity. If they are, it needs to be analyzed at the discount rate they are using.
