@@ -54,7 +54,7 @@ library(scales)
 #2021 Data
 pbp <- load_pbp(2021)
 write.csv(pbp, "/Users/drew/Desktop/pbp.csv")
-PBP_Rolling_Data <- read.csv("/Users/drew/Desktop/pbp.csv")
+#PBP_Rolling_Data <- read.csv("/Users/drew/Desktop/pbp.csv")
 pbp2021 <- PBP_Rolling_Data %>% 
 	filter(!is_na(epa), play_type=="no_play" | play_type=="pass" | play_type=="run")
 

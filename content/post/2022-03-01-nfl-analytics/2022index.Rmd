@@ -1,0 +1,141 @@
+---
+title: "2022 Season Data"
+output:
+  html_document:
+    date: 1/12/2023
+    theme: journal
+    toc: yes
+    toc_float: yes
+    code_folding: hide
+  pdf_document:
+    toc: yes
+---
+
+Drew Weber
+
+```{css, echo = FALSE}
+
+table, td, th {
+  border: none;
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+```
+
+```{r setup, include=FALSE, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE, echo=FALSE}
+library(ggplot2)
+library(tidyverse)
+library(dplyr)
+library(devtools)
+library(nflfastR)
+library(nflreadr)
+library(stargazer)
+library(ggplot2)
+library(shiny)
+library(na.tools)
+library(ggimage)
+library(ggrepel)
+library(scales)
+```
+
+```{r, 2022 PBP, echo=FALSE, include=FALSE}
+pbp2022 <- load_pbp(2022)%>%
+filter(!is_na(epa))%>% #, play_type=="no_play" | play_type=="pass" | play_type=="run")
+mutate(
+pass = if_else(str_detect(desc, "(pass)|(sacked)|(scramble)"), 1, 0),
+rush = if_else(str_detect(desc, "(left end)|(left tackle)|(left guard)|(up the middle)|(right guard)|(right tackle)|(right end)") & pass == 0, 1, 0),
+success = ifelse(epa>0, 1 , 0)
+)
+
+QB_nxt <- load_nextgen_stats(2022, "passing")
+
+WR_nxt <- load_nextgen_stats(2022, "receiving")
+
+RB_nxt <- load_nextgen_stats(2022, "rushing")
+
+nfl_logos_df <- read_csv("https://raw.githubusercontent.com/statsbylopez/BlogPosts/master/nfl_teamlogos.csv")
+nfl_logos_df$team_code[18]="LAR"
+```
+
+## 1. WR Data
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+wr_week0 <- WR_nxt %>%
+  filter(week==0)
+
+wr_cutoff <- quantile(wr_week0$receptions, .66)
+
+separation <- wr_week0 %>%
+    group_by(player_short_name)%>%
+      summarize(
+        avg_cushion,
+        avg_separation,
+        avg_yac_above_expectation,
+        avg_intended_air_yards,
+        targets,
+        receptions,
+        yards,
+        team = last(team_abbr)) %>%
+          filter(receptions>wr_cutoff) %>%
+            left_join(teams_colors_logos, by = c('team' = 'team_abbr'))
+
+x_high_sep <- max(separation$avg_separation) - 0.05
+x_low_sep <- min(separation$avg_separation) + 0.05
+
+y_high_yae <- max(separation$avg_yac_above_expectation) + .05
+y_low_yae <- min(separation$avg_yac_above_expectation)
+
+#################################################################################### Graph
+
+separation %>%
+  ggplot(aes(x = avg_separation, y = avg_yac_above_expectation)) +
+
+  geom_hline(yintercept = mean(separation$avg_yac_above_expectation), color = "red", linetype = "dashed", alpha=0.5) +
+  geom_vline(xintercept =  mean(separation$avg_separation), color = "red", linetype = "dashed", alpha=0.5) +
+  geom_point(color = separation$team_color, cex=separation$targets / 20, alpha = .6) +
+  geom_text_repel(aes(label=player_short_name), size = 2.75, nudge_y = 0.02) +
+  stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm')+
+  #titles and caption
+  labs(x = "Avg Separation",
+       y = "Average YAC Over Expected",
+       title = "WR Separation and YAC",
+       caption = "Among Qualified Receivers") +
+ 
+  theme_bw() +
+
+  theme(
+    plot.title = element_text(size = 14, hjust = 0.5, face = "bold")
+  ) +
+
+  geom_label(aes(x = x_high_sep, y = y_low_yae, label = "Gets Open"), size = 2.7) +
+  geom_label(aes(x = x_low_sep, y = y_low_yae, label = "Covered up"),  color = "red", size = 2.7) +
+  geom_label(aes(x = x_low_sep, y =y_high_yae, label = "YAC Guys"),  size = 2.7) +
+  geom_label(aes(x = x_high_sep, y = y_high_yae, label = "Open and YAC"), color = "dark green", size = 2.7)
+
+######################################################################################################################Graph
+separation %>%
+  ggplot(aes(x = avg_separation, y = avg_intended_air_yards)) +
+  
+  geom_hline(yintercept = mean(separation$avg_intended_air_yards), color = "red", linetype = "dashed", alpha=0.5) +
+  geom_vline(xintercept =  mean(separation$avg_separation), color = "red", linetype = "dashed", alpha=0.5) +
+  geom_point(color = separation$team_color, cex=separation$targets / 20, alpha = .6) +
+  geom_text_repel(aes(label=player_short_name), size = 2.75 ) +
+  stat_smooth(geom='line', alpha=0.5, se=FALSE, method='lm')+
+
+  labs(x = "Avg Separation",
+       y = "Average Intended Air Yards",
+       title = "Individual WR Performance",
+       caption = "Min. 100 Targets") +
+  
+  theme_bw() +
+  theme(plot.title = element_text(size = 14, hjust = 0.5, face = "bold"))
+```
